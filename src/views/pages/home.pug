@@ -1,4 +1,13 @@
-include ../layouts/base.pug
+extends ../layouts/base.pug
 
 block content
-    div
+    include ../components/music-player.pug
+
+block scripts 
+    //- script.
+    //-     function onYouTubeIframeAPIReady() {
+    //-         console.log("READY");
+    //-         // initialize();
+    //-     }
+    script(src="/static/js/music-player.js") 
+    script(src="https://www.youtube.com/iframe_api") 

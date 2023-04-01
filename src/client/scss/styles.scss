@@ -3,6 +3,7 @@
 @import "./config/_reset.scss";
 
 // Components
+@import "./components/music-player.scss";
 
 // Example: @import "./components/message.scss";
 
@@ -21,4 +22,12 @@ body {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background-color: $bg;
   color: white;
+}
+
+main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
