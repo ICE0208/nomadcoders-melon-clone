@@ -4,13 +4,10 @@
 
 // Components
 @import "./components/music-player.scss";
-
+@import "./components/music-chart.scss";
 // Example: @import "./components/message.scss";
-
 // Screens
-
 // Example: @import "./screens/search.scss";
-
 // Defaults
 a {
   color: inherit;
@@ -25,6 +22,7 @@ body {
 }
 
 main {
+  position: relative;
   width: 100vw;
   height: 100vh;
   display: flex;
