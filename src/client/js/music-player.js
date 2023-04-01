@@ -1,4 +1,4 @@
-let player1;
+let youtubePlayer;
 
 const initialize = () => {
   youtubePlayer = new YT.Player("youtube-player", {
@@ -11,6 +11,7 @@ const initialize = () => {
       iv_load_policy: 3,
       modestbranding: 1,
       showinfo: 0,
+      rel: 0,
     },
     events: {
       onReady: onPlayerReady,
@@ -27,7 +28,6 @@ const onPlayerStateChange = () => {};
 
 const loadYoutubeAPI = () => {
   if (typeof YT === "undefined") {
-    console.log("nope");
     setTimeout(loadYoutubeAPI, 500);
     // initialize();
   } else {
