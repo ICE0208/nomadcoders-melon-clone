@@ -10,7 +10,7 @@ const app = express();
 const logger = morgan("dev");
 
 app.set("view engine", "pug");
-app.set("views", process.cwd() + "/src/views");
+app.set("views", process.cwd() + "/src/views/pages");
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
