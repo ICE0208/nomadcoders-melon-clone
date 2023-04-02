@@ -58,6 +58,7 @@
     &.opened {
       left: 0;
     }
+    box-shadow: -20px 9px 4px 2px $shadow;
     left: calc(-#{$mc-virtual-box-size});
     transition: transform, left $mc-toggle-delay ease-in-out;
     position: absolute;
@@ -82,7 +83,6 @@
     .mc-music-list {
       @include flex-box(column);
       position: relative;
-      display: flex;
       gap: 30px;
       padding: 14px 16px;
       box-sizing: border-box;
@@ -92,7 +92,7 @@
       overflow-x: hidden;
       border-top: $music-list-border;
       border-bottom: $music-list-border;
-      border-radius: 2px;
+      border-radius: 0px;
       .mc-music-list__music {
         color: black;
         display: flex;
