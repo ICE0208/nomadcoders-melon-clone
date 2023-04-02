@@ -1,0 +1,6 @@
+@mixin flex-box($direction: row, $main: flex-start, $cross: flex-start) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $main;
+  align-items: $cross;
+}

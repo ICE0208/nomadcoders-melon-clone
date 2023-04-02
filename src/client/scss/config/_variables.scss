@@ -1,5 +1,21 @@
+// ! Global
 $green: #02cd3b;
 $bg: #b39cd0;
+
+// ! Music Chart
 $music-chart-box: #fbeaff;
 $music-list-border-size: 4px;
 $music-list-border: $music-list-border-size solid rgba(0, 0, 0, 0.3);
+
+$arrow-up: rgba(0, 0, 0, 0.5);
+$arrow-down: rgba(225, 225, 225, 0.5);
+$arrow-opened-up: rgba(182, 182, 182, 0.5);
+$arrow-opened-down: rgba(0, 0, 0, 0.5);
+
+$arrow-up-rotate: 45deg;
+$arrow-down-rotate: -45deg;
+$arrow-up-opened-rotate: -45deg;
+$arrow-down-opened-rotate: 45deg;
+
+$mc-virtual-box-size: 360px;
+$mc-toggle-delay: 0.3s;

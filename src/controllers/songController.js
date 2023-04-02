@@ -3,8 +3,7 @@ import User from "../models/User";
 
 const getSongs = async (req, res) => {
   try {
-    let musics = await Song.find({}).sort({ views: "desc" });
-    musics = [...musics, ...musics, ...musics];
+    const musics = await Song.find({}).sort({ views: "desc" });
     return musics;
   } catch (error) {
     console.error(error);
