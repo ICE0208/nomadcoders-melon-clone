@@ -1,2 +1,7 @@
+include ../mixins/music
 .mc-virtual-box
     .mc-main-box
+        div.mc-music-list
+            if musics
+                each music in musics
+                    +music(music)
