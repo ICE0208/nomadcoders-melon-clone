@@ -5,7 +5,9 @@ include ../mixins/music
         div.mc-arrow__down
     .mc-main-box
         div.scroll-bar-hider
+        div.gray-bar
         div.mc-music-list
             if musics
                 each music in musics
                     +music(music)
+        div.gray-bar

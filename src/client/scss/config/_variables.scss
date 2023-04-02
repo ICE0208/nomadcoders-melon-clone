@@ -6,7 +6,6 @@ $shadow: #66486aaa;
 // ! Music Chart
 $music-chart-box: #fbeaff;
 $music-list-border-size: 4px;
-$music-list-border: $music-list-border-size solid rgba(0, 0, 0, 0.3);
 
 $arrow-up: rgba(0, 0, 0, 0.5);
 $arrow-down: rgba(225, 225, 225, 0.5);
@@ -18,5 +17,6 @@ $arrow-down-rotate: -45deg;
 $arrow-up-opened-rotate: -45deg;
 $arrow-down-opened-rotate: 45deg;
 
+$mc-gray-bar: rgba(0, 0, 0, 0.3);
 $mc-virtual-box-size: 360px;
 $mc-toggle-delay: 0.3s;
