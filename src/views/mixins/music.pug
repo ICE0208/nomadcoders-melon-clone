@@ -1,10 +1,9 @@
 mixin music(music)
     div.mc-music-list__music
-        img(src=`${music.thumb}`)
+        img(src=getThumbUrl(music.ytID))
         div.mc-music-list__music__infos
             .mc-music-list__music__infos__main
                 span.title=music.title
-                span -
                 span.artist=music.artist
             .mc-music-list__music__infos__sub
                 span.views views: #{music.views}
