@@ -1,0 +1,9 @@
+mixin music(music)
+    div(data-music=music).mc-music-list__music
+        img(src=getThumbUrl(music.ytID))
+        div.mc-music-list__music__infos
+            .mc-music-list__music__infos__main
+                span.title=music.title
+                span.artist=music.artist
+            .mc-music-list__music__infos__sub
+                span.views views: #{music.views}

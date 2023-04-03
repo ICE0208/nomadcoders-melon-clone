@@ -1,5 +1,6 @@
 extends ../layouts/base.pug
 
 block content
-
+    include ../components/music-chart
 block scripts 
+    script(src="/static/js/music-chart.js" type="module")

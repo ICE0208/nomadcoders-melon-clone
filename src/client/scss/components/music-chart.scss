@@ -1,0 +1,134 @@
+.mc-virtual-box {
+  @include flex-box(row, center, stretch);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: $mc-virtual-box-size;
+  height: 100%;
+  .mc-arrow {
+    @include flex-box(column, center);
+    z-index: 2;
+    position: absolute;
+    left: 20px;
+    top: calc(50vh - 20px);
+    opacity: 0;
+    transition: all $mc-toggle-delay ease-in-out;
+    will-change: transform, left;
+    .mc-arrow__up,
+    .mc-arrow__down {
+      width: 30px;
+      height: 8px;
+      transition: all $mc-toggle-delay ease-in-out;
+    }
+    .mc-arrow__up {
+      transform: rotate($arrow-up-rotate);
+      transform-origin: 50% 100%;
+      margin-bottom: 5px;
+      background-color: $arrow-up;
+      z-index: 3;
+    }
+    .mc-arrow__down {
+      transform: rotate($arrow-down-rotate);
+      transform-origin: 50% 0%;
+      margin-top: 5px;
+      background-color: $arrow-down;
+      z-index: 2;
+    }
+    &:hover {
+      transform: scale(1.2);
+    }
+    &.opened {
+      left: 320px;
+      .mc-arrow__up {
+        transform: rotate($arrow-up-opened-rotate);
+        background-color: $arrow-opened-up;
+        z-index: 2;
+      }
+      .mc-arrow__down {
+        transform: rotate($arrow-down-opened-rotate);
+        background-color: $arrow-opened-down;
+        z-index: 3;
+      }
+    }
+    &.visible {
+      opacity: 1;
+    }
+  }
+  .mc-main-box {
+    &.opened {
+      left: 0;
+    }
+    @include flex-box(column, center, stretch);
+    box-shadow: -20px 9px 4px 2px $shadow;
+    left: calc(-#{$mc-virtual-box-size});
+    transition: transform, left $mc-toggle-delay ease-in-out;
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 200px);
+    background-color: $music-chart-box;
+    margin: 100px 0;
+    border-radius: 0 12px 12px 0;
+    padding: 40px 24px;
+    overflow: hidden;
+    box-sizing: border-box;
+    .scroll-bar-hider {
+      @include flex-box(row, center, center);
+      position: absolute;
+      top: 44px;
+      right: 0;
+      height: calc(100% - 80px - #{$music-list-border-size * 2});
+      width: 40px;
+      background-color: $music-chart-box;
+      z-index: 1;
+    }
+    .gray-bar {
+      height: 4px;
+      background-color: $mc-gray-bar;
+      border-radius: 50px;
+    }
+    .mc-music-list {
+      @include flex-box(column);
+      flex-grow: 1;
+      position: relative;
+      gap: 30px;
+      padding: 24px 16px;
+      box-sizing: border-box;
+      max-height: 100%; /* 추가된 부분 */
+      overflow-y: auto; /* 추가된 부분 */
+      overflow-x: hidden;
+      .mc-music-list__music {
+        color: black;
+        display: flex;
+        gap: 10px;
+        img {
+          width: 64px;
+          height: 64px;
+          object-fit: cover;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+        .mc-music-list__music__infos {
+          @include flex-box(column, space-between);
+          flex-grow: 1;
+          width: 100%;
+          .mc-music-list__music__infos__main {
+            @include flex-box(column);
+            gap: 4px;
+            .title {
+              font-size: 20px;
+              font-weight: 500;
+            }
+            .artist {
+              font-size: 12px;
+            }
+          }
+          .mc-music-list__music__infos__sub {
+            font-size: 16px;
+            margin-bottom: 4px;
+          }
+        }
+      }
+    }
+  }
+}
