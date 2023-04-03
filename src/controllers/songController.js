@@ -3,7 +3,8 @@ import User from "../models/User";
 
 const getSongs = async (req, res) => {
   try {
-    const musics = await Song.find({}).sort({ views: "desc" });
+    // _id값 제외하고 모든 데이터 가져오기
+    const musics = await Song.find({}, { _id: 0 }).sort({ views: "desc" });
     return musics;
   } catch (error) {
     console.error(error);

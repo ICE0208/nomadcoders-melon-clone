@@ -104,6 +104,9 @@
           width: 64px;
           height: 64px;
           object-fit: cover;
+          &:hover {
+            cursor: pointer;
+          }
         }
         .mc-music-list__music__infos {
           @include flex-box(column, space-between);

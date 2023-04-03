@@ -1,8 +1,7 @@
-console.log("Hello, music-chart.js! Let's start coding!");
-
 const mcArrow = document.querySelector(".mc-arrow");
 const mcMainBox = document.querySelector(".mc-main-box");
 const mcVirtualBox = document.querySelector(".mc-virtual-box");
+const musicImgs = document.querySelectorAll(".mc-music-list__music > img");
 
 const CLASSNAME_OPENED = "opened";
 const CLASSNAME_VISIBLE = "visible";
@@ -45,14 +44,21 @@ const mcArrowMouseClickHandler = () => {
   showArrowForThreeSeconds();
 };
 
+const musicImgClickHandler = (event) => {
+  const music = event.target.closest(".mc-music-list__music");
+  console.log(JSON.parse(music.dataset.music));
+};
+
 mcArrow.addEventListener("click", toggleOpenMusicChart);
 mcVirtualBox.addEventListener("mousemove", showArrowForThreeSeconds);
 mcArrow.addEventListener("mouseenter", mcArrowMouseEnterHandler);
 mcArrow.addEventListener("mouseleave", mcArrowMouseLeaveHandler);
 mcArrow.addEventListener("click", mcArrowMouseClickHandler);
+musicImgs.forEach((musicImg) => {
+  musicImg.addEventListener("click", musicImgClickHandler);
+});
 
 const musicChartJsInit = () => {
   mcArrow.classList.add(CLASSNAME_VISIBLE);
 };
-
 musicChartJsInit();

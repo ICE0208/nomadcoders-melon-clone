@@ -1,5 +1,5 @@
 mixin music(music)
-    div.mc-music-list__music
+    div(data-music=music).mc-music-list__music
         img(src=getThumbUrl(music.ytID))
         div.mc-music-list__music__infos
             .mc-music-list__music__infos__main
