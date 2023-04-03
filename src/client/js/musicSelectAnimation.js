@@ -41,32 +41,42 @@ export const musicSelectAnimation = (musicThumb, musicPlayer, virtualImg) => {
   const keyframes = createKeyFrame(`
   @keyframes ${keyframesName} {
     0% {
-        transform: translate(0, 0) scale(1);
-         opacity: 1;
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+      backface-visibility: hidden;
     }
     30% {
-        animation-timing-function: ease-out;
-        transform: translateX(${wayPoint.x}px) translateY(${
+      animation-timing-function: ease-out;
+      transform: translate(${wayPoint.x}px, ${
     wayPoint.y
   }px) scale(1.6) rotate(${20 * musicVsPlayer}deg);
+      backface-visibility: hidden;
+    }
+    40% {
+      filter: blur(0px);
     }
     65% {
-        animation-timing-function: ease-in;
-        opacity: 1
+      animation-timing-function: ease-in;
+      opacity: 1;
+      backface-visibility: hidden;
     }
     80% {
-        animation-timing-function: ease-in;
-        opacity: 0;
+      animation-timing-function: ease-in;
+      opacity: 0;
+      filter: blur(5px);
+      backface-visibility: hidden;
     }
     100% {
-        animation-timing-function: linear;
-        transform: translateX(${distance.x}px) translateY(${
-    distance.y
-  }px) scale(0.3) rotate(${120 * musicVsPlayer}deg);
-        opacity: 0;
+      animation-timing-function: linear;
+      transform: translate(${distance.x}px, ${distance.y}px) scale(0) rotate(${
+    120 * musicVsPlayer
+  }deg);
+      backface-visibility: hidden;
     }
   }
 `);
+
+  virtualImg.style.backfaceVisibility = "hidden";
   virtualImg.style.animation = `${keyframesName} 1s`;
 
   virtualImg.addEventListener("animationend", () => {
