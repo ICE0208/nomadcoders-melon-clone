@@ -140,5 +140,5 @@
   position: absolute;
   opacity: 0;
   z-index: 2;
-  will-change: transform opacity;
+  box-shadow: -2px 1px 4px 1px $shadow;
 }

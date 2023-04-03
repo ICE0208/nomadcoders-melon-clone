@@ -32,7 +32,6 @@ export const musicSelectAnimation = (musicThumb, musicPlayer, virtualImg) => {
     x: 180,
     y: wayPointDistance * musicVsPlayer * -1,
   };
-  console.log(wayPoint.y);
   virtualImg.src = musicThumb.src;
   virtualImg.style.left = `${musicX}px`;
   virtualImg.style.top = `${musicY}px`;
@@ -68,7 +67,6 @@ export const musicSelectAnimation = (musicThumb, musicPlayer, virtualImg) => {
     }
   }
 `);
-  console.log(keyframes);
   virtualImg.style.animation = `${keyframesName} 1s`;
 
   virtualImg.addEventListener("animationend", () => {

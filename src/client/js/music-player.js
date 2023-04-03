@@ -4,15 +4,16 @@ let youtubePlayer;
 const mcMusicThumbs = document.querySelectorAll(".mc-music-list__music__thumb");
 const musicPlayer = document.querySelector(".player-container");
 
-const loadNewMusic = (newYoutubeID) => {
-  youtubePlayer.cueVideoById(newYoutubeID);
+const loadNewMusic = (musicInfo) => {
+  youtubePlayer.cueVideoById(musicInfo.ytID);
 };
 
 const loadFirstVideo = () => {
+  const loadID = "VbS1yHZGmTY";
   youtubePlayer = new YT.Player("youtube-player", {
     width: "400",
     height: "400",
-    videoId: "VbS1yHZGmTY",
+    videoId: loadID,
     enablejsapi: 1,
     playerVars: {
       disablekb: 1,
@@ -27,6 +28,7 @@ const loadFirstVideo = () => {
       onStateChange: onPlayerStateChange,
     },
   });
+  sessionStorage.setItem("currentMusicID", loadID);
 };
 
 const onPlayerReady = (event) => {};
@@ -69,11 +71,15 @@ const createVirtualImg = () => {
 const mcMusicThumbClickHandler = (event) => {
   const music = event.target.closest(".mc-music-list__music");
   const musicInfo = JSON.parse(music.dataset.music);
+  if (musicInfo.ytID === sessionStorage.getItem("currentMusicID")) {
+    return;
+  }
+  sessionStorage.setItem("currentMusicID", musicInfo.ytID);
 
   const virtualImg = createVirtualImg();
   musicSelectAnimation(event.target, musicPlayer, virtualImg);
 
   setTimeout(() => {
-    loadNewMusic(musicInfo.ytID);
+    loadNewMusic(musicInfo);
   }, 550);
 };
