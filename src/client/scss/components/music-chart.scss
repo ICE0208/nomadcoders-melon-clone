@@ -132,3 +132,13 @@
     }
   }
 }
+
+.virtual-img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  position: absolute;
+  opacity: 0;
+  z-index: 2;
+  will-change: transform opacity;
+}

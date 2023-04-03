@@ -1,5 +1,8 @@
+import { musicSelectAnimation } from "./musicSelectAnimation";
+
 let youtubePlayer;
 const mcMusicThumbs = document.querySelectorAll(".mc-music-list__music__thumb");
+const musicPlayer = document.querySelector(".player-container");
 
 const loadNewMusic = (newYoutubeID) => {
   youtubePlayer.cueVideoById(newYoutubeID);
@@ -55,8 +58,22 @@ function onYouTubeIframeAPIReady() {
   isItLoaded();
 }
 
+const createVirtualImg = () => {
+  const main = document.querySelector("main");
+  const virtualImg = document.createElement("img");
+  virtualImg.classList.add("virtual-img");
+  main.appendChild(virtualImg);
+  return virtualImg;
+};
+
 const mcMusicThumbClickHandler = (event) => {
   const music = event.target.closest(".mc-music-list__music");
   const musicInfo = JSON.parse(music.dataset.music);
-  loadNewMusic(musicInfo.ytID);
+
+  const virtualImg = createVirtualImg();
+  musicSelectAnimation(event.target, musicPlayer, virtualImg);
+
+  setTimeout(() => {
+    loadNewMusic(musicInfo.ytID);
+  }, 550);
 };
