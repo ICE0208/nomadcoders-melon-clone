@@ -36,11 +36,15 @@ const loadFirstVideo = () => {
 };
 
 const onplayerStateChange = (event) => {
-  // 처음 재생 될 때
+  // 로드되고 처음 재생 될 때, 로드하고 두 번 재생은 적용안됨
   if (event.data === YT.PlayerState.PLAYING && !youtubePlayer.hasStarted) {
     youtubePlayer.hasStarted = true;
     const id = sessionStorage.getItem(CURRENT_MUSIC_ID_KEY);
     postSongViews(id);
+  }
+  // 노래 끝날을 때
+  if (event.data === YT.PlayerState.ENDED) {
+    youtubePlayer.stopVideo();
   }
 };
 
