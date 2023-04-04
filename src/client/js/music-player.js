@@ -14,34 +14,17 @@ const loadFirstVideo = () => {
     width: "400",
     height: "400",
     videoId: loadID,
-    enablejsapi: 1,
+    events: {},
     playerVars: {
       disablekb: 1,
       controls: 0,
       iv_load_policy: 3,
       modestbranding: 1,
-      showinfo: 0,
+      enablejsapi: 1,
       rel: 0,
-    },
-    events: {
-      onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange,
     },
   });
   sessionStorage.setItem("currentMusicID", loadID);
-};
-
-const onPlayerReady = (event) => {};
-
-const onPlayerStateChange = () => {};
-
-const isItLoaded = () => {
-  if (typeof YT === "undefined" || typeof YT.Player === "undefined") {
-    setTimeout(isItLoaded, 500);
-    // initialize();
-  } else {
-    loadFirstVideo();
-  }
 };
 
 export const musicPlayerInit = () => {
@@ -57,7 +40,7 @@ export const musicPlayerInit = () => {
 };
 
 function onYouTubeIframeAPIReady() {
-  isItLoaded();
+  loadFirstVideo();
 }
 
 const createVirtualImg = () => {
