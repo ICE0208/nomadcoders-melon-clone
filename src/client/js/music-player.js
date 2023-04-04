@@ -4,17 +4,25 @@ let youtubePlayer;
 const mcMusicThumbs = document.querySelectorAll(".mc-music-list__music__thumb");
 const musicPlayer = document.querySelector(".player-container");
 
+const CURRENT_MUSIC_ID_KEY = "currentMusicID";
+const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
+const FIRST_LOAD_MUSIC_ID = "VbS1yHZGmTY";
+
 const loadNewMusic = (musicInfo) => {
   youtubePlayer.cueVideoById(musicInfo.ytID);
+  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, musicInfo.ytID);
+  youtubePlayer.hasStarted = false;
 };
 
 const loadFirstVideo = () => {
-  const loadID = "VbS1yHZGmTY";
+  sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, FIRST_LOAD_MUSIC_ID);
   youtubePlayer = new YT.Player("youtube-player", {
     width: "400",
     height: "400",
-    videoId: loadID,
-    events: {},
+    videoId: FIRST_LOAD_MUSIC_ID,
+    events: {
+      onStateChange: onplayerStateChange,
+    },
     playerVars: {
       disablekb: 1,
       controls: 0,
@@ -24,7 +32,27 @@ const loadFirstVideo = () => {
       rel: 0,
     },
   });
-  sessionStorage.setItem("currentMusicID", loadID);
+  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, FIRST_LOAD_MUSIC_ID);
+};
+
+const onplayerStateChange = (event) => {
+  // 처음 재생 될 때
+  if (event.data === YT.PlayerState.PLAYING && !youtubePlayer.hasStarted) {
+    youtubePlayer.hasStarted = true;
+    const id = sessionStorage.getItem(CURRENT_MUSIC_ID_KEY);
+    postSongViews(id);
+  }
+};
+
+const postSongViews = async (ytID) => {
+  try {
+    const response = await fetch(`api/songs/${ytID}/view`, { method: "POST" });
+    if (!response.ok) {
+      throw new Error("Can't increase views");
+    }
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const musicPlayerInit = () => {
@@ -54,10 +82,10 @@ const createVirtualImg = () => {
 const mcMusicThumbClickHandler = (event) => {
   const music = event.target.closest(".mc-music-list__music");
   const musicInfo = JSON.parse(music.dataset.music);
-  if (musicInfo.ytID === sessionStorage.getItem("currentMusicID")) {
+  if (musicInfo.ytID === sessionStorage.getItem(WILL_CHANGE_MUSIC_ID_KEY)) {
     return;
   }
-  sessionStorage.setItem("currentMusicID", musicInfo.ytID);
+  sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, musicInfo.ytID);
 
   const virtualImg = createVirtualImg();
   musicSelectAnimation(event.target, musicPlayer, virtualImg);
