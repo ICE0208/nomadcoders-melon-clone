@@ -15,3 +15,15 @@ const getSongs = async (req, res) => {
 export const home = async (req, res) => {
   return res.render("home", { pageTitle: "Home", musics: await getSongs() });
 };
+
+export const registerView = async (req, res) => {
+  console.log("??");
+  const { id: ytIDToFind } = req.params;
+  const song = await Song.findOne({ ytID: ytIDToFind });
+  if (!song) {
+    return res.sendStatus(404);
+  }
+  song.views = song.views + 1;
+  await song.save();
+  return res.sendStatus(200);
+};
