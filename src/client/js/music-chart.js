@@ -44,19 +44,11 @@ const mcArrowMouseClickHandler = () => {
   showArrowForThreeSeconds();
 };
 
-const musicImgClickHandler = (event) => {
-  const music = event.target.closest(".mc-music-list__music");
-  console.log(JSON.parse(music.dataset.music));
-};
-
 mcArrow.addEventListener("click", toggleOpenMusicChart);
 mcVirtualBox.addEventListener("mousemove", showArrowForThreeSeconds);
 mcArrow.addEventListener("mouseenter", mcArrowMouseEnterHandler);
 mcArrow.addEventListener("mouseleave", mcArrowMouseLeaveHandler);
 mcArrow.addEventListener("click", mcArrowMouseClickHandler);
-musicImgs.forEach((musicImg) => {
-  musicImg.addEventListener("click", musicImgClickHandler);
-});
 
 const musicChartJsInit = () => {
   mcArrow.classList.add(CLASSNAME_VISIBLE);

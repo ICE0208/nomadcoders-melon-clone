@@ -15,7 +15,7 @@ const entry = jsFiles.reduce((entries, file) => {
 module.exports = {
   entry: {
     ...entry,
-    main: BASE_JS + "main.js",
+    main: BASE_JS + "main",
   },
   plugins: [
     new MiniCssExtractPlugin({

@@ -100,7 +100,7 @@
         color: black;
         display: flex;
         gap: 10px;
-        img {
+        .mc-music-list__music__thumb {
           width: 64px;
           height: 64px;
           object-fit: cover;
@@ -131,4 +131,14 @@
       }
     }
   }
+}
+
+.virtual-img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  position: absolute;
+  opacity: 0;
+  z-index: 2;
+  box-shadow: -2px 1px 4px 1px $shadow;
 }
