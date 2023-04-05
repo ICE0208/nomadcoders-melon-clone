@@ -22,6 +22,15 @@ export const changePlayIcon = (icon, status) => {
 };
 
 // ! Volume Controlls
+const SAVED_VOLUME_KEY = "savedVolume";
+
+const saveVolume = (volume) => {
+  localStorage.setItem(SAVED_VOLUME_KEY, volume);
+};
+export const getSavedVolume = () => {
+  return localStorage.getItem(SAVED_VOLUME_KEY);
+};
+
 export const volumeSeekPlayer = (player, value) => {
   player.setVolume(value);
 };
@@ -37,21 +46,23 @@ export const enableInputDragging = (volumInput, player) => {
     volumInput.dragging = true;
   });
   volumInput.addEventListener("mouseup", () => {
-    console.log("end");
     volumInput.dragging = false;
   });
   volumInput.addEventListener("input", () => {
     volumeSeekPlayer(player, volumInput.value);
-    player.unMute();
   });
   volumInput.addEventListener("change", () => {
     volumeSeekPlayer(player, volumInput.value);
-    player.unMute();
+    saveVolume(volumInput.value);
   });
 
   setInterval(function () {
     if (!volumInput.dragging) {
-      volumInput.value = player.getVolume();
+      const volume = player.getVolume();
+      if (!(volume < 5)) {
+        volumInput.value = player.getVolume();
+        saveVolume(volumInput.value);
+      }
     }
-  }, 1000 / 30); // 1초에 30번
+  }, 1000 / 10); // 1초에 10번
 };

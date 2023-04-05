@@ -5,6 +5,10 @@
   top: 0;
   width: $mc-virtual-box-size;
   height: 100%;
+  z-index: 3;
+  &.inactive {
+    z-index: 1;
+  }
   .mc-arrow {
     @include flex-box(column, center);
     z-index: 2;
@@ -55,13 +59,16 @@
     }
   }
   .mc-main-box {
+    opacity: 0.8;
     &.opened {
       left: 0;
+      opacity: 1;
     }
     @include flex-box(column, center, stretch);
     box-shadow: -20px 9px 4px 2px $shadow;
     left: calc(-#{$mc-virtual-box-size});
-    transition: transform, left $mc-toggle-delay ease-in-out;
+    transition: left $mc-toggle-delay ease-in-out,
+      opacity $mc-toggle-delay ease-in-out;
     position: absolute;
     width: 100%;
     height: calc(100% - 200px);
@@ -139,6 +146,6 @@
   object-fit: cover;
   position: absolute;
   opacity: 0;
-  z-index: 2;
+  z-index: 4;
   box-shadow: -2px 1px 4px 1px $shadow;
 }

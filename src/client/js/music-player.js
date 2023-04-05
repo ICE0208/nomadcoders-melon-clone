@@ -49,12 +49,12 @@ const loadFirstVideo = () => {
     height: "360",
     videoId: FIRST_MUSIC_INFO.ytID,
     events: {
-      onReady: onplayerReady,
+      onReady: initAfterReady,
       onStateChange: onplayerStateChange,
     },
     playerVars: {
       disablekb: 1,
-      controls: 0,
+      controls: 1,
       iv_load_policy: 3,
       modestbranding: 1,
       enablejsapi: 1,
@@ -150,8 +150,10 @@ const init = () => {
   );
 };
 // ? init 다음으로 첫 번째 영상이 로드되면 실행됨
-const onplayerReady = () => {
+const initAfterReady = () => {
   mCR.enableInputDragging(musicPlayerVolumeInput, youtubePlayer);
+  youtubePlayer.setVolume(mCR.getSavedVolume());
+  youtubePlayer.unMute();
 };
 
 init();
