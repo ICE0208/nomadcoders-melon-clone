@@ -1,28 +1,43 @@
 import { musicSelectAnimation } from "./musicSelectAnimation";
 
 let youtubePlayer;
-const mcMusicThumbs = document.querySelectorAll(".mc-music-list__music__thumb");
+const musicChartMusicThumbs = document.querySelectorAll(
+  ".mc-music-list__music__thumb"
+);
 const musicPlayerContainer = document.querySelector(".player-container");
 const musicPlayerMusic = musicPlayerContainer.querySelector(
   ".player-container__music"
 );
 
+const musicController = document.querySelector(".player-container__controller");
+const musicPlayerMusicTitle = musicController.querySelector(
+  ".music-info__text__title"
+);
+const musicPlayerMusicArtist = musicController.querySelector(
+  ".music-info__text__artist"
+);
+
 const CURRENT_MUSIC_ID_KEY = "currentMusicID";
 const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
-const FIRST_LOAD_MUSIC_ID = "VbS1yHZGmTY";
+const FIRST_MUSIC_INFO = {
+  title: "KANATA HALUKA",
+  artist: "RADWIMPS",
+  ytID: "VbS1yHZGmTY",
+};
 
 const loadNewMusic = (musicInfo) => {
   youtubePlayer.cueVideoById(musicInfo.ytID);
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, musicInfo.ytID);
   youtubePlayer.hasStarted = false;
+  setMusicInfo(musicInfo);
 };
 
 const loadFirstVideo = () => {
-  sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, FIRST_LOAD_MUSIC_ID);
+  sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, FIRST_MUSIC_INFO.ytID);
   youtubePlayer = new YT.Player("youtube-player", {
-    width: "400",
-    height: "400",
-    videoId: FIRST_LOAD_MUSIC_ID,
+    width: "360",
+    height: "360",
+    videoId: FIRST_MUSIC_INFO.ytID,
     events: {
       onStateChange: onplayerStateChange,
     },
@@ -35,7 +50,13 @@ const loadFirstVideo = () => {
       rel: 0,
     },
   });
-  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, FIRST_LOAD_MUSIC_ID);
+  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, FIRST_MUSIC_INFO.ytID);
+  setMusicInfo(FIRST_MUSIC_INFO);
+};
+
+const setMusicInfo = (musicInfo) => {
+  musicPlayerMusicTitle.innerText = musicInfo.title;
+  musicPlayerMusicArtist.innerText = musicInfo.artist;
 };
 
 const onplayerStateChange = (event) => {
@@ -69,7 +90,7 @@ export const musicPlayerInit = () => {
   const firstScriptTag = document.getElementsByTagName("script")[0];
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-  mcMusicThumbs.forEach((musicThumb) => {
+  musicChartMusicThumbs.forEach((musicThumb) => {
     musicThumb.addEventListener("click", mcMusicThumbClickHandler);
   });
 };

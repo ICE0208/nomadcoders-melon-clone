@@ -2,16 +2,34 @@
   width: 500px;
   height: 100%;
   background-color: rgba(255, 192, 203, 0.537);
-  @include flex-box(column, center, flex-stretch);
+  @include flex-box(column, center, stretch);
 
   .player-container__music {
-    height: 400px;
+    height: 360px;
     background-color: blue;
     @include flex-box(row, center, center);
   }
 
   .player-container__controller {
-    height: 240px;
+    height: 270px;
     background-color: red;
+    @include flex-box(column, center, stretch);
+    .music-info {
+      background-color: white;
+      color: black;
+      flex-grow: 1;
+    }
+    .music-progress {
+      background-color: green;
+      flex-grow: 1;
+    }
+    .music-controll {
+      background-color: aqua;
+      flex-grow: 1;
+    }
+    .music-volume {
+      background-color: purple;
+      flex-grow: 1;
+    }
   }
 }
