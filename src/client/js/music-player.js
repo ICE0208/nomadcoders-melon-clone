@@ -2,7 +2,10 @@ import { musicSelectAnimation } from "./musicSelectAnimation";
 
 let youtubePlayer;
 const mcMusicThumbs = document.querySelectorAll(".mc-music-list__music__thumb");
-const musicPlayer = document.querySelector(".player-container");
+const musicPlayerContainer = document.querySelector(".player-container");
+const musicPlayerMusic = musicPlayerContainer.querySelector(
+  ".player-container__music"
+);
 
 const CURRENT_MUSIC_ID_KEY = "currentMusicID";
 const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
@@ -92,7 +95,7 @@ const mcMusicThumbClickHandler = (event) => {
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, musicInfo.ytID);
 
   const virtualImg = createVirtualImg();
-  musicSelectAnimation(event.target, musicPlayer, virtualImg);
+  musicSelectAnimation(event.target, musicPlayerMusic, virtualImg);
 
   setTimeout(() => {
     loadNewMusic(musicInfo);
