@@ -1,4 +1,4 @@
-import { changePlayIcon, togglePlayer } from "./musicController";
+import * as mCR from "./musicController.js";
 import { musicSelectAnimation } from "./musicSelectAnimation";
 
 let youtubePlayer;
@@ -10,15 +10,20 @@ const musicPlayerMusic = musicPlayerContainer.querySelector(
   ".player-container__music"
 );
 
-const musicController = document.querySelector(".player-container__controller");
-const musicPlayerMusicTitle = musicController.querySelector(
+const musicControllerDiv = document.querySelector(
+  ".player-container__controller"
+);
+const musicPlayerMusicTitle = musicControllerDiv.querySelector(
   ".music-info__text__title"
 );
-const musicPlayerMusicArtist = musicController.querySelector(
+const musicPlayerMusicArtist = musicControllerDiv.querySelector(
   ".music-info__text__artist"
 );
-const musicPlayerTogglePlay = musicController.querySelector(
+const musicPlayerTogglePlay = musicControllerDiv.querySelector(
   ".music-controll__toggle-play > i"
+);
+const musicPlayerVolumeInput = musicControllerDiv.querySelector(
+  ".music-volume__controller"
 );
 
 const CURRENT_MUSIC_ID_KEY = "currentMusicID";
@@ -34,7 +39,7 @@ const loadNewMusic = (musicInfo) => {
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, musicInfo.ytID);
   youtubePlayer.hasStarted = false;
   setMusicInfo(musicInfo);
-  changePlayIcon(musicPlayerTogglePlay, "paused");
+  mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
 };
 
 const loadFirstVideo = () => {
@@ -44,6 +49,7 @@ const loadFirstVideo = () => {
     height: "360",
     videoId: FIRST_MUSIC_INFO.ytID,
     events: {
+      onReady: onplayerReady,
       onStateChange: onplayerStateChange,
     },
     playerVars: {
@@ -57,7 +63,7 @@ const loadFirstVideo = () => {
   });
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, FIRST_MUSIC_INFO.ytID);
   setMusicInfo(FIRST_MUSIC_INFO);
-  changePlayIcon(musicPlayerTogglePlay, "paused");
+  mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
 };
 
 const setMusicInfo = (musicInfo) => {
@@ -78,9 +84,9 @@ const onplayerStateChange = (event) => {
   }
 
   if (event.data == YT.PlayerState.PLAYING) {
-    changePlayIcon(musicPlayerTogglePlay, "played");
+    mCR.changePlayIcon(musicPlayerTogglePlay, "played");
   } else if (event.data == YT.PlayerState.PAUSED) {
-    changePlayIcon(musicPlayerTogglePlay, "paused");
+    mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
   }
 };
 
@@ -137,9 +143,15 @@ const mcMusicThumbClickHandler = (event) => {
 
 const init = () => {
   musicPlayerInit();
+
+  // * play
   musicPlayerTogglePlay.addEventListener("click", (event) =>
-    togglePlayer(youtubePlayer, event.target)
+    mCR.togglePlayer(youtubePlayer, event.target)
   );
+};
+// ? init 다음으로 첫 번째 영상이 로드되면 실행됨
+const onplayerReady = () => {
+  mCR.enableInputDragging(musicPlayerVolumeInput, youtubePlayer);
 };
 
 init();
