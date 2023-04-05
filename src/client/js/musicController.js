@@ -28,7 +28,8 @@ const saveVolume = (volume) => {
   localStorage.setItem(SAVED_VOLUME_KEY, volume);
 };
 export const getSavedVolume = () => {
-  return localStorage.getItem(SAVED_VOLUME_KEY);
+  const savedVolume = localStorage.getItem(SAVED_VOLUME_KEY);
+  return savedVolume ? savedVolume : 50;
 };
 
 export const volumeSeekPlayer = (player, value) => {
@@ -50,6 +51,7 @@ export const enableInputDragging = (volumInput, player) => {
   });
   volumInput.addEventListener("input", () => {
     volumeSeekPlayer(player, volumInput.value);
+    player.unMute();
   });
   volumInput.addEventListener("change", () => {
     volumeSeekPlayer(player, volumInput.value);
@@ -59,7 +61,7 @@ export const enableInputDragging = (volumInput, player) => {
   setInterval(function () {
     if (!volumInput.dragging) {
       const volume = player.getVolume();
-      if (!(volume < 5)) {
+      if (!(volume < -1)) {
         volumInput.value = player.getVolume();
         saveVolume(volumInput.value);
       }

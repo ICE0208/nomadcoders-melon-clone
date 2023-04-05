@@ -40,6 +40,7 @@ const loadNewMusic = (musicInfo) => {
   youtubePlayer.hasStarted = false;
   setMusicInfo(musicInfo);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+  youtubePlayer.setVolume(mCR.getSavedVolume());
 };
 
 const loadFirstVideo = () => {
@@ -152,8 +153,10 @@ const init = () => {
 // ? init 다음으로 첫 번째 영상이 로드되면 실행됨
 const initAfterReady = () => {
   mCR.enableInputDragging(musicPlayerVolumeInput, youtubePlayer);
-  youtubePlayer.setVolume(mCR.getSavedVolume());
-  youtubePlayer.unMute();
+
+  const savedVolume = mCR.getSavedVolume();
+  youtubePlayer.setVolume(savedVolume);
+  musicPlayerVolumeInput.value = savedVolume;
 };
 
 init();
