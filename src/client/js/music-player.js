@@ -1,3 +1,4 @@
+import { changePlayIcon, togglePlayer } from "./musicController";
 import { musicSelectAnimation } from "./musicSelectAnimation";
 
 let youtubePlayer;
@@ -16,6 +17,9 @@ const musicPlayerMusicTitle = musicController.querySelector(
 const musicPlayerMusicArtist = musicController.querySelector(
   ".music-info__text__artist"
 );
+const musicPlayerTogglePlay = musicController.querySelector(
+  ".music-controll__toggle-play > i"
+);
 
 const CURRENT_MUSIC_ID_KEY = "currentMusicID";
 const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
@@ -30,6 +34,7 @@ const loadNewMusic = (musicInfo) => {
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, musicInfo.ytID);
   youtubePlayer.hasStarted = false;
   setMusicInfo(musicInfo);
+  changePlayIcon(musicPlayerTogglePlay, "paused");
 };
 
 const loadFirstVideo = () => {
@@ -52,6 +57,7 @@ const loadFirstVideo = () => {
   });
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, FIRST_MUSIC_INFO.ytID);
   setMusicInfo(FIRST_MUSIC_INFO);
+  changePlayIcon(musicPlayerTogglePlay, "paused");
 };
 
 const setMusicInfo = (musicInfo) => {
@@ -69,6 +75,12 @@ const onplayerStateChange = (event) => {
   // 노래 끝날을 때
   if (event.data === YT.PlayerState.ENDED) {
     youtubePlayer.stopVideo();
+  }
+
+  if (event.data == YT.PlayerState.PLAYING) {
+    changePlayIcon(musicPlayerTogglePlay, "played");
+  } else if (event.data == YT.PlayerState.PAUSED) {
+    changePlayIcon(musicPlayerTogglePlay, "paused");
   }
 };
 
@@ -122,3 +134,12 @@ const mcMusicThumbClickHandler = (event) => {
     loadNewMusic(musicInfo);
   }, 550);
 };
+
+const init = () => {
+  musicPlayerInit();
+  musicPlayerTogglePlay.addEventListener("click", (event) =>
+    togglePlayer(youtubePlayer, event.target)
+  );
+};
+
+init();

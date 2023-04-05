@@ -27,6 +27,10 @@
       background-color: aqua;
       flex-grow: 1;
       @include flex-box(row, space-evenly, center);
+      .music-controll__toggle-play {
+        width: 30px;
+        text-align: center;
+      }
       i {
         color: black;
         font-size: 30px;
