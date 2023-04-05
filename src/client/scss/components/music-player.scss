@@ -26,6 +26,11 @@
     .music-controll {
       background-color: aqua;
       flex-grow: 1;
+      @include flex-box(row, space-evenly, center);
+      i {
+        color: black;
+        font-size: 30px;
+      }
     }
     .music-volume {
       background-color: purple;
