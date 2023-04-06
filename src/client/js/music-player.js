@@ -25,7 +25,8 @@ const musicPlayerTogglePlay = musicControllerDiv.querySelector(
 const musicPlayerVolumeInput = musicControllerDiv.querySelector(
   ".music-volume__controller"
 );
-const musicPlayerProgressInput = musicControllerDiv.querySelector(
+const musicPlayerProgress = musicControllerDiv.querySelector(".music-progress");
+const musicPlayerProgressInput = musicPlayerProgress.querySelector(
   ".music-progress__controller"
 );
 
@@ -41,7 +42,7 @@ const loadNewMusic = (musicInfo) => {
   youtubePlayer.cueVideoById(musicInfo.ytID);
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, musicInfo.ytID);
   youtubePlayer.hasStarted = false;
-  setMusicInfo(musicInfo);
+  setPlayerInfo(musicInfo);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
   youtubePlayer.setVolume(mCR.getSavedVolume());
 };
@@ -66,13 +67,18 @@ const loadFirstVideo = () => {
     },
   });
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, FIRST_MUSIC_INFO.ytID);
-  setMusicInfo(FIRST_MUSIC_INFO);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
 };
 
-const setMusicInfo = (musicInfo) => {
-  musicPlayerMusicTitle.innerText = musicInfo.title;
-  musicPlayerMusicArtist.innerText = musicInfo.artist;
+const setPlayerInfo = (musicInfo) => {
+  youtubePlayer.title = musicInfo.title;
+  youtubePlayer.artist = musicInfo.artist;
+  youtubePlayer.ytID = musicInfo.ytID;
+};
+
+const setMusicInfo = () => {
+  musicPlayerMusicTitle.innerText = youtubePlayer.title;
+  musicPlayerMusicArtist.innerText = youtubePlayer.artist;
 };
 
 const onplayerStateChange = (event) => {
@@ -89,7 +95,7 @@ const onplayerStateChange = (event) => {
     mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
   }
 
-  if (event.data == YT.PlayerState.PLAYING) {
+  if (event.data === YT.PlayerState.PLAYING) {
     mCR.changePlayIcon(musicPlayerTogglePlay, "played");
   } else if (event.data == YT.PlayerState.PAUSED) {
     mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
@@ -98,8 +104,10 @@ const onplayerStateChange = (event) => {
   if (event.data === YT.PlayerState.CUED) {
     mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
     if (youtubePlayer.hasStarted === false) {
+      setMusicInfo();
       musicPlayerProgressInput.max = youtubePlayer.getDuration();
       musicPlayerProgressInput.value = 0;
+      mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
     }
   }
 };
@@ -160,17 +168,24 @@ const init = () => {
 };
 // ? init 다음으로 첫 번째 영상이 로드되면 실행됨
 const initAfterReady = () => {
+  setPlayerInfo(FIRST_MUSIC_INFO);
+  setMusicInfo();
+
+  // Play
   musicPlayerTogglePlay.addEventListener("click", (event) =>
     mCR.togglePlayer(youtubePlayer, event.target)
   );
 
+  // Volume
   mCR.initVolumeController(musicPlayerVolumeInput, youtubePlayer);
   const savedVolume = mCR.getSavedVolume();
   youtubePlayer.setVolume(savedVolume);
   musicPlayerVolumeInput.value = savedVolume;
 
-  mCR.initProgressController(musicPlayerProgressInput, youtubePlayer);
+  // Progress
+  mCR.initProgressController(musicPlayerProgress, youtubePlayer);
   musicPlayerProgressInput.max = youtubePlayer.getDuration();
+  mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
 };
 
 init();

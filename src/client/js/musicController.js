@@ -40,6 +40,7 @@ export const isInputDragging = (volumInput) => {
   return volumInput.dragging === true;
 };
 
+// ? INIT
 export const initVolumeController = (volumInput, player) => {
   volumInput.dragging = false;
 
@@ -89,25 +90,48 @@ export const isProgressDragging = (progressInput) => {
   return progressInput.dragging === true;
 };
 
-export const initProgressController = (progressInput, player) => {
+function getFormatTime(sec) {
+  const minutes = Math.floor(sec / 60);
+  const seconds = Math.floor(sec % 60);
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+}
+
+export const setCurTime = (progress) => {
+  const curTimeSpan = progress.querySelector(".music-progress__cur-time");
+  const curTime = progress.querySelector(".music-progress__controller").value;
+  curTimeSpan.innerText = getFormatTime(Math.round(curTime));
+};
+export const setMaxTime = (progress, player) => {
+  const maxTimeSpan = progress.querySelector(".music-progress__max-time");
+  const maxTime = player.getDuration();
+  maxTimeSpan.innerText = getFormatTime(maxTime);
+};
+
+// ? INIT
+export const initProgressController = (progress, player) => {
+  const progressInput = progress.querySelector(".music-progress__controller");
   progressInput.dragging = false;
 
   progressInput.addEventListener("mousedown", () => {
     progressInput.dragging = true;
+    player.pauseVideo();
   });
 
   progressInput.addEventListener("mouseup", () => {
     progressInput.dragging = false;
+    if (player.getPlayerState() === YT.PlayerState.PAUSED) {
+      player.playVideo();
+    }
   });
 
   progressInput.addEventListener("input", () => {
     progressInput.dragging = true;
-    // if (player.hasStarted) {
-    //   if (progressInput.value > progressInput.max - 1) {
-    //     return player.stopVideo();
-    //   }
-    //   progressSeekPlayer(player, progressInput.value);
-    // }
+    if (player.hasStarted) {
+      if (progressInput.value > progressInput.max - 1) {
+        return player.stopVideo();
+      }
+      progressSeekPlayer(player, progressInput.value);
+    }
     setProgressInputColor(progressInput);
   });
 
@@ -132,5 +156,6 @@ export const initProgressController = (progressInput, player) => {
       progressInput.value = progress;
     }
     setProgressInputColor(progressInput);
+    setCurTime(progress);
   }, 1000 / 10); // 1초에 10번
 };

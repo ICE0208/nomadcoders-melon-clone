@@ -24,6 +24,7 @@
       @include flex-box(row, space-between, center);
       margin: 10px 0;
       color: white;
+      height: 42px;
       .music-info__text {
         @include flex-box(column, space-around, start);
         gap: 4px;
