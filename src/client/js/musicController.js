@@ -17,7 +17,7 @@ export const changePlayIcon = (icon, status) => {
     icon.classList.add("fa-play");
     icon.classList.remove("fa-pause");
   } else {
-    console.log(`I don't know this status : ${status}`);
+    console.error(`I don't know this status : ${status}`);
   }
 };
 
@@ -71,6 +71,17 @@ export const initVolumeController = (volumInput, player) => {
 
 // ! Progress Input
 
+export const setProgressInputColor = (progressInput) => {
+  const beforeColor = "white";
+  const afterColor = "rgba(255, 255, 255, 0.5)";
+
+  const value = progressInput.value;
+  const min = progressInput.min;
+  const max = progressInput.max;
+  const percentage = ((value - min) / (max - min)) * 100;
+  progressInput.style.background = `linear-gradient(to right, ${beforeColor} 0%, ${beforeColor} ${percentage}%, ${afterColor} ${percentage}%, ${afterColor} 100%)`;
+};
+
 export const progressSeekPlayer = (player, value) => {
   player.seekTo(value, true);
 };
@@ -84,18 +95,22 @@ export const initProgressController = (progressInput, player) => {
   progressInput.addEventListener("mousedown", () => {
     progressInput.dragging = true;
   });
+
   progressInput.addEventListener("mouseup", () => {
     progressInput.dragging = false;
   });
+
   progressInput.addEventListener("input", () => {
     progressInput.dragging = true;
-    if (player.hasStarted) {
-      if (progressInput.value > progressInput.max - 1) {
-        return player.stopVideo();
-      }
-      progressSeekPlayer(player, progressInput.value);
-    }
+    // if (player.hasStarted) {
+    //   if (progressInput.value > progressInput.max - 1) {
+    //     return player.stopVideo();
+    //   }
+    //   progressSeekPlayer(player, progressInput.value);
+    // }
+    setProgressInputColor(progressInput);
   });
+
   progressInput.addEventListener("change", () => {
     if (player.hasStarted) {
       if (progressInput.value > progressInput.max - 1) {
@@ -105,6 +120,7 @@ export const initProgressController = (progressInput, player) => {
     } else {
       progressInput.value = 0;
     }
+    setProgressInputColor(progressInput);
   });
 
   setInterval(function () {
@@ -115,5 +131,6 @@ export const initProgressController = (progressInput, player) => {
       const progress = player.getCurrentTime();
       progressInput.value = progress;
     }
+    setProgressInputColor(progressInput);
   }, 1000 / 10); // 1초에 10번
 };

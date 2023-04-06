@@ -76,7 +76,6 @@ const setMusicInfo = (musicInfo) => {
 };
 
 const onplayerStateChange = (event) => {
-  console.log(event.data);
   // 로드되고 처음 재생 될 때, 로드하고 두 번 재생은 적용안됨
   if (event.data === YT.PlayerState.PLAYING && !youtubePlayer.hasStarted) {
     youtubePlayer.hasStarted = true;
@@ -101,7 +100,6 @@ const onplayerStateChange = (event) => {
     if (youtubePlayer.hasStarted === false) {
       musicPlayerProgressInput.max = youtubePlayer.getDuration();
       musicPlayerProgressInput.value = 0;
-      console.log(youtubePlayer.getDuration());
     }
   }
 };
@@ -159,14 +157,13 @@ const mcMusicThumbClickHandler = (event) => {
 
 const init = () => {
   musicPlayerInit();
-
-  // * play
-  musicPlayerTogglePlay.addEventListener("click", (event) =>
-    mCR.togglePlayer(youtubePlayer, event.target)
-  );
 };
 // ? init 다음으로 첫 번째 영상이 로드되면 실행됨
 const initAfterReady = () => {
+  musicPlayerTogglePlay.addEventListener("click", (event) =>
+    mCR.togglePlayer(youtubePlayer, event.target)
+  );
+
   mCR.initVolumeController(musicPlayerVolumeInput, youtubePlayer);
   const savedVolume = mCR.getSavedVolume();
   youtubePlayer.setVolume(savedVolume);
