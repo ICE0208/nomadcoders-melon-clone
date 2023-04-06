@@ -2,33 +2,130 @@
   z-index: 2;
   width: 500px;
   height: 100%;
-  background-color: rgba(255, 192, 203, 0.537);
   @include flex-box(column, center, stretch);
 
   .player-container__music {
-    height: 360px;
-    background-color: blue;
     @include flex-box(row, center, center);
+    padding: 60px 0 30px 0;
+    background-color: $music-player-bg;
+    height: 360px;
   }
 
   .player-container__controller {
-    height: 270px;
-    background-color: red;
     @include flex-box(column, center, stretch);
+    padding: 10px 46px;
+    background-color: $music-player-bg;
+    height: 270px;
     .music-info {
-      background-color: white;
-      color: black;
-      flex-grow: 1;
+      @include flex-box(row, space-between, center);
+      margin: 10px 0;
+      color: white;
+      .music-info__text {
+        @include flex-box(column, space-around, start);
+        gap: 4px;
+        height: 100%;
+        .music-info__text__title {
+          font-size: 22px;
+        }
+        .music-info__text__artist {
+          font-size: 16px;
+        }
+      }
+      .music-info__like-btn {
+        font-size: 24px;
+      }
     }
     .music-progress {
-      background-color: green;
       flex-grow: 1;
       .music-progress__controller {
         width: 100%;
+        height: 34px;
+        appearance: none;
+        -webkit-appearance: none;
+        background-color: rgba(255, 255, 255, 0);
+        margin: 10px 0;
+        width: 100%;
+        &:focus {
+          outline: none;
+        }
+        &::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 9px;
+          cursor: pointer;
+          box-shadow: 0px 0px 0px #000000;
+          background: #74a9d8;
+          border-radius: 50px;
+          border: 1px solid #010101;
+        }
+        &::-webkit-slider-thumb {
+          box-shadow: 1px 1px 1px #000031;
+          border: 1px solid #00001e;
+          height: 26px;
+          width: 26px;
+          border-radius: 15px;
+          background: #ffffff;
+          cursor: pointer;
+          -webkit-appearance: none;
+          margin-top: -9.5px;
+        }
+        &:focus::-webkit-slider-runnable-track {
+          background: #74a9d8;
+        }
+        &::-moz-range-track {
+          width: 100%;
+          height: 9px;
+          cursor: pointer;
+          box-shadow: 0px 0px 0px #000000;
+          background: #74a9d8;
+          border-radius: 50px;
+          border: 1px solid #010101;
+        }
+        &::-moz-range-thumb {
+          box-shadow: 1px 1px 1px #000031;
+          border: 1px solid #00001e;
+          height: 26px;
+          width: 26px;
+          border-radius: 15px;
+          cursor: pointer;
+        }
+        &::-ms-track {
+          width: 100%;
+          height: 9px;
+          cursor: pointer;
+          background: transparent;
+          border-color: transparent;
+          color: transparent;
+        }
+        &::-ms-fill-lower {
+          background: #74a9d8;
+          border: 1px solid #010101;
+          border-radius: 100px;
+          box-shadow: 0px 0px 0px #000000;
+        }
+        &::-ms-fill-upper {
+          background: #74a9d8;
+          border: 1px solid #010101;
+          border-radius: 100px;
+          box-shadow: 0px 0px 0px #000000;
+        }
+        &::-ms-thumb {
+          margin-top: 1px;
+          box-shadow: 1px 1px 1px #000031;
+          border: 1px solid #00001e;
+          height: 26px;
+          width: 26px;
+          border-radius: 15px;
+          cursor: pointer;
+        }
+        &:focus::-ms-fill-lower {
+          background: #74a9d8;
+        }
+        &:focus::-ms-fill-upper {
+          background: #74a9d8;
+        }
       }
     }
     .music-controll {
-      background-color: aqua;
       flex-grow: 1;
       @include flex-box(row, space-evenly, center);
       .music-controll__toggle-play {
@@ -36,12 +133,11 @@
         text-align: center;
       }
       i {
-        color: black;
+        color: white;
         font-size: 30px;
       }
     }
     .music-volume {
-      background-color: purple;
       flex-grow: 1;
     }
   }

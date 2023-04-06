@@ -76,6 +76,7 @@ const setMusicInfo = (musicInfo) => {
 };
 
 const onplayerStateChange = (event) => {
+  console.log(event.data);
   // 로드되고 처음 재생 될 때, 로드하고 두 번 재생은 적용안됨
   if (event.data === YT.PlayerState.PLAYING && !youtubePlayer.hasStarted) {
     youtubePlayer.hasStarted = true;
@@ -86,6 +87,7 @@ const onplayerStateChange = (event) => {
   // 노래 끝날을 때
   if (event.data === YT.PlayerState.ENDED) {
     youtubePlayer.stopVideo();
+    mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
   }
 
   if (event.data == YT.PlayerState.PLAYING) {
@@ -95,9 +97,12 @@ const onplayerStateChange = (event) => {
   }
 
   if (event.data === YT.PlayerState.CUED) {
-    musicPlayerProgressInput.max = youtubePlayer.getDuration();
-    musicPlayerProgressInput.value = 0;
-    console.log(youtubePlayer.getDuration());
+    mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+    if (youtubePlayer.hasStarted === false) {
+      musicPlayerProgressInput.max = youtubePlayer.getDuration();
+      musicPlayerProgressInput.value = 0;
+      console.log(youtubePlayer.getDuration());
+    }
   }
 };
 
@@ -169,7 +174,6 @@ const initAfterReady = () => {
 
   mCR.initProgressController(musicPlayerProgressInput, youtubePlayer);
   musicPlayerProgressInput.max = youtubePlayer.getDuration();
-  console.log(musicPlayerProgressInput.max);
 };
 
 init();

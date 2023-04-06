@@ -90,11 +90,17 @@ export const initProgressController = (progressInput, player) => {
   progressInput.addEventListener("input", () => {
     progressInput.dragging = true;
     if (player.hasStarted) {
+      if (progressInput.value > progressInput.max - 1) {
+        return player.stopVideo();
+      }
       progressSeekPlayer(player, progressInput.value);
     }
   });
   progressInput.addEventListener("change", () => {
     if (player.hasStarted) {
+      if (progressInput.value > progressInput.max - 1) {
+        return player.stopVideo();
+      }
       progressSeekPlayer(player, progressInput.value);
     } else {
       progressInput.value = 0;
