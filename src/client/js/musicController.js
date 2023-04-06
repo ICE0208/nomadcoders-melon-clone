@@ -51,10 +51,20 @@ export const initVolumeController = (volumInput, player) => {
     volumInput.dragging = false;
   });
   volumInput.addEventListener("input", () => {
+    if (volumInput.value === "0") {
+      player.setVolume(0);
+      player.mute();
+      return;
+    }
     volumeSeekPlayer(player, volumInput.value);
     player.unMute();
   });
   volumInput.addEventListener("change", () => {
+    if (volumInput.value === "0") {
+      player.setVolume(0);
+      player.mute();
+      return;
+    }
     volumeSeekPlayer(player, volumInput.value);
     saveVolume(volumInput.value);
   });
@@ -70,7 +80,7 @@ export const initVolumeController = (volumInput, player) => {
   }, 1000 / 10); // 1초에 10번
 };
 
-// ! Progress Input
+// ! Progress Controlls
 
 export const setProgressInputColor = (progressInput) => {
   const beforeColor = "white";
