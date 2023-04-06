@@ -9,6 +9,7 @@ div.player-container
             div.music-info__like-btn
                 span ⭐️
         div.music-progress
+            input(type="range" value="0" min="0" max="1" step="any").music-progress__controller
         div.music-controll
             div.music-controll__before-music
                 i.fa-solid.fa-angles-left
@@ -17,5 +18,4 @@ div.player-container
             div.music-controll__after-music
                 i.fa-solid.fa-angles-right
         div.music-volume
-            input(type="range" id="player1-volume-bar" value="50" 
-                    min="0" max="100" step="any").music-volume__controller
+            input(type="range" value="50" min="0" max="100" step="any").music-volume__controller

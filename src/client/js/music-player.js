@@ -25,6 +25,9 @@ const musicPlayerTogglePlay = musicControllerDiv.querySelector(
 const musicPlayerVolumeInput = musicControllerDiv.querySelector(
   ".music-volume__controller"
 );
+const musicPlayerProgressInput = musicControllerDiv.querySelector(
+  ".music-progress__controller"
+);
 
 const CURRENT_MUSIC_ID_KEY = "currentMusicID";
 const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
@@ -55,7 +58,7 @@ const loadFirstVideo = () => {
     },
     playerVars: {
       disablekb: 1,
-      controls: 1,
+      controls: 0,
       iv_load_policy: 3,
       modestbranding: 1,
       enablejsapi: 1,
@@ -76,6 +79,7 @@ const onplayerStateChange = (event) => {
   // 로드되고 처음 재생 될 때, 로드하고 두 번 재생은 적용안됨
   if (event.data === YT.PlayerState.PLAYING && !youtubePlayer.hasStarted) {
     youtubePlayer.hasStarted = true;
+    // ! 시작하고 progressInput이 활성화되게 하기
     const id = sessionStorage.getItem(CURRENT_MUSIC_ID_KEY);
     postSongViews(id);
   }
@@ -88,6 +92,12 @@ const onplayerStateChange = (event) => {
     mCR.changePlayIcon(musicPlayerTogglePlay, "played");
   } else if (event.data == YT.PlayerState.PAUSED) {
     mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+  }
+
+  if (event.data === YT.PlayerState.CUED) {
+    musicPlayerProgressInput.max = youtubePlayer.getDuration();
+    musicPlayerProgressInput.value = 0;
+    console.log(youtubePlayer.getDuration());
   }
 };
 
@@ -152,11 +162,14 @@ const init = () => {
 };
 // ? init 다음으로 첫 번째 영상이 로드되면 실행됨
 const initAfterReady = () => {
-  mCR.enableInputDragging(musicPlayerVolumeInput, youtubePlayer);
-
+  mCR.initVolumeController(musicPlayerVolumeInput, youtubePlayer);
   const savedVolume = mCR.getSavedVolume();
   youtubePlayer.setVolume(savedVolume);
   musicPlayerVolumeInput.value = savedVolume;
+
+  mCR.initProgressController(musicPlayerProgressInput, youtubePlayer);
+  musicPlayerProgressInput.max = youtubePlayer.getDuration();
+  console.log(musicPlayerProgressInput.max);
 };
 
 init();

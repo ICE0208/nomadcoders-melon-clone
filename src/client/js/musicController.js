@@ -40,7 +40,7 @@ export const isInputDragging = (volumInput) => {
   return volumInput.dragging === true;
 };
 
-export const enableInputDragging = (volumInput, player) => {
+export const initVolumeController = (volumInput, player) => {
   volumInput.dragging = false;
 
   volumInput.addEventListener("mousedown", () => {
@@ -65,6 +65,49 @@ export const enableInputDragging = (volumInput, player) => {
         volumInput.value = player.getVolume();
         saveVolume(volumInput.value);
       }
+    }
+  }, 1000 / 10); // 1초에 10번
+};
+
+// ! Progress Input
+
+export const progressSeekPlayer = (player, value) => {
+  player.seekTo(value, true);
+};
+export const isProgressDragging = (progressInput) => {
+  return progressInput.dragging === true;
+};
+
+export const initProgressController = (progressInput, player) => {
+  progressInput.dragging = false;
+
+  progressInput.addEventListener("mousedown", () => {
+    progressInput.dragging = true;
+  });
+  progressInput.addEventListener("mouseup", () => {
+    progressInput.dragging = false;
+  });
+  progressInput.addEventListener("input", () => {
+    progressInput.dragging = true;
+    if (player.hasStarted) {
+      progressSeekPlayer(player, progressInput.value);
+    }
+  });
+  progressInput.addEventListener("change", () => {
+    if (player.hasStarted) {
+      progressSeekPlayer(player, progressInput.value);
+    } else {
+      progressInput.value = 0;
+    }
+  });
+
+  setInterval(function () {
+    if (
+      player.getPlayerState() === YT.PlayerState.PLAYING &&
+      !progressInput.dragging
+    ) {
+      const progress = player.getCurrentTime();
+      progressInput.value = progress;
     }
   }, 1000 / 10); // 1초에 10번
 };

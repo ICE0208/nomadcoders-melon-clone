@@ -23,6 +23,9 @@
     .music-progress {
       background-color: green;
       flex-grow: 1;
+      .music-progress__controller {
+        width: 100%;
+      }
     }
     .music-controll {
       background-color: aqua;
