@@ -1,11 +1,11 @@
-// ! Play Controlls
+// ! Play Controls
 export const togglePlayer = (player, playToggleIcon) => {
   if (player.getPlayerState() == YT.PlayerState.PLAYING) {
+    changePlayIcon(playToggleIcon, "paused"); // 빠른 반응을 위한 코드
     player.pauseVideo();
-    changePlayIcon(playToggleIcon, "paused"); // ? 필요없지만 빠른 반응을 위하여 임시 추가
   } else {
+    changePlayIcon(playToggleIcon, "played"); // 빠른 반응을 위한 코드
     player.playVideo();
-    changePlayIcon(playToggleIcon, "played"); // ? 필요없지만 빠른 반응을 위하여 임시 추가
   }
 };
 
@@ -17,7 +17,7 @@ export const changePlayIcon = (icon, status) => {
     icon.classList.add("fa-play");
     icon.classList.remove("fa-pause");
   } else {
-    console.error(`I don't know this status : ${status}`);
+    console.error(`Unknown status: ${status}`);
   }
 };
 
@@ -28,88 +28,93 @@ const SAVED_VOLUME_KEY = "savedVolume";
 const saveVolume = (volume) => {
   localStorage.setItem(SAVED_VOLUME_KEY, volume);
 };
+
 export const getSavedVolume = () => {
   const savedVolume = localStorage.getItem(SAVED_VOLUME_KEY);
-  return savedVolume ? savedVolume : 50;
+  return savedVolume || 50;
 };
 
-export const volumeSeekPlayer = (player, value) => {
+const volumeSeekPlayer = (player, value) => {
   player.setVolume(value);
 };
 
-export const isInputDragging = (volumInput) => {
-  return volumInput.changing === true;
+const isInputDragging = (volumeInput) => {
+  return volumeInput.changing === true;
 };
 
-// ? INIT
-export const initVolumeController = (volumInput, player) => {
-  volumInput.changing = false;
+// INIT
+export const initVolumeController = (volumeInput, player) => {
+  volumeInput.changing = false;
 
-  volumInput.addEventListener("mousedown", () => {
-    volumInput.changing = true;
+  volumeInput.addEventListener("mousedown", () => {
+    volumeInput.changing = true;
   });
-  volumInput.addEventListener("mouseup", () => {
-    volumInput.changing = false;
+  volumeInput.addEventListener("mouseup", () => {
+    volumeInput.changing = false;
   });
-  volumInput.addEventListener("input", () => {
-    setInputColor(volumInput);
-    if (volumInput.value === "0") {
-      player.setVolume(0);
-      player.mute();
-      return;
-    }
-    volumeSeekPlayer(player, volumInput.value);
-    player.unMute();
-  });
-  volumInput.addEventListener("change", () => {
-    volumInput.changing = true;
-    setInputColor(volumInput);
-    if (volumInput.value === "0") {
+  volumeInput.addEventListener("input", () => {
+    setInputColor(volumeInput);
+    const volume = parseInt(volumeInput.value, 10);
+    if (volume === 0) {
       player.setVolume(0);
       player.mute();
     } else {
-      volumeSeekPlayer(player, volumInput.value);
-      saveVolume(volumInput.value);
+      volumeSeekPlayer(player, volume);
+      player.unMute();
     }
-    volumInput.changing = false;
+  });
+  volumeInput.addEventListener("change", () => {
+    volumeInput.changing = true;
+    setInputColor(volumeInput);
+    const volume = parseInt(volumeInput.value, 10);
+    if (volume === 0) {
+      player.setVolume(0);
+      player.mute();
+    } else {
+      volumeSeekPlayer(player, volume);
+      saveVolume(volume);
+    }
+    volumeInput.changing = false;
   });
 
-  setInterval(function () {
-    if (!volumInput.changing) {
+  const updateVolume = () => {
+    if (!volumeInput.changing) {
       const volume = player.getVolume();
       if (!(volume < -1)) {
-        volumInput.value = player.getVolume();
-        saveVolume(volumInput.value);
+        volumeInput.value = volume;
+        saveVolume(volume);
       }
-      setInputColor(volumInput);
+      setInputColor(volumeInput);
     }
-  }, 1000 / 10); // 1초에 10번
+  };
+
+  setInterval(updateVolume, 100);
 };
 
-// ! Progress Controlls
+// ! Progress Controls
 
-export const progressSeekPlayer = (player, value) => {
+const progressSeekPlayer = (player, value) => {
   player.seekTo(value, true);
 };
-export const isProgressDragging = (progressInput) => {
+const isProgressDragging = (progressInput) => {
   return progressInput.changing === true;
 };
 
-function getFormatTime(sec) {
+const getFormattedTime = (sec) => {
   const minutes = Math.floor(sec / 60);
   const seconds = Math.floor(sec % 60);
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-}
+};
 
-export const setCurTime = (progress) => {
+const setCurTime = (progress) => {
   const curTimeSpan = progress.querySelector(".music-progress__cur-time");
   const curTime = progress.querySelector(".music-progress__controller").value;
-  curTimeSpan.innerText = getFormatTime(Math.ceil(curTime));
+  curTimeSpan.innerText = getFormattedTime(Math.ceil(curTime));
 };
 export const setMaxTime = (progress, player) => {
   const maxTimeSpan = progress.querySelector(".music-progress__max-time");
   const maxTime = player.getDuration();
-  maxTimeSpan.innerText = getFormatTime(maxTime);
+  maxTimeSpan.innerText = getFormattedTime(maxTime);
 };
 
 // ? INIT
@@ -160,7 +165,7 @@ export const initProgressController = (progress, player) => {
     progressInput.changing = false;
   });
 
-  setInterval(function () {
+  const updateProgress = () => {
     if (
       player.getPlayerState() === YT.PlayerState.PLAYING &&
       !progressInput.changing
@@ -176,7 +181,9 @@ export const initProgressController = (progress, player) => {
     } else {
       progressInput.disabled = true;
     }
-  }, 1000 / 10); // 1초에 10번
+  };
+
+  setInterval(updateProgress, 100);
 };
 
 // ! Volume + Progress
