@@ -32,10 +32,12 @@ const musicPlayerProgressInput = musicPlayerProgress.querySelector(
 
 const CURRENT_MUSIC_ID_KEY = "currentMusicID";
 const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
-const FIRST_MUSIC_INFO = {
-  title: "KANATA HALUKA",
-  artist: "RADWIMPS",
-  ytID: "VbS1yHZGmTY",
+let firstMusicInfo = {};
+
+const setRandomFirstMusicInfo = () => {
+  const randomMusicInfo =
+    window.musics[Math.floor(Math.random() * window.musics.length)];
+  firstMusicInfo = randomMusicInfo;
 };
 
 const loadNewMusic = (musicInfo) => {
@@ -49,11 +51,11 @@ const loadNewMusic = (musicInfo) => {
 };
 
 const loadFirstVideo = () => {
-  sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, FIRST_MUSIC_INFO.ytID);
+  sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, firstMusicInfo.ytID);
   youtubePlayer = new YT.Player("youtube-player", {
     width: "280",
     height: "280",
-    videoId: FIRST_MUSIC_INFO.ytID,
+    videoId: firstMusicInfo.ytID,
     events: {
       onReady: initAfterReady,
       onStateChange: onplayerStateChange,
@@ -67,7 +69,7 @@ const loadFirstVideo = () => {
       rel: 0,
     },
   });
-  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, FIRST_MUSIC_INFO.ytID);
+  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, firstMusicInfo.ytID);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
 };
 
@@ -139,6 +141,7 @@ export const musicPlayerInit = () => {
 };
 
 function onYouTubeIframeAPIReady() {
+  setRandomFirstMusicInfo();
   loadFirstVideo();
 }
 
@@ -171,7 +174,7 @@ const init = () => {
 };
 // ? init 다음으로 첫 번째 영상이 로드되면 실행됨
 const initAfterReady = () => {
-  setPlayerInfo(FIRST_MUSIC_INFO);
+  setPlayerInfo(firstMusicInfo);
   setMusicInfo();
 
   // Play
