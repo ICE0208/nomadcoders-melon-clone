@@ -34,12 +34,14 @@ const CURRENT_MUSIC_ID_KEY = "currentMusicID";
 const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
 let firstMusicInfo = {};
 
+// ? 처음 음악을 랜덤으로 선택하여 firstMusicInfo에 넣어준다.
 const setRandomFirstMusicInfo = () => {
   const randomMusicInfo =
     window.musics[Math.floor(Math.random() * window.musics.length)];
   firstMusicInfo = randomMusicInfo;
 };
 
+// ? 음악을 선택했을 때 로드시켜주는 함수
 const loadNewMusic = (musicInfo) => {
   youtubePlayer.cueVideoById(musicInfo.ytID);
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, musicInfo.ytID);
@@ -50,7 +52,8 @@ const loadNewMusic = (musicInfo) => {
   youtubePlayer.setVolume(mCR.getSavedVolume());
 };
 
-const loadFirstVideo = () => {
+// ? 플레리어를 만들면서 처음 음악을 로드시켜주는 함수
+const loadFirstMusic = () => {
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, firstMusicInfo.ytID);
   youtubePlayer = new YT.Player("youtube-player", {
     width: "280",
@@ -73,58 +76,73 @@ const loadFirstVideo = () => {
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
 };
 
+// ? 현재 선택된 음악의 정보를 플레이어의 속성에 추가
 const setPlayerInfo = (musicInfo) => {
   youtubePlayer.title = musicInfo.title;
   youtubePlayer.artist = musicInfo.artist;
   youtubePlayer.ytID = musicInfo.ytID;
 };
 
+// ? 첫 영상이 로드되거나 영상이 CUED 되면 실행되는 함수
 const setMusicInfo = () => {
   musicPlayerMusicTitle.innerText = youtubePlayer.title;
   musicPlayerMusicArtist.innerText = youtubePlayer.artist;
+  // ! 유저 로그인 상태 -> youtubePlayer.ytID가 유저의 좋아요 리스트에 있는지 확인
+  // ! -> 있으면 꽉찬 별, 없으면 빈 별
+  // ! 로그인 상태가 아니라면 무조건 빈 별
 };
 
+// ? 뮤직 플레어어의 상태가 변함에 따라 자동으로 실행되는 함수
 const onplayerStateChange = (event) => {
-  // 로드되고 처음 재생 될 때, 로드하고 두 번 재생은 적용안됨
-  if (event.data === YT.PlayerState.PLAYING && !youtubePlayer.hasFirstStarted) {
-    // ! 시작하고 progressInput이 활성화되게 하기
-    youtubePlayer.hasFirstStarted = true;
-    const id = sessionStorage.getItem(CURRENT_MUSIC_ID_KEY);
-    postSongViews(id);
-  }
-  // 노래 끝날을 때
-  if (event.data === YT.PlayerState.ENDED) {
-    youtubePlayer.playing = false;
-    youtubePlayer.stopVideo();
-    mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
-  }
+  const playerState = event.data;
 
-  if (event.data === YT.PlayerState.PLAYING) {
-    youtubePlayer.playing = true;
-    mCR.changePlayIcon(musicPlayerTogglePlay, "played");
-  } else if (event.data == YT.PlayerState.PAUSED) {
-    mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
-  }
+  switch (playerState) {
+    case YT.PlayerState.PLAYING:
+      if (!youtubePlayer.hasFirstStarted) {
+        youtubePlayer.hasFirstStarted = true;
+        postSongViews(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY));
+      }
+      youtubePlayer.playing = true;
+      mCR.changePlayIcon(musicPlayerTogglePlay, "played");
+      break;
 
-  if (event.data === YT.PlayerState.CUED) {
-    mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
-    if (youtubePlayer.hasFirstStarted === false) {
-      setMusicInfo();
-      musicPlayerProgressInput.max = youtubePlayer.getDuration();
-      musicPlayerProgressInput.value = 0;
-      mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
-    }
+    case YT.PlayerState.ENDED:
+      youtubePlayer.playing = false;
+      youtubePlayer.stopVideo();
+      mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+      break;
+
+    case YT.PlayerState.PAUSED:
+      mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+      break;
+
+    case YT.PlayerState.CUED:
+      mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+      if (!youtubePlayer.hasFirstStarted) {
+        setMusicInfo();
+        musicPlayerProgressInput.max = youtubePlayer.getDuration();
+        musicPlayerProgressInput.value = 0;
+        mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
+      }
+      break;
+
+    default:
+      break;
   }
 };
 
+// ? ytID의 조회수를 증가시키는 함수
 const postSongViews = async (ytID) => {
   try {
     const response = await fetch(`api/songs/${ytID}/view`, { method: "POST" });
     if (!response.ok) {
-      throw new Error("Can't increase views");
+      const errorInfo = await response.text();
+      throw new Error(
+        `Can't increase views. Server responded with ${response.status}: ${errorInfo}`
+      );
     }
   } catch (err) {
-    console.error(err);
+    console.error("Error in postSongViews function:", err);
   }
 };
 
@@ -140,11 +158,13 @@ export const musicPlayerInit = () => {
   });
 };
 
-function onYouTubeIframeAPIReady() {
+// ? youtubeIframeAPI가 준비되었을 때 자동으로 실행됨
+const onYouTubeIframeAPIReady = () => {
   setRandomFirstMusicInfo();
-  loadFirstVideo();
-}
+  loadFirstMusic();
+};
 
+// ? 가상 썸네일 이미지를 만들어 배치한 뒤, 리턴
 const createVirtualImg = () => {
   const main = document.querySelector("main");
   const virtualImg = document.createElement("img");
@@ -153,6 +173,7 @@ const createVirtualImg = () => {
   return virtualImg;
 };
 
+// ? 뮤직차트에 있는 썸네일을 클릭했을 때 작동하는 함수
 const mcMusicThumbClickHandler = (event) => {
   const music = event.target.closest(".mc-music-list__music");
   const musicInfo = JSON.parse(music.dataset.music);
@@ -169,9 +190,6 @@ const mcMusicThumbClickHandler = (event) => {
   }, 550);
 };
 
-const init = () => {
-  musicPlayerInit();
-};
 // ? init 다음으로 첫 번째 영상이 로드되면 실행됨
 const initAfterReady = () => {
   setPlayerInfo(firstMusicInfo);
@@ -196,4 +214,4 @@ const initAfterReady = () => {
   mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
 };
 
-init();
+musicPlayerInit();

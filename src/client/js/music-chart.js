@@ -55,10 +55,6 @@ mcArrow.addEventListener("mouseenter", mcArrowMouseEnterHandler);
 mcArrow.addEventListener("mouseleave", mcArrowMouseLeaveHandler);
 mcArrow.addEventListener("click", mcArrowMouseClickHandler);
 
-mcMainBox.addEventListener("animationend", () => {
-  console.log("hi");
-});
-
 const musicChartJsInit = () => {
   mcArrow.classList.add(CLASSNAME_VISIBLE);
 };
