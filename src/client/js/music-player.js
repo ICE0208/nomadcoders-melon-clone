@@ -51,8 +51,8 @@ const loadNewMusic = (musicInfo) => {
 const loadFirstVideo = () => {
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, FIRST_MUSIC_INFO.ytID);
   youtubePlayer = new YT.Player("youtube-player", {
-    width: "360",
-    height: "360",
+    width: "280",
+    height: "280",
     videoId: FIRST_MUSIC_INFO.ytID,
     events: {
       onReady: initAfterReady,

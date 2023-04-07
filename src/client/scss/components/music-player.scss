@@ -1,15 +1,15 @@
 .player-container {
   @include flex-box(column, center, stretch);
   z-index: 2;
-  width: 440px;
+  width: 400px;
   border-radius: 20px;
   overflow: hidden;
   background-color: $music-player-bg;
 
   .player-container__music {
     @include flex-box(row, center, center);
-    padding: 60px 0 30px 0;
-    height: 360px;
+    padding: 70px 0 60px 0;
+    height: 280px;
     object-fit: cover;
     #youtube-player {
       border-radius: 8%;
