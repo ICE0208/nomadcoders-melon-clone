@@ -17,7 +17,6 @@ export const home = async (req, res) => {
 };
 
 export const registerView = async (req, res) => {
-  console.log("??");
   const { id: ytIDToFind } = req.params;
   const song = await Song.findOne({ ytID: ytIDToFind });
   if (!song) {

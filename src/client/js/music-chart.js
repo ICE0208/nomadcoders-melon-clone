@@ -5,6 +5,7 @@ const musicImgs = document.querySelectorAll(".mc-music-list__music > img");
 
 const CLASSNAME_OPENED = "opened";
 const CLASSNAME_VISIBLE = "visible";
+const CLASSNAME_INACTIVE = "inactive";
 
 let arrowTimeoutIdList = [];
 let isEnteredInArrow = false;
@@ -13,8 +14,12 @@ const toggleOpenMusicChart = () => {
   const opening = mcArrow.classList.toggle(CLASSNAME_OPENED);
   if (opening) {
     mcMainBox.classList.add(CLASSNAME_OPENED);
+    mcVirtualBox.classList.remove(CLASSNAME_INACTIVE);
   } else {
     mcMainBox.classList.remove(CLASSNAME_OPENED);
+    setTimeout(() => {
+      mcVirtualBox.classList.add(CLASSNAME_INACTIVE);
+    }, 300);
   }
 };
 
@@ -49,6 +54,10 @@ mcVirtualBox.addEventListener("mousemove", showArrowForThreeSeconds);
 mcArrow.addEventListener("mouseenter", mcArrowMouseEnterHandler);
 mcArrow.addEventListener("mouseleave", mcArrowMouseLeaveHandler);
 mcArrow.addEventListener("click", mcArrowMouseClickHandler);
+
+mcMainBox.addEventListener("animationend", () => {
+  console.log("hi");
+});
 
 const musicChartJsInit = () => {
   mcArrow.classList.add(CLASSNAME_VISIBLE);

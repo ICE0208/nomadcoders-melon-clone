@@ -3,6 +3,9 @@ extends ../layouts/base.pug
 block content
     include ../components/music-chart
     include ../components/music-player
-block scripts 
+block scripts
+    script.
+        window.musics = !{JSON.stringify(musics)};
+
     script(src="/static/js/music-chart.js")
     script(src="/static/js/music-player.js")

@@ -23,14 +23,13 @@ export const musicSelectAnimation = (musicThumb, musicPlayer, virtualImg) => {
 
   const musicVsPlayer = playerMid.y - musicMid.y > 0 ? 1 : -1;
 
-  const distance = {
-    x: playerX - musicX + 100,
+  const DISTANCE_OFFSET = {
+    x: playerX - musicX + 150,
     y: playerMid.y - musicMid.y + (playerHeight / 6) * musicVsPlayer,
   };
-  const wayPointDistance = 80;
-  const wayPoint = {
+  const WAYPOINT_OFFSET = {
     x: 180,
-    y: wayPointDistance * musicVsPlayer * -1,
+    y: 80 * musicVsPlayer * -1,
   };
   virtualImg.src = musicThumb.src;
   virtualImg.style.left = `${musicX}px`;
@@ -47,8 +46,8 @@ export const musicSelectAnimation = (musicThumb, musicPlayer, virtualImg) => {
     }
     30% {
       animation-timing-function: ease-out;
-      transform: translate(${wayPoint.x}px, ${
-    wayPoint.y
+      transform: translate(${WAYPOINT_OFFSET.x}px, ${
+    WAYPOINT_OFFSET.y
   }px) scale(1.6) rotate(${20 * musicVsPlayer}deg);
       backface-visibility: hidden;
     }
@@ -68,9 +67,9 @@ export const musicSelectAnimation = (musicThumb, musicPlayer, virtualImg) => {
     }
     100% {
       animation-timing-function: linear;
-      transform: translate(${distance.x}px, ${distance.y}px) scale(0) rotate(${
-    120 * musicVsPlayer
-  }deg);
+      transform: translate(${DISTANCE_OFFSET.x}px, ${
+    DISTANCE_OFFSET.y
+  }px) scale(0) rotate(${120 * musicVsPlayer}deg);
       backface-visibility: hidden;
     }
   }
