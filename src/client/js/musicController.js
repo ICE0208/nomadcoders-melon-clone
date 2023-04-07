@@ -22,6 +22,7 @@ export const changePlayIcon = (icon, status) => {
 };
 
 // ! Volume Controlls
+
 const SAVED_VOLUME_KEY = "savedVolume";
 
 const saveVolume = (volume) => {
@@ -37,20 +38,21 @@ export const volumeSeekPlayer = (player, value) => {
 };
 
 export const isInputDragging = (volumInput) => {
-  return volumInput.dragging === true;
+  return volumInput.changing === true;
 };
 
 // ? INIT
 export const initVolumeController = (volumInput, player) => {
-  volumInput.dragging = false;
+  volumInput.changing = false;
 
   volumInput.addEventListener("mousedown", () => {
-    volumInput.dragging = true;
+    volumInput.changing = true;
   });
   volumInput.addEventListener("mouseup", () => {
-    volumInput.dragging = false;
+    volumInput.changing = false;
   });
   volumInput.addEventListener("input", () => {
+    setInputColor(volumInput);
     if (volumInput.value === "0") {
       player.setVolume(0);
       player.mute();
@@ -60,44 +62,37 @@ export const initVolumeController = (volumInput, player) => {
     player.unMute();
   });
   volumInput.addEventListener("change", () => {
+    volumInput.changing = true;
+    setInputColor(volumInput);
     if (volumInput.value === "0") {
       player.setVolume(0);
       player.mute();
-      return;
+    } else {
+      volumeSeekPlayer(player, volumInput.value);
+      saveVolume(volumInput.value);
     }
-    volumeSeekPlayer(player, volumInput.value);
-    saveVolume(volumInput.value);
+    volumInput.changing = false;
   });
 
   setInterval(function () {
-    if (!volumInput.dragging) {
+    if (!volumInput.changing) {
       const volume = player.getVolume();
       if (!(volume < -1)) {
         volumInput.value = player.getVolume();
         saveVolume(volumInput.value);
       }
+      setInputColor(volumInput);
     }
   }, 1000 / 10); // 1초에 10번
 };
 
 // ! Progress Controlls
 
-export const setProgressInputColor = (progressInput) => {
-  const beforeColor = "white";
-  const afterColor = "rgba(255, 255, 255, 0.5)";
-
-  const value = progressInput.value;
-  const min = progressInput.min;
-  const max = progressInput.max;
-  const percentage = ((value - min) / (max - min)) * 100;
-  progressInput.style.background = `linear-gradient(to right, ${beforeColor} 0%, ${beforeColor} ${percentage}%, ${afterColor} ${percentage}%, ${afterColor} 100%)`;
-};
-
 export const progressSeekPlayer = (player, value) => {
   player.seekTo(value, true);
 };
 export const isProgressDragging = (progressInput) => {
-  return progressInput.dragging === true;
+  return progressInput.changing === true;
 };
 
 function getFormatTime(sec) {
@@ -109,7 +104,7 @@ function getFormatTime(sec) {
 export const setCurTime = (progress) => {
   const curTimeSpan = progress.querySelector(".music-progress__cur-time");
   const curTime = progress.querySelector(".music-progress__controller").value;
-  curTimeSpan.innerText = getFormatTime(Math.round(curTime));
+  curTimeSpan.innerText = getFormatTime(Math.ceil(curTime));
 };
 export const setMaxTime = (progress, player) => {
   const maxTimeSpan = progress.querySelector(".music-progress__max-time");
@@ -120,52 +115,78 @@ export const setMaxTime = (progress, player) => {
 // ? INIT
 export const initProgressController = (progress, player) => {
   const progressInput = progress.querySelector(".music-progress__controller");
-  progressInput.dragging = false;
+  const curTime = progress.querySelector(".music-progress__cur-time");
+  const maxTime = progress.querySelector(".music-progress__max-time");
+  progressInput.changing = false;
 
   progressInput.addEventListener("mousedown", () => {
-    progressInput.dragging = true;
-    player.pauseVideo();
+    if (player.playing) {
+      progressInput.changing = true;
+      player.pauseVideo();
+    }
   });
 
   progressInput.addEventListener("mouseup", () => {
-    progressInput.dragging = false;
-    if (player.getPlayerState() === YT.PlayerState.PAUSED) {
+    if (player.playing) {
+      progressInput.changing = false;
       player.playVideo();
     }
   });
 
   progressInput.addEventListener("input", () => {
-    progressInput.dragging = true;
-    if (player.hasStarted) {
+    if (player.playing) {
+      setInputColor(progressInput);
       if (progressInput.value > progressInput.max - 1) {
-        return player.stopVideo();
+        return;
       }
       progressSeekPlayer(player, progressInput.value);
     }
-    setProgressInputColor(progressInput);
   });
 
   progressInput.addEventListener("change", () => {
-    if (player.hasStarted) {
+    progressInput.changing = true;
+    if (player.playing) {
+      setInputColor(progressInput);
       if (progressInput.value > progressInput.max - 1) {
-        return player.stopVideo();
+        player.playing = false;
+        player.stopVideo();
+        curTime.innerText = maxTime.innerText;
+      } else {
+        progressSeekPlayer(player, progressInput.value);
       }
-      progressSeekPlayer(player, progressInput.value);
     } else {
       progressInput.value = 0;
     }
-    setProgressInputColor(progressInput);
+    progressInput.changing = false;
   });
 
   setInterval(function () {
     if (
       player.getPlayerState() === YT.PlayerState.PLAYING &&
-      !progressInput.dragging
+      !progressInput.changing
     ) {
       const progress = player.getCurrentTime();
       progressInput.value = progress;
     }
-    setProgressInputColor(progressInput);
+    setInputColor(progressInput);
     setCurTime(progress);
+
+    if (player.playing) {
+      progressInput.disabled = false;
+    } else {
+      progressInput.disabled = true;
+    }
   }, 1000 / 10); // 1초에 10번
+};
+
+// ! Volume + Progress
+export const setInputColor = (progressInput) => {
+  const beforeColor = "white";
+  const afterColor = "rgba(255, 255, 255, 0.5)";
+
+  const value = progressInput.value;
+  const min = progressInput.min;
+  const max = progressInput.max;
+  const percentage = ((value - min) / (max - min)) * 100;
+  progressInput.style.background = `linear-gradient(to right, ${beforeColor} 0%, ${beforeColor} ${percentage}%, ${afterColor} ${percentage}%, ${afterColor} 100%)`;
 };

@@ -41,7 +41,8 @@ const FIRST_MUSIC_INFO = {
 const loadNewMusic = (musicInfo) => {
   youtubePlayer.cueVideoById(musicInfo.ytID);
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, musicInfo.ytID);
-  youtubePlayer.hasStarted = false;
+  youtubePlayer.hasFirstStarted = false;
+  youtubePlayer.playing = false;
   setPlayerInfo(musicInfo);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
   youtubePlayer.setVolume(mCR.getSavedVolume());
@@ -83,19 +84,21 @@ const setMusicInfo = () => {
 
 const onplayerStateChange = (event) => {
   // 로드되고 처음 재생 될 때, 로드하고 두 번 재생은 적용안됨
-  if (event.data === YT.PlayerState.PLAYING && !youtubePlayer.hasStarted) {
-    youtubePlayer.hasStarted = true;
+  if (event.data === YT.PlayerState.PLAYING && !youtubePlayer.hasFirstStarted) {
     // ! 시작하고 progressInput이 활성화되게 하기
+    youtubePlayer.hasFirstStarted = true;
     const id = sessionStorage.getItem(CURRENT_MUSIC_ID_KEY);
     postSongViews(id);
   }
   // 노래 끝날을 때
   if (event.data === YT.PlayerState.ENDED) {
+    youtubePlayer.playing = false;
     youtubePlayer.stopVideo();
     mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
   }
 
   if (event.data === YT.PlayerState.PLAYING) {
+    youtubePlayer.playing = true;
     mCR.changePlayIcon(musicPlayerTogglePlay, "played");
   } else if (event.data == YT.PlayerState.PAUSED) {
     mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
@@ -103,7 +106,7 @@ const onplayerStateChange = (event) => {
 
   if (event.data === YT.PlayerState.CUED) {
     mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
-    if (youtubePlayer.hasStarted === false) {
+    if (youtubePlayer.hasFirstStarted === false) {
       setMusicInfo();
       musicPlayerProgressInput.max = youtubePlayer.getDuration();
       musicPlayerProgressInput.value = 0;
@@ -183,6 +186,8 @@ const initAfterReady = () => {
   musicPlayerVolumeInput.value = savedVolume;
 
   // Progress
+  youtubePlayer.playing = false;
+  youtubePlayer.hasFirstStarted = false;
   mCR.initProgressController(musicPlayerProgress, youtubePlayer);
   musicPlayerProgressInput.max = youtubePlayer.getDuration();
   mCR.setMaxTime(musicPlayerProgress, youtubePlayer);

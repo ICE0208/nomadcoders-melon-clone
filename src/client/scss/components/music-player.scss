@@ -19,7 +19,6 @@
   .player-container__controller {
     @include flex-box(column, center, stretch);
     padding: 10px 46px;
-    height: 270px;
     .music-info {
       @include flex-box(row, space-between, center);
       margin: 10px 0;
@@ -85,8 +84,31 @@
       }
     }
     .music-volume {
-      flex-grow: 1;
+      @include flex-box(row, center, center);
+      gap: 10px;
+      height: 24px;
+      margin-top: 10px;
+      margin-bottom: 30px;
+      i {
+        @include flex-box(row, center, center);
+        height: 20px;
+        font-size: 14px;
+      }
       .music-volume__controller {
+        flex-grow: 1;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 8px;
+        outline: none;
+        appearance: none;
+        -webkit-appearance: none;
+        &::-webkit-slider-thumb {
+          height: 10px;
+          width: 10px;
+          border-radius: 50%;
+          appearance: none;
+          -webkit-appearance: none;
+        }
       }
     }
   }
