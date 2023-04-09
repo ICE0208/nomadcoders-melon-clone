@@ -89,10 +89,21 @@ const changeLikeIcon = (icon, status) => {
 export const loadLikeIcon = async () => {
   const CURRENT_MUSIC_ID_KEY = "currentMusicID";
   const likeIcon = document.querySelector(".music-info__like-btn > i");
+  const authNav = document.querySelector(".auth-nav > a");
 
   try {
     const response = await fetch(`api/songs/likedsong`, { method: "POST" });
-    const { likedSongList } = await response.json();
+    let { likedSongList } = await response.json();
+
+    if (likedSongList === undefined) {
+      if (authNav.classList.contains("logout-btn")) {
+        console.log("redirect");
+        window.location.href = "/";
+        return;
+      }
+      likedSongList = [];
+    }
+
     // ? 불러오는 동안 노래가 바뀌었을 수 있으므로 한번 더 확인
     if (likedSongList.includes(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY))) {
       changeLikeIcon(likeIcon, "like");

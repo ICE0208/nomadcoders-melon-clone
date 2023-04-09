@@ -94,10 +94,17 @@ export const registerView = async (req, res) => {
 };
 
 export const likedSongList = (req, res) => {
-  const likedSongList = req.session.likedSong || [];
+  let likedSongList = req.session.likedSong;
   return res.status(200).json({ likedSongList });
 };
 
 export const home = async (req, res) => {
+  if (req.isAuthenticated()) {
+    const user = await User.findOne({ userID: req.user.id });
+    if (user) {
+      req.session.likedSong = user.likedSong;
+    }
+  }
+
   return res.render("home", { pageTitle: "Home", musics: await getSongs() });
 };

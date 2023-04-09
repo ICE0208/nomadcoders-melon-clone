@@ -1,6 +1,6 @@
 header
-    nav 
+    nav.auth-nav 
         if loggedIn
-            a(href="/auth/logout") Logout at #{loggedInUser.displayName}
+            a(href="/auth/logout").logout-btn Logout at #{loggedInUser.displayName}
         else
-            a(href="/auth/google") Login with Google
+            a(href="/auth/google").login-btn Login with Google
