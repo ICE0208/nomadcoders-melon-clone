@@ -7,10 +7,10 @@ export const getAuthGoogleCallback = async (req, res) => {
   const { id: userID, displayName } = req.user;
 
   try {
-    const user = await User.findOne({ userID });
+    let user = await User.findOne({ userID });
     if (!user) {
       // ? 등록되지 않은 유저일 때
-      await User.create({
+      user = await User.create({
         userID,
         displayName,
       });
