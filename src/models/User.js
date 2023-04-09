@@ -6,21 +6,17 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  LikedSong: {
+  displayName: {
+    type: String,
+    required: true,
+  },
+  likedSong: {
     type: [Number],
     default: [],
     validate: {
       validator: (v) => v.length === new Set(v).size,
       message: "LikedSong에 중복된 값이 있어서는 안됩니다.",
     },
-  },
-  ProfileURL: {
-    type: String,
-    required: true,
-  },
-  UserName: {
-    type: String,
-    required: true,
   },
 });
 
