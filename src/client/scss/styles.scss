@@ -6,6 +6,7 @@
 // Components
 @import "./components/music-player.scss";
 @import "./components/music-chart.scss";
+@import "./components/header.scss";
 // Example: @import "./components/message.scss";
 // Screens
 // Example: @import "./screens/search.scss";
@@ -26,6 +27,7 @@ main {
   position: relative;
   width: 100vw;
   height: 100vh;
+  height: stretch;
   display: flex;
   justify-content: center;
   align-items: center;
