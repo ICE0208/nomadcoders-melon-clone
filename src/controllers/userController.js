@@ -7,14 +7,15 @@ export const getAuthGoogleCallback = async (req, res) => {
   const { id: userID, displayName } = req.user;
 
   try {
-    const isUserExists = await User.exists({ userID });
-    if (!isUserExists) {
+    const user = await User.findOne({ userID });
+    if (!user) {
       // ? 등록되지 않은 유저일 때
       await User.create({
         userID,
         displayName,
       });
     }
+    req.session.likedSong = user.likedSong;
   } catch (err) {
     console.log(`Mongo 검색과정에서 예외 발생\nmsg: ${err}`);
     return req.logout(() => {

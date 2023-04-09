@@ -61,3 +61,8 @@ export const registerView = async (req, res) => {
   await song.save();
   return res.sendStatus(200);
 };
+
+export const likedSongList = (req, res) => {
+  const likedSongList = req.session.likedSong || [];
+  return res.status(200).json({ likedSongList });
+};

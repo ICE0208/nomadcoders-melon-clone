@@ -75,9 +75,11 @@ const loadFirstMusic = () => {
   commonInitMusic(firstMusicInfo.ytID);
 };
 
+// ? 플레이어를 처음, 나중에 로드할 때 공통 적용되는 세팅
 const commonInitMusic = (ytID) => {
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, ytID);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+  mL.loadLikeIcon();
 };
 
 // ? 현재 선택된 음악의 정보를 플레이어의 속성에 추가

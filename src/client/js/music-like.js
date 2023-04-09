@@ -44,13 +44,31 @@ const changeLikeIcon = (icon, status) => {
     icon.classList.remove("fa-regular");
     icon.classList.add("fa-solid");
   } else if (status === "unlike") {
-    icon.classList.add("fa-solid");
-    icon.classList.remove("fa-regular");
+    icon.classList.remove("fa-solid");
+    icon.classList.add("fa-regular");
   } else {
     console.error(`Unknown status: ${status}`);
   }
 };
 
-export const loadLikeIcon = () => {
+export const loadLikeIcon = async () => {
+  const CURRENT_MUSIC_ID_KEY = "currentMusicID";
   const likeIcon = document.querySelector(".music-info__like-btn > i");
+
+  try {
+    const response = await fetch(`api/songs/likedsong`, { method: "POST" });
+    const { likedSongList } = await response.json();
+    // ? 불러오는 동안 노래가 바뀌었을 수 있으므로 한번 더 확인
+    if (likedSongList.includes(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY))) {
+      console.log("like");
+      changeLikeIcon(likeIcon, "like");
+    } else {
+      console.log("unlike");
+      changeLikeIcon(likeIcon, "unlike");
+    }
+
+    // 별 바꾸기
+  } catch (err) {
+    console.error("Error in likeSong function:", err);
+  }
 };
