@@ -44,11 +44,10 @@ const setRandomFirstMusicInfo = () => {
 // ? 음악을 선택했을 때 로드시켜주는 함수
 const loadNewMusic = (musicInfo) => {
   youtubePlayer.cueVideoById(musicInfo.ytID);
-  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, musicInfo.ytID);
+  commonInitMusic(musicInfo.ytID);
   youtubePlayer.hasFirstStarted = false;
   youtubePlayer.playing = false;
   setPlayerInfo(musicInfo);
-  mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
   youtubePlayer.setVolume(mCR.getSavedVolume());
 };
 
@@ -72,7 +71,11 @@ const loadFirstMusic = () => {
       rel: 0,
     },
   });
-  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, firstMusicInfo.ytID);
+  commonInitMusic(firstMusicInfo.ytID);
+};
+
+const commonInitMusic = (ytID) => {
+  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, ytID);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
 };
 
