@@ -1,4 +1,5 @@
 import * as mCR from "./musicController.js";
+import * as mL from "./music-like.js";
 import { musicSelectAnimation } from "./musicSelectAnimation";
 
 let youtubePlayer;
@@ -193,7 +194,7 @@ const mcMusicThumbClickHandler = (event) => {
   }, 550);
 };
 
-// ? init 다음으로 첫 번째 영상이 로드되면 실행됨
+// ? init 다음으로 첫 번째 영상이 로드되면 '자동으로' 실행됨
 const initAfterReady = () => {
   setPlayerInfo(firstMusicInfo);
   setMusicInfo();
@@ -215,6 +216,8 @@ const initAfterReady = () => {
   mCR.initProgressController(musicPlayerProgress, youtubePlayer);
   musicPlayerProgressInput.max = youtubePlayer.getDuration();
   mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
+
+  mL.initMusicLike();
 };
 
 musicPlayerInit();

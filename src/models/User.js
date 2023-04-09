@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   likedSong: {
-    type: [Number],
+    type: [String],
     default: [],
     validate: {
       validator: (v) => v.length === new Set(v).size,
