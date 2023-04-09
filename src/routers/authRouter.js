@@ -1,6 +1,9 @@
 import express from "express";
 import passport from "passport";
-import { getAuthGoogleCallback } from "../controllers/userController";
+import {
+  getAuthGoogleCallback,
+  getLogout,
+} from "../controllers/userController";
 
 const authRouter = express.Router();
 
@@ -13,5 +16,6 @@ authRouter.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   getAuthGoogleCallback
 );
+authRouter.get("/logout", getLogout);
 
 export default authRouter;
