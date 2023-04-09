@@ -1,4 +1,5 @@
 import * as mCR from "./musicController.js";
+import * as mL from "./music-like.js";
 import { musicSelectAnimation } from "./musicSelectAnimation";
 
 let youtubePlayer;
@@ -44,11 +45,10 @@ const setRandomFirstMusicInfo = () => {
 // ? 음악을 선택했을 때 로드시켜주는 함수
 const loadNewMusic = (musicInfo) => {
   youtubePlayer.cueVideoById(musicInfo.ytID);
-  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, musicInfo.ytID);
+  commonInitMusic(musicInfo.ytID);
   youtubePlayer.hasFirstStarted = false;
   youtubePlayer.playing = false;
   setPlayerInfo(musicInfo);
-  mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
   youtubePlayer.setVolume(mCR.getSavedVolume());
 };
 
@@ -72,8 +72,14 @@ const loadFirstMusic = () => {
       rel: 0,
     },
   });
-  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, firstMusicInfo.ytID);
+  commonInitMusic(firstMusicInfo.ytID);
+};
+
+// ? 플레이어를 처음, 나중에 로드할 때 공통 적용되는 세팅
+const commonInitMusic = (ytID) => {
+  sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, ytID);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+  mL.loadLikeIcon();
 };
 
 // ? 현재 선택된 음악의 정보를 플레이어의 속성에 추가
@@ -190,7 +196,7 @@ const mcMusicThumbClickHandler = (event) => {
   }, 550);
 };
 
-// ? init 다음으로 첫 번째 영상이 로드되면 실행됨
+// ? init 다음으로 첫 번째 영상이 로드되면 '자동으로' 실행됨
 const initAfterReady = () => {
   setPlayerInfo(firstMusicInfo);
   setMusicInfo();
@@ -212,6 +218,8 @@ const initAfterReady = () => {
   mCR.initProgressController(musicPlayerProgress, youtubePlayer);
   musicPlayerProgressInput.max = youtubePlayer.getDuration();
   mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
+
+  mL.initMusicLike();
 };
 
 musicPlayerInit();

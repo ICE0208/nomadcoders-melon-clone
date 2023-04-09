@@ -14,8 +14,8 @@ export const changePlayIcon = (icon, status) => {
     icon.classList.remove("fa-play");
     icon.classList.add("fa-pause");
   } else if (status === "paused") {
-    icon.classList.add("fa-play");
     icon.classList.remove("fa-pause");
+    icon.classList.add("fa-play");
   } else {
     console.error(`Unknown status: ${status}`);
   }
