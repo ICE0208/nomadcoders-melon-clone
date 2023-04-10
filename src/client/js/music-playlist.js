@@ -1,4 +1,4 @@
-const getThumbUrl = (ytID) => {
+const getThumb320Url = (ytID) => {
   return `https://img.youtube.com/vi/${ytID}/mqdefault.jpg`;
 };
 
@@ -10,7 +10,7 @@ const createSongDiv = (songInfo) => {
   // Create the music thumbnail element
   const musicThumb = document.createElement("img");
   musicThumb.classList.add("playlist__music__thumb");
-  musicThumb.setAttribute("src", getThumbUrl(songInfo.ytID));
+  musicThumb.setAttribute("src", getThumb320Url(songInfo.ytID));
   music.appendChild(musicThumb);
 
   // Create the music info element

@@ -31,6 +31,9 @@ const musicPlayerProgress = musicControllerDiv.querySelector(".music-progress");
 const musicPlayerProgressInput = musicPlayerProgress.querySelector(
   ".music-progress__controller"
 );
+const musicPlayerOverlayImg = musicPlayerContainer.querySelector(
+  ".player-container__music__overlay > img"
+);
 
 const CURRENT_MUSIC_ID_KEY = "currentMusicID";
 const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
@@ -57,8 +60,8 @@ const loadNewMusic = (musicInfo) => {
 const loadFirstMusic = () => {
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, firstMusicInfo.ytID);
   youtubePlayer = new YT.Player("youtube-player", {
-    width: "280",
-    height: "280",
+    width: "260",
+    height: "260",
     videoId: firstMusicInfo.ytID,
     events: {
       onReady: initAfterReady,
@@ -80,8 +83,13 @@ const loadFirstMusic = () => {
 const commonInitMusic = async (ytID) => {
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, ytID);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+  musicPlayerOverlayImg.setAttribute("src", getThumb1280Url(ytID));
   const likedSongList = await mL.loadLikeIcon();
   loadPlaylist(likedSongList);
+};
+
+const getThumb1280Url = (ytID) => {
+  return `https://img.youtube.com/vi/${ytID}/maxresdefault.jpg`;
 };
 
 // ? 현재 선택된 음악의 정보를 플레이어의 속성에 추가
