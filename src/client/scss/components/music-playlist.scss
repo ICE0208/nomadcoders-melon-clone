@@ -58,5 +58,14 @@
         // }
       }
     }
+    .login-first-div {
+      @include flex-box(row, center, center);
+      width: 100%;
+      height: 100%;
+      .login-first-div__text {
+        font-size: 36px;
+        opacity: 0.75;
+      }
+    }
   }
 }

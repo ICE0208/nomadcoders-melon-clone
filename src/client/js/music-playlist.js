@@ -31,6 +31,18 @@ const createSongDiv = (songInfo) => {
   return music;
 };
 
+const createLoginFirstDiv = () => {
+  const div = document.createElement("div");
+  div.classList.add("login-first-div");
+
+  const span = document.createElement("span");
+  span.classList.add("login-first-div__text");
+  span.innerText = "Login First";
+  div.appendChild(span);
+
+  return div;
+};
+
 export const loadPlaylist = (likedSongList) => {
   const playlistContainer = document.querySelector(
     ".playlist-container > .playlist"
@@ -42,4 +54,12 @@ export const loadPlaylist = (likedSongList) => {
     const songDiv = createSongDiv(songInfo);
     playlistContainer.appendChild(songDiv);
   });
+
+  if (likedSongList.length === 0) {
+    const authNav = document.querySelector(".auth-nav > a");
+    if (authNav.classList.contains("login-btn")) {
+      const loginMsg = createLoginFirstDiv();
+      playlistContainer.appendChild(loginMsg);
+    }
+  }
 };
