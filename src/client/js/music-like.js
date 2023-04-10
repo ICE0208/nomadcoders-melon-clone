@@ -97,7 +97,6 @@ export const loadLikeIcon = async () => {
 
     if (likedSongList === undefined) {
       if (authNav.classList.contains("logout-btn")) {
-        console.log("redirect");
         window.location.href = "/";
         return;
       }
@@ -110,8 +109,9 @@ export const loadLikeIcon = async () => {
     } else {
       changeLikeIcon(likeIcon, "unlike");
     }
-    console.log(likedSongList);
+    return likedSongList;
   } catch (err) {
     console.error("Error in likeSong function:", err);
+    return [];
   }
 };

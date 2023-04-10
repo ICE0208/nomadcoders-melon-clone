@@ -1,6 +1,7 @@
 import * as mCR from "./musicController.js";
 import * as mL from "./music-like.js";
 import { musicSelectAnimation } from "./musicSelectAnimation";
+import { loadPlaylist } from "./music-playlist.js";
 
 let youtubePlayer;
 const musicChartMusicThumbs = document.querySelectorAll(
@@ -76,10 +77,11 @@ const loadFirstMusic = () => {
 };
 
 // ? 플레이어를 처음, 나중에 로드할 때 공통 적용되는 세팅
-const commonInitMusic = (ytID) => {
+const commonInitMusic = async (ytID) => {
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, ytID);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
-  mL.loadLikeIcon();
+  const likedSongList = await mL.loadLikeIcon();
+  loadPlaylist(likedSongList);
 };
 
 // ? 현재 선택된 음악의 정보를 플레이어의 속성에 추가
