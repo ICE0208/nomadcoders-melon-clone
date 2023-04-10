@@ -1,7 +1,7 @@
 import * as mCR from "./musicController.js";
 import * as mL from "./music-like.js";
 import { musicSelectAnimation } from "./musicSelectAnimation";
-import { loadPlaylist } from "./music-playlist.js";
+import { initMusicPlayList, loadPlaylist } from "./music-playlist.js";
 
 let youtubePlayer;
 const musicChartMusicThumbs = document.querySelectorAll(
@@ -222,6 +222,7 @@ const initAfterReady = () => {
   mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
 
   mL.initMusicLike();
+  initMusicPlayList();
 };
 
 musicPlayerInit();

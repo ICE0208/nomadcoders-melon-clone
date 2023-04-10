@@ -1,12 +1,17 @@
 .playlist-container {
-  @include flex-box(column, center, stretch);
+  @include flex-box(column, center, center);
   position: absolute;
   width: 300px;
   height: 600px;
-  right: 30px;
-  bottom: 0;
+  &.fixed {
+    bottom: 0;
+    right: 30px;
+    transform: none;
+  }
+  transform: translate(-50%, -20px);
   background-color: $music-chart-box;
   border-radius: 12px 12px 0 0;
+  box-sizing: border-box;
   z-index: 3;
   color: black;
   padding: 40px 24px;
@@ -52,10 +57,6 @@
         .artist {
           font-size: 16px;
         }
-        // .playlist__music__infos__sub {
-        //   font-size: 16px;
-        //   margin-bottom: 4px;
-        // }
       }
     }
     .login-first-div {
@@ -67,5 +68,16 @@
         opacity: 0.75;
       }
     }
+  }
+  .moving-bar {
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    transform: translate(-50%, -50%);
+    width: 140px;
+    height: 16px;
+    background-color: rgb(0, 0, 0);
+    opacity: 0.15;
+    border-radius: 30px;
   }
 }

@@ -66,3 +66,37 @@ export const loadPlaylist = (likedSongList) => {
     }
   }
 };
+
+export const initMusicPlayList = () => {
+  const playlistContainer = document.querySelector(".playlist-container");
+  const movingBar = playlistContainer.querySelector(".moving-bar");
+  let isDragging = false;
+  let vecX = 0;
+  let vecY = 0;
+
+  movingBar.addEventListener("mousedown", (event) => {
+    isDragging = true;
+    const rect = playlistContainer.getBoundingClientRect();
+    const { width, height } = rect;
+    const x = rect.left + width / 2;
+    const y = rect.top + 20;
+    vecX = x - event.clientX;
+    vecY = y - event.clientY;
+    const startX = `${event.clientX + vecX}px`;
+    const startY = `${event.clientY + vecY}px`;
+    playlistContainer.classList.remove("fixed");
+    playlistContainer.style.left = startX;
+    playlistContainer.style.top = startY;
+  });
+  document.addEventListener("mouseup", () => {
+    if (isDragging) {
+      isDragging = false;
+    }
+  });
+  document.addEventListener("mousemove", (event) => {
+    if (isDragging) {
+      playlistContainer.style.left = `${event.clientX + vecX}px`;
+      playlistContainer.style.top = `${event.clientY + vecY}px`;
+    }
+  });
+};
