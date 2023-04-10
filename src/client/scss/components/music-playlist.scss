@@ -8,10 +8,11 @@
     bottom: 0;
     right: 30px;
     transform: none;
+    border-radius: 12px 12px 0 0;
   }
   transform: translate(50%, 580px);
   background-color: $popup-box;
-  border-radius: 12px 12px 0 0;
+  border-radius: 12px 12px;
   box-sizing: border-box;
   z-index: 3;
   color: $popup-box-text;
@@ -88,8 +89,17 @@
     transform: translate(-50%, -50%);
     width: 140px;
     height: 16px;
-    background-color: rgb(0, 0, 0);
-    opacity: 0.15;
+    background-color: $main-gray;
     border-radius: 30px;
+  }
+  .fix-btn {
+    position: absolute;
+    left: 10%;
+    top: 20px;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background-color: $main-whiteblue;
+    border-radius: 50%;
   }
 }

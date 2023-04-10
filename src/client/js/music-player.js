@@ -48,6 +48,8 @@ const setRandomFirstMusicInfo = () => {
 
 // ? 음악을 선택했을 때 로드시켜주는 함수
 const loadNewMusic = (musicInfo) => {
+  musicPlayerOverlayImg.classList.add("invisible");
+  musicPlayerOverlayImg.classList.remove("pop");
   youtubePlayer.cueVideoById(musicInfo.ytID);
   commonInitMusic(musicInfo.ytID);
   youtubePlayer.hasFirstStarted = false;
@@ -79,11 +81,10 @@ const loadFirstMusic = () => {
   commonInitMusic(firstMusicInfo.ytID);
 };
 
-// ? 플레이어를 처음, 나중에 로드할 때 공통 적용되는 세팅
+// ? 플레이어를 처음, 나중에 로드할 때 공통 적용되는 세팅 (로드 다 안되었을 때 실행됨)
 const commonInitMusic = async (ytID) => {
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, ytID);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
-  musicPlayerOverlayImg.setAttribute("src", getThumb1280Url(ytID));
   const likedSongList = await mL.loadLikeIcon();
   loadPlaylist(likedSongList);
 };
@@ -134,6 +135,12 @@ const onplayerStateChange = (event) => {
 
     case YT.PlayerState.CUED:
       mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+      musicPlayerOverlayImg.setAttribute(
+        "src",
+        getThumb1280Url(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY))
+      );
+      musicPlayerOverlayImg.classList.remove("invisible");
+      musicPlayerOverlayImg.classList.add("pop");
       if (!youtubePlayer.hasFirstStarted) {
         setMusicInfo();
         musicPlayerProgressInput.max = youtubePlayer.getDuration();
@@ -210,6 +217,10 @@ const mcMusicThumbClickHandler = (event) => {
 const initAfterReady = () => {
   setPlayerInfo(firstMusicInfo);
   setMusicInfo();
+  musicPlayerOverlayImg.setAttribute(
+    "src",
+    getThumb1280Url(firstMusicInfo.ytID)
+  );
 
   // Play
   musicPlayerTogglePlay.addEventListener("click", (event) =>

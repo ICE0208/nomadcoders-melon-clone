@@ -1,16 +1,17 @@
 // ! Global
-$green: #02cd3b;
-$bg: #1a1a1aed;
-$shadow: rgba(0, 0, 0, 0.3);
-
+$main-gray: #1a1a1aed;
 $main-black: #000000;
 $main-white: rgb(230, 230, 230);
 $main-blue: #34a3d2;
 $main-darkblue: #0d3d56;
-$main-lightblue: #69b0bb;
+$main-lightblue: #1a6188;
+$main-whiteblue: #567fad;
 
 $popup-box: $main-darkblue;
 $popup-box-text: rgb(230, 230, 230);
+
+$bg: $main-gray;
+$shadow: rgba(0, 0, 0, 0.3);
 
 // ! Music Chart
 $music-list-border-size: 4px;
