@@ -88,11 +88,6 @@
       background-color: $music-chart-box;
       z-index: 1;
     }
-    .gray-bar {
-      height: 4px;
-      background-color: $mc-gray-bar;
-      border-radius: 50px;
-    }
     .mc-music-list {
       @include flex-box(column);
       flex-grow: 1;

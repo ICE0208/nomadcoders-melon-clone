@@ -33,3 +33,9 @@ main {
   justify-content: center;
   align-items: center;
 }
+
+.gray-bar {
+  height: 4px;
+  background-color: $mc-gray-bar;
+  border-radius: 50px;
+}

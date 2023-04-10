@@ -1,6 +1,7 @@
 .playlist-container {
+  @include flex-box(column, center, stretch);
   position: absolute;
-  width: 360px;
+  width: 300px;
   height: 600px;
   right: 30px;
   bottom: 0;
@@ -8,4 +9,54 @@
   border-radius: 12px 12px 0 0;
   z-index: 3;
   color: black;
+  padding: 40px 24px;
+  overflow: hidden;
+  .playlist {
+    @include flex-box(column);
+    align-self: center;
+    padding: 10px 0;
+    width: 90%;
+    flex-grow: 1;
+    position: relative;
+    gap: 30px;
+    box-sizing: border-box;
+    max-height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    .playlist__music {
+      color: black;
+      display: flex;
+      gap: 10px;
+      .playlist__music__thumb {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      .playlist__music__infos {
+        @include flex-box(column, center);
+        flex-grow: 1;
+        width: 100%;
+        gap: 12px;
+        .title {
+          font-size: 22px;
+          font-weight: 500;
+        }
+        .artist {
+          font-size: 16px;
+        }
+        // .playlist__music__infos__sub {
+        //   font-size: 16px;
+        //   margin-bottom: 4px;
+        // }
+      }
+    }
+  }
 }
