@@ -31,13 +31,13 @@ const createSongDiv = (songInfo) => {
   return music;
 };
 
-const createLoginFirstDiv = () => {
+const createMsgDiv = (msg) => {
   const div = document.createElement("div");
   div.classList.add("login-first-div");
 
   const span = document.createElement("span");
   span.classList.add("login-first-div__text");
-  span.innerText = "Login First";
+  span.innerText = msg;
   div.appendChild(span);
 
   return div;
@@ -58,8 +58,11 @@ export const loadPlaylist = (likedSongList) => {
   if (likedSongList.length === 0) {
     const authNav = document.querySelector(".auth-nav > a");
     if (authNav.classList.contains("login-btn")) {
-      const loginMsg = createLoginFirstDiv();
+      const loginMsg = createMsgDiv("Login First");
       playlistContainer.appendChild(loginMsg);
+    } else {
+      const nothingMsg = createMsgDiv("Nothing here");
+      playlistContainer.appendChild(nothingMsg);
     }
   }
 };
