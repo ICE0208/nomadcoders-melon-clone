@@ -44,8 +44,10 @@
         @include flex-box(column, space-around, start);
         gap: 4px;
         height: 100%;
+        color: $music-player-text;
         .music-info__text__title {
           font-size: 22px;
+          font-weight: 600;
         }
         .music-info__text__artist {
           font-size: 16px;
@@ -53,6 +55,7 @@
       }
       .music-info__like-btn {
         font-size: 24px;
+        color: $music-player-icon;
       }
     }
     .music-progress {
@@ -79,11 +82,13 @@
         position: absolute;
         left: -4px;
         bottom: -10px;
+        color: $music-player-text;
       }
       .music-progress__max-time {
         position: absolute;
         right: -4px;
         bottom: -10px;
+        color: $music-player-text;
       }
     }
     .music-controll {
@@ -95,7 +100,7 @@
         text-align: center;
       }
       i {
-        color: white;
+        color: $music-player-icon;
         font-size: 30px;
       }
     }
@@ -109,6 +114,7 @@
         @include flex-box(row, center, center);
         height: 20px;
         font-size: 14px;
+        color: $music-player-icon;
       }
       .music-volume__controller {
         flex-grow: 1;

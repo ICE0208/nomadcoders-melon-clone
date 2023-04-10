@@ -1,16 +1,24 @@
 // ! Global
 $green: #02cd3b;
-$bg: rgba(131, 131, 131, 0.92);
-$shadow: #66486aaa;
+$bg: #1a1a1aed;
+$shadow: rgba(0, 0, 0, 0.3);
+
+$main-black: #000000;
+$main-white: rgb(230, 230, 230);
+$main-blue: #34a3d2;
+$main-darkblue: #0d3d56;
+$main-lightblue: #69b0bb;
+
+$popup-box: $main-darkblue;
+$popup-box-text: rgb(230, 230, 230);
 
 // ! Music Chart
-$music-chart-box: #fbeaff;
 $music-list-border-size: 4px;
 
-$arrow-up: rgba(0, 0, 0, 0.5);
-$arrow-down: rgba(225, 225, 225, 0.5);
-$arrow-opened-up: rgba(182, 182, 182, 0.5);
-$arrow-opened-down: rgba(0, 0, 0, 0.5);
+$arrow-up: $main-black;
+$arrow-down: $main-white;
+$arrow-opened-up: $main-white;
+$arrow-opened-down: $main-black;
 
 $arrow-up-rotate: 45deg;
 $arrow-down-rotate: -45deg;
@@ -22,4 +30,6 @@ $mc-virtual-box-size: 360px;
 $mc-toggle-delay: 0.3s;
 
 // ! Music Player
-$music-player-bg: rgb(255, 192, 203);
+$music-player-bg: #000000;
+$music-player-icon: $main-white;
+$music-player-text: $main-blue;

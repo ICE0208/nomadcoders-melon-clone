@@ -188,8 +188,8 @@ export const initProgressController = (progress, player) => {
 
 // ! Volume + Progress
 export const setInputColor = (progressInput) => {
-  const beforeColor = "white";
-  const afterColor = "rgba(255, 255, 255, 0.5)";
+  const beforeColor = "rgb(230, 230, 230)";
+  const afterColor = "rgba(230, 230, 230, 0.5)";
 
   const value = progressInput.value;
   const min = progressInput.min;
