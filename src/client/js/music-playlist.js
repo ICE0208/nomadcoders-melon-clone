@@ -71,22 +71,29 @@ export const initMusicPlayList = () => {
   const playlistContainer = document.querySelector(".playlist-container");
   const movingBar = playlistContainer.querySelector(".moving-bar");
   let isDragging = false;
-  let vecX = 0;
-  let vecY = 0;
+  let gapX = 0;
+  let gapY = 0;
 
   movingBar.addEventListener("mousedown", (event) => {
     isDragging = true;
     const rect = playlistContainer.getBoundingClientRect();
     const { width, height } = rect;
-    const x = rect.left + width / 2;
-    const y = rect.top + 20;
-    vecX = x - event.clientX;
-    vecY = y - event.clientY;
-    const startX = `${event.clientX + vecX}px`;
-    const startY = `${event.clientY + vecY}px`;
+    const centerX = window.innerWidth - rect.right + width / 2;
+    // !! 20은 위에서 selectbar 가운데 까지의 y 거리
+    const centerY = window.innerHeight - rect.bottom + height - 20;
+
+    const clickedX = window.innerWidth - event.clientX;
+    const clickedY = window.innerWidth - event.clientY;
+
+    gapX = clickedX - centerX;
+    gapY = clickedY - centerY;
+
+    const startX = `${clickedX - gapX}px`;
+    const startY = `${clickedY - gapY}px`;
+
     playlistContainer.classList.remove("fixed");
-    playlistContainer.style.left = startX;
-    playlistContainer.style.top = startY;
+    playlistContainer.style.right = startX;
+    playlistContainer.style.bottom = startY;
   });
   document.addEventListener("mouseup", () => {
     if (isDragging) {
@@ -95,8 +102,10 @@ export const initMusicPlayList = () => {
   });
   document.addEventListener("mousemove", (event) => {
     if (isDragging) {
-      playlistContainer.style.left = `${event.clientX + vecX}px`;
-      playlistContainer.style.top = `${event.clientY + vecY}px`;
+      const clickedX = window.innerWidth - event.clientX;
+      const clickedY = window.innerWidth - event.clientY;
+      playlistContainer.style.right = `${clickedX - gapX}px`;
+      playlistContainer.style.bottom = `${clickedY - gapY}px`;
     }
   });
 };
