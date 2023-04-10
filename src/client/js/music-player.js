@@ -1,6 +1,7 @@
 import * as mCR from "./musicController.js";
 import * as mL from "./music-like.js";
 import { musicSelectAnimation } from "./musicSelectAnimation";
+import { initMusicPlayList, loadPlaylist } from "./music-playlist.js";
 
 let youtubePlayer;
 const musicChartMusicThumbs = document.querySelectorAll(
@@ -30,6 +31,9 @@ const musicPlayerProgress = musicControllerDiv.querySelector(".music-progress");
 const musicPlayerProgressInput = musicPlayerProgress.querySelector(
   ".music-progress__controller"
 );
+const musicPlayerOverlayImg = musicPlayerContainer.querySelector(
+  ".player-container__music__overlay > img"
+);
 
 const CURRENT_MUSIC_ID_KEY = "currentMusicID";
 const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
@@ -44,6 +48,8 @@ const setRandomFirstMusicInfo = () => {
 
 // ? 음악을 선택했을 때 로드시켜주는 함수
 const loadNewMusic = (musicInfo) => {
+  musicPlayerOverlayImg.classList.add("invisible");
+  musicPlayerOverlayImg.classList.remove("pop");
   youtubePlayer.cueVideoById(musicInfo.ytID);
   commonInitMusic(musicInfo.ytID);
   youtubePlayer.hasFirstStarted = false;
@@ -56,8 +62,8 @@ const loadNewMusic = (musicInfo) => {
 const loadFirstMusic = () => {
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, firstMusicInfo.ytID);
   youtubePlayer = new YT.Player("youtube-player", {
-    width: "280",
-    height: "280",
+    width: "260",
+    height: "260",
     videoId: firstMusicInfo.ytID,
     events: {
       onReady: initAfterReady,
@@ -75,11 +81,16 @@ const loadFirstMusic = () => {
   commonInitMusic(firstMusicInfo.ytID);
 };
 
-// ? 플레이어를 처음, 나중에 로드할 때 공통 적용되는 세팅
-const commonInitMusic = (ytID) => {
+// ? 플레이어를 처음, 나중에 로드할 때 공통 적용되는 세팅 (로드 다 안되었을 때 실행됨)
+const commonInitMusic = async (ytID) => {
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, ytID);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
-  mL.loadLikeIcon();
+  const likedSongList = await mL.loadLikeIcon();
+  loadPlaylist(likedSongList);
+};
+
+const getThumb1280Url = (ytID) => {
+  return `https://img.youtube.com/vi/${ytID}/maxresdefault.jpg`;
 };
 
 // ? 현재 선택된 음악의 정보를 플레이어의 속성에 추가
@@ -124,6 +135,12 @@ const onplayerStateChange = (event) => {
 
     case YT.PlayerState.CUED:
       mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+      musicPlayerOverlayImg.setAttribute(
+        "src",
+        getThumb1280Url(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY))
+      );
+      musicPlayerOverlayImg.classList.remove("invisible");
+      musicPlayerOverlayImg.classList.add("pop");
       if (!youtubePlayer.hasFirstStarted) {
         setMusicInfo();
         musicPlayerProgressInput.max = youtubePlayer.getDuration();
@@ -200,6 +217,10 @@ const mcMusicThumbClickHandler = (event) => {
 const initAfterReady = () => {
   setPlayerInfo(firstMusicInfo);
   setMusicInfo();
+  musicPlayerOverlayImg.setAttribute(
+    "src",
+    getThumb1280Url(firstMusicInfo.ytID)
+  );
 
   // Play
   musicPlayerTogglePlay.addEventListener("click", (event) =>
@@ -220,6 +241,7 @@ const initAfterReady = () => {
   mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
 
   mL.initMusicLike();
+  initMusicPlayList();
 };
 
 musicPlayerInit();
