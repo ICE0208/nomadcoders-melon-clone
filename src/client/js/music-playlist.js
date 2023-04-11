@@ -93,18 +93,18 @@ const initChangeSort = () => {
   sortUpIcons.forEach((sortUpIcon) => {
     sortUpIcon.addEventListener("click", (event) => {
       const ytID = event.target.closest(".playlist__music").dataset.id;
-      postSongSortUp(ytID, "up");
+      postChangeSongSort(ytID, "up");
     });
   });
   sortDownIcons.forEach((sortDownIcon) => {
     sortDownIcon.addEventListener("click", (event) => {
       const ytID = event.target.closest(".playlist__music").dataset.id;
-      postSongSortUp(ytID, "down");
+      postChangeSongSort(ytID, "down");
     });
   });
 };
 
-const postSongSortUp = async (ytID, direction) => {
+const postChangeSongSort = async (ytID, direction) => {
   const playlist = document.querySelector(".playlist");
   playlist.classList.add("sort-changeing");
 
@@ -130,6 +130,7 @@ const postSongSortUp = async (ytID, direction) => {
     // 별 바꾸기
   } catch (err) {
     console.error("Error in changeSongSort function:", err);
+    playlist.classList.remove("sort-changeing");
   }
 };
 
