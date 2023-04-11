@@ -28,6 +28,17 @@ const createSongDiv = (songInfo) => {
   musicArtist.textContent = songInfo.artist;
   musicInfo.appendChild(musicArtist);
 
+  const sortController = document.createElement("div");
+  sortController.classList.add("sort-controller");
+  music.appendChild(sortController);
+
+  const sortUp = document.createElement("i");
+  sortUp.classList.add("fa-solid", "fa-caret-up");
+  const sortDown = document.createElement("i");
+  sortDown.classList.add("fa-solid", "fa-caret-down");
+  sortController.appendChild(sortUp);
+  sortController.appendChild(sortDown);
+
   return music;
 };
 

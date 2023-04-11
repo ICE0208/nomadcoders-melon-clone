@@ -1,7 +1,7 @@
 .playlist-container {
   @include flex-box(column, center, center);
   position: absolute;
-  width: 330px;
+  width: 350px;
   height: 600px;
   box-shadow: -7px 8px 4px 1px $shadow;
   &.fixed {
@@ -70,6 +70,31 @@
         .artist {
           font-size: 16px;
         }
+      }
+      .sort-controller {
+        @include flex-box(column, center, center);
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        margin-right: 4px;
+        gap: 24px;
+        i {
+          @include flex-box(column, center, center);
+          height: 8px;
+          font-size: 20px;
+          &.fa-caret-up::before {
+            transform: translateY(2px);
+          }
+          &.fa-caret-down::before {
+            transform: translateY(-1px);
+          }
+        }
+      }
+      &:hover > .sort-controller {
+        opacity: 1;
+      }
+      &:first-child > .sort-controller > .fa-caret-up,
+      &:last-child > .sort-controller > .fa-caret-down {
+        opacity: 0.5;
       }
     }
     .login-first-div {
