@@ -2,11 +2,12 @@ const getThumb320Url = (ytID) => {
   return `https://img.youtube.com/vi/${ytID}/mqdefault.jpg`;
 };
 
-const createSongDiv = (songInfo) => {
+const createSongDiv = (songInfo, index) => {
   // Create the main music list element
   const music = document.createElement("div");
   music.classList.add("playlist__music");
   music.dataset.id = songInfo.ytID;
+  music.dataset.order = index;
 
   // Create the music thumbnail element
   const musicThumb = document.createElement("img");
@@ -61,9 +62,9 @@ export const loadPlaylist = (likedSongList) => {
   );
   playlistContainer.innerHTML = "";
 
-  likedSongList.forEach((likedSongID) => {
+  likedSongList.forEach((likedSongID, index) => {
     const songInfo = window.musics.find((music) => music.ytID === likedSongID);
-    const songDiv = createSongDiv(songInfo);
+    const songDiv = createSongDiv(songInfo, index);
     playlistContainer.appendChild(songDiv);
   });
 
@@ -92,7 +93,6 @@ const initChangeSort = () => {
   sortUpIcons.forEach((sortUpIcon) => {
     sortUpIcon.addEventListener("click", (event) => {
       const ytID = event.target.closest(".playlist__music").dataset.id;
-      console.log("1");
       postSongSortUp(ytID, "up");
     });
   });
@@ -105,8 +105,10 @@ const initChangeSort = () => {
 };
 
 const postSongSortUp = async (ytID, direction) => {
-  let likedSongList = [];
+  const playlist = document.querySelector(".playlist");
+  playlist.classList.add("sort-changeing");
 
+  let likedSongList = [];
   try {
     const response = await fetch(`api/songs/${ytID}/sort${direction}`, {
       method: "POST",
@@ -119,11 +121,31 @@ const postSongSortUp = async (ytID, direction) => {
     }
     // ? 정상적으로 처리되었을 때
     likedSongList = info.likedSongList;
-    loadPlaylist(likedSongList);
+    songSortChangeAnimation(ytID, direction);
+    setTimeout(() => {
+      loadPlaylist(likedSongList);
+      playlist.classList.remove("sort-changeing");
+    }, 300);
 
     // 별 바꾸기
   } catch (err) {
     console.error("Error in changeSongSort function:", err);
+  }
+};
+
+const songSortChangeAnimation = (ytID, direction) => {
+  const target = document.querySelector(`.playlist__music[data-id="${ytID}"]`);
+  const targetOrder = parseInt(target.dataset.order);
+  const target2Order = direction === "up" ? targetOrder - 1 : targetOrder + 1;
+  const target2 = document.querySelector(
+    `.playlist__music[data-order="${target2Order}"]`
+  );
+  if (direction === "up") {
+    target.classList.add("up");
+    target2.classList.add("down");
+  } else {
+    target.classList.add("down");
+    target2.classList.add("up");
   }
 };
 
