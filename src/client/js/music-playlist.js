@@ -6,6 +6,7 @@ const createSongDiv = (songInfo) => {
   // Create the main music list element
   const music = document.createElement("div");
   music.classList.add("playlist__music");
+  music.dataset.id = songInfo.ytID;
 
   // Create the music thumbnail element
   const musicThumb = document.createElement("img");
@@ -75,10 +76,58 @@ export const loadPlaylist = (likedSongList) => {
       const nothingMsg = createMsgDiv("Nothing here");
       playlistContainer.appendChild(nothingMsg);
     }
+    return;
   }
+  initChangeSort();
 };
 
 export const initMusicPlayList = () => {
+  initMoving();
+};
+
+const initChangeSort = () => {
+  const sortUpIcons = document.querySelectorAll(".fa-caret-up");
+  const sortDownIcons = document.querySelectorAll(".fa-caret-down");
+
+  sortUpIcons.forEach((sortUpIcon) => {
+    sortUpIcon.addEventListener("click", (event) => {
+      const ytID = event.target.closest(".playlist__music").dataset.id;
+      console.log("1");
+      postSongSortUp(ytID, "up");
+    });
+  });
+  sortDownIcons.forEach((sortDownIcon) => {
+    sortDownIcon.addEventListener("click", (event) => {
+      const ytID = event.target.closest(".playlist__music").dataset.id;
+      postSongSortUp(ytID, "down");
+    });
+  });
+};
+
+const postSongSortUp = async (ytID, direction) => {
+  let likedSongList = [];
+
+  try {
+    const response = await fetch(`api/songs/${ytID}/sort${direction}`, {
+      method: "POST",
+    });
+    const info = await response.json();
+    if (!response.ok) {
+      throw new Error(
+        `Can't change the likedSong List. Server responded with ${response.status}: ${info.msg}`
+      );
+    }
+    // ? 정상적으로 처리되었을 때
+    likedSongList = info.likedSongList;
+    loadPlaylist(likedSongList);
+
+    // 별 바꾸기
+  } catch (err) {
+    console.error("Error in changeSongSort function:", err);
+  }
+};
+
+const initMoving = () => {
   const playlistContainer = document.querySelector(".playlist-container");
   const movingBar = playlistContainer.querySelector(".moving-bar");
   let isDragging = false;

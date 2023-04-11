@@ -74,13 +74,15 @@
       .sort-controller {
         @include flex-box(column, center, center);
         opacity: 0;
-        transition: opacity 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
         margin-right: 4px;
         gap: 24px;
         i {
           @include flex-box(column, center, center);
           height: 8px;
           font-size: 20px;
+          transform: scale(1);
+          cursor: pointer;
           &.fa-caret-up::before {
             transform: translateY(2px);
           }
@@ -91,10 +93,13 @@
       }
       &:hover > .sort-controller {
         opacity: 1;
+        transform: scale(1.1);
       }
       &:first-child > .sort-controller > .fa-caret-up,
       &:last-child > .sort-controller > .fa-caret-down {
         opacity: 0.5;
+        cursor: default;
+        pointer-events: none;
       }
     }
     .login-first-div {
