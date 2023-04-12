@@ -2,6 +2,12 @@ import * as mCR from "./musicController.js";
 import * as mL from "./music-like.js";
 import { musicSelectAnimation } from "./musicSelectAnimation";
 import { initMusicPlayList, loadPlaylist } from "./music-playlist.js";
+import {
+  getCurPlayFrom,
+  getPostPlayFrom,
+  setCurPlayFrom,
+  setPostPlayFrom,
+} from "./play-next.js";
 
 let youtubePlayer;
 const musicChartMusicThumbs = document.querySelectorAll(
@@ -35,7 +41,7 @@ const musicPlayerOverlayImg = musicPlayerContainer.querySelector(
   ".player-container__music__overlay > img"
 );
 
-const CURRENT_MUSIC_ID_KEY = "currentMusicID";
+export const CURRENT_MUSIC_ID_KEY = "currentMusicID";
 export const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
 let firstMusicInfo = {};
 
@@ -201,9 +207,14 @@ export const createVirtualImg = () => {
 const mcMusicThumbClickHandler = (event) => {
   const music = event.target.closest(".mc-music-list__music");
   const musicInfo = JSON.parse(music.dataset.music);
+
+  setPostPlayFrom("chart");
   if (musicInfo.ytID === sessionStorage.getItem(WILL_CHANGE_MUSIC_ID_KEY)) {
-    return;
+    if (getPostPlayFrom() === getCurPlayFrom()) {
+      return;
+    }
   }
+  setCurPlayFrom("chart");
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, musicInfo.ytID);
 
   const virtualImg = createVirtualImg();
@@ -216,12 +227,13 @@ const mcMusicThumbClickHandler = (event) => {
 
 // ? init 다음으로 첫 번째 영상이 로드되면 '자동으로' 실행됨
 const initAfterReady = () => {
-  setPlayerInfo(firstMusicInfo);
-  setMusicInfo();
   musicPlayerOverlayImg.setAttribute(
     "src",
     getThumb1280Url(firstMusicInfo.ytID)
   );
+  setPlayerInfo(firstMusicInfo);
+  setMusicInfo();
+  setCurPlayFrom("chart");
 
   // Play
   musicPlayerTogglePlay.addEventListener("click", (event) =>
@@ -240,6 +252,10 @@ const initAfterReady = () => {
   mCR.initProgressController(musicPlayerProgress, youtubePlayer);
   musicPlayerProgressInput.max = youtubePlayer.getDuration();
   mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
+
+  // Move to next, privous song
+  mCR.initNextSongController();
+  mCR.initPreviousSongController();
 
   mL.initMusicLike();
   initMusicPlayList(loadNewMusic);

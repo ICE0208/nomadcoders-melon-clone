@@ -5,15 +5,25 @@ import {
   musicPlayerMusic,
 } from "./music-player";
 import { musicSelectAnimation } from "./musicSelectAnimation";
+import {
+  getCurPlayFrom,
+  getPostPlayFrom,
+  setCurPlayFrom,
+  setPostPlayFrom,
+} from "./play-next";
 
 const playlistThumbClickHandler = (event) => {
   const music = event.target.closest(".playlist__music");
   const selectedID = music.dataset.id;
   const musicInfo = window.musics.find((music) => music.ytID === selectedID);
 
+  setPostPlayFrom("playlist");
   if (musicInfo.ytID === sessionStorage.getItem(WILL_CHANGE_MUSIC_ID_KEY)) {
-    return;
+    if (getPostPlayFrom() === getCurPlayFrom()) {
+      return;
+    }
   }
+  setCurPlayFrom("playlist");
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, musicInfo.ytID);
 
   const virtualImg = createVirtualImg();

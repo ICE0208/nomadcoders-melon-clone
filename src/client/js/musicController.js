@@ -1,3 +1,5 @@
+import { moveToNextSong, moveToPreviousSong } from "./play-next";
+
 // ! Play Controls
 export const togglePlayer = (player, playToggleIcon) => {
   if (player.getPlayerState() == YT.PlayerState.PLAYING) {
@@ -197,3 +199,18 @@ export const setInputColor = (progressInput) => {
   const percentage = ((value - min) / (max - min)) * 100;
   progressInput.style.background = `linear-gradient(to right, ${beforeColor} 0%, ${beforeColor} ${percentage}%, ${afterColor} ${percentage}%, ${afterColor} 100%)`;
 };
+
+export const initNextSongController = () => {
+  const nextSongIcon = document.querySelector(
+    ".music-controll__after-music > i"
+  );
+  nextSongIcon.addEventListener("click", moveToNextSong);
+};
+export const initPreviousSongController = () => {
+  const nextSongIcon = document.querySelector(
+    ".music-controll__before-music > i"
+  );
+  nextSongIcon.addEventListener("click", moveToPreviousSong);
+};
+
+console.log("musicController.js");
