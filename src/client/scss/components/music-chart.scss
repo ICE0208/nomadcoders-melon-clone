@@ -19,6 +19,7 @@
     transition: all $mc-toggle-delay ease-in-out;
     transform: scale(1.2);
     will-change: transform, left;
+    cursor: pointer;
     .mc-arrow__up,
     .mc-arrow__down {
       width: 30px;
