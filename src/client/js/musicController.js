@@ -158,6 +158,7 @@ export const initProgressController = (progress, player) => {
         player.playing = false;
         player.stopVideo();
         curTime.innerText = maxTime.innerText;
+        moveToNextSong("auto");
       } else {
         progressSeekPlayer(player, progressInput.value);
       }
@@ -200,17 +201,22 @@ export const setInputColor = (progressInput) => {
   progressInput.style.background = `linear-gradient(to right, ${beforeColor} 0%, ${beforeColor} ${percentage}%, ${afterColor} ${percentage}%, ${afterColor} 100%)`;
 };
 
+// ! Move to next, previous song
 export const initNextSongController = () => {
   const nextSongIcon = document.querySelector(
     ".music-controll__after-music > i"
   );
-  nextSongIcon.addEventListener("click", moveToNextSong);
+  nextSongIcon.addEventListener("click", () => {
+    moveToNextSong("auto");
+  });
 };
 export const initPreviousSongController = () => {
   const nextSongIcon = document.querySelector(
     ".music-controll__before-music > i"
   );
-  nextSongIcon.addEventListener("click", moveToPreviousSong);
+  nextSongIcon.addEventListener("click", () => {
+    moveToPreviousSong("auto");
+  });
 };
 
 console.log("musicController.js");

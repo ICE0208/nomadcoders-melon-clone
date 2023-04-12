@@ -3,8 +3,12 @@ import * as mL from "./music-like.js";
 import { musicSelectAnimation } from "./musicSelectAnimation";
 import { initMusicPlayList, loadPlaylist } from "./music-playlist.js";
 import {
+  getAutoPlay,
   getCurPlayFrom,
   getPostPlayFrom,
+  isPlayedFromPlaylist,
+  moveToNextSong,
+  setAutoPlay,
   setCurPlayFrom,
   setPostPlayFrom,
 } from "./play-next.js";
@@ -117,7 +121,7 @@ const setMusicInfo = () => {
 };
 
 // ? 뮤직 플레어어의 상태가 변함에 따라 자동으로 실행되는 함수
-const onplayerStateChange = (event) => {
+const onplayerStateChange = async (event) => {
   const playerState = event.data;
 
   switch (playerState) {
@@ -134,6 +138,9 @@ const onplayerStateChange = (event) => {
       youtubePlayer.playing = false;
       youtubePlayer.stopVideo();
       mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+      if (isPlayedFromPlaylist() === true) {
+        await moveToNextSong("auto");
+      }
       break;
 
     case YT.PlayerState.PAUSED:
@@ -154,6 +161,11 @@ const onplayerStateChange = (event) => {
         musicPlayerProgressInput.value = 0;
         mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
       }
+      if (getAutoPlay() === "auto") {
+        youtubePlayer.playVideo();
+        setAutoPlay("none");
+      }
+
       break;
 
     default:
@@ -215,6 +227,7 @@ const mcMusicThumbClickHandler = (event) => {
     }
   }
   setCurPlayFrom("chart");
+  setAutoPlay("none");
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, musicInfo.ytID);
 
   const virtualImg = createVirtualImg();
@@ -234,6 +247,7 @@ const initAfterReady = () => {
   setPlayerInfo(firstMusicInfo);
   setMusicInfo();
   setCurPlayFrom("chart");
+  setAutoPlay("none");
 
   // Play
   musicPlayerTogglePlay.addEventListener("click", (event) =>

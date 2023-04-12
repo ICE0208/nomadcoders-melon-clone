@@ -8,6 +8,7 @@ import { musicSelectAnimation } from "./musicSelectAnimation";
 import {
   getCurPlayFrom,
   getPostPlayFrom,
+  setAutoPlay,
   setCurPlayFrom,
   setPostPlayFrom,
 } from "./play-next";
@@ -24,6 +25,7 @@ const playlistThumbClickHandler = (event) => {
     }
   }
   setCurPlayFrom("playlist");
+  setAutoPlay("none");
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, musicInfo.ytID);
 
   const virtualImg = createVirtualImg();

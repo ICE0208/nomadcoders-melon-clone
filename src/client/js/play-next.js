@@ -1,7 +1,18 @@
+import { ServerlessApplicationRepository } from "aws-sdk";
 import { CURRENT_MUSIC_ID_KEY, loadNewMusic } from "./music-player";
 
 const CUR_PLAY_FROM_KEY = "currentPlayFrom";
 const POST_PLAY_FROM_KEY = "postPlayFrom";
+const AUTO_PLAY_KEY = "autoPlay";
+
+export const setAutoPlay = (state) => {
+  if (state !== "auto" && state !== "none") {
+    console.error(`${state} is not valid state! only 'auto' and 'none'`);
+    return false;
+  }
+  sessionStorage.setItem(AUTO_PLAY_KEY, state);
+  return true;
+};
 
 export const setCurPlayFrom = (state) => {
   if (state !== "playlist" && state !== "chart") {
@@ -20,6 +31,9 @@ export const setPostPlayFrom = (state) => {
   return true;
 };
 
+export const getAutoPlay = () => {
+  return sessionStorage.getItem(AUTO_PLAY_KEY);
+};
 export const getPostPlayFrom = () => {
   return sessionStorage.getItem(POST_PLAY_FROM_KEY) || getCurPlayFrom();
 };
@@ -27,30 +41,30 @@ export const getCurPlayFrom = () => {
   return sessionStorage.getItem(CUR_PLAY_FROM_KEY) || "chart";
 };
 
-const isPlayedFromPlaylist = () => {
+export const isPlayedFromPlaylist = () => {
   return getCurPlayFrom() === "playlist";
 };
 
-export const moveToNextSong = () => {
+export const moveToNextSong = async (autoPlay = "none") => {
   if (!isPlayedFromPlaylist()) {
     console.error("you can't skip!");
     return false;
   }
-  return moveTo("next");
+  return await moveTo("next", autoPlay);
 
   // ! 다음곡으로 가는 코드 작성
 };
 
-export const moveToPreviousSong = () => {
+export const moveToPreviousSong = (autoPlay = "none") => {
   if (!isPlayedFromPlaylist()) {
     console.error("you can't skip!");
     return false;
   }
-  return moveTo("previous");
+  return moveTo("previous", autoPlay);
   // ! 이전곡으로 가는 코드 작성
 };
 
-const moveTo = async (target) => {
+const moveTo = async (target, autoPlay = "none") => {
   try {
     const response = await fetch(`api/songs/likedsong`, { method: "POST" });
     let { likedSongList } = await response.json();
@@ -77,6 +91,7 @@ const moveTo = async (target) => {
       const musicInfo = window.musics.find(
         (music) => music.ytID === likedSongList[curMusicIndex + 1]
       );
+      setAutoPlay(autoPlay);
       loadNewMusic(musicInfo);
     } else if (target === "previous") {
       if (curMusicIndex - 1 < 0) {
@@ -85,6 +100,7 @@ const moveTo = async (target) => {
       const musicInfo = window.musics.find(
         (music) => music.ytID === likedSongList[curMusicIndex - 1]
       );
+      setAutoPlay(autoPlay);
       loadNewMusic(musicInfo);
     } else {
       throw new Error(
