@@ -1,4 +1,10 @@
-import { WILL_CHANGE_MUSIC_ID_KEY, loadNewMusic } from "./music-player";
+import {
+  WILL_CHANGE_MUSIC_ID_KEY,
+  createVirtualImg,
+  loadNewMusic,
+  musicPlayerMusic,
+} from "./music-player";
+import { musicSelectAnimation } from "./musicSelectAnimation";
 
 const playlistThumbClickHandler = (event) => {
   const music = event.target.closest(".playlist__music");
@@ -10,7 +16,12 @@ const playlistThumbClickHandler = (event) => {
   }
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, musicInfo.ytID);
 
-  loadNewMusic(musicInfo);
+  const virtualImg = createVirtualImg();
+  musicSelectAnimation(event.target, musicPlayerMusic, virtualImg);
+
+  setTimeout(() => {
+    loadNewMusic(musicInfo);
+  }, 550);
 };
 
 const getThumb320Url = (ytID) => {

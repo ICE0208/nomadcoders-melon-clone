@@ -8,7 +8,7 @@ const musicChartMusicThumbs = document.querySelectorAll(
   ".mc-music-list__music__thumb"
 );
 const musicPlayerContainer = document.querySelector(".player-container");
-const musicPlayerMusic = musicPlayerContainer.querySelector(
+export const musicPlayerMusic = musicPlayerContainer.querySelector(
   ".player-container__music"
 );
 
@@ -189,7 +189,7 @@ const onYouTubeIframeAPIReady = () => {
 };
 
 // ? 가상 썸네일 이미지를 만들어 배치한 뒤, 리턴
-const createVirtualImg = () => {
+export const createVirtualImg = () => {
   const main = document.querySelector("main");
   const virtualImg = document.createElement("img");
   virtualImg.classList.add("virtual-img");
