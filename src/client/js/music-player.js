@@ -244,6 +244,7 @@ const initAfterReady = () => {
     "src",
     getThumb1280Url(firstMusicInfo.ytID)
   );
+  musicPlayerOverlayImg.classList.add("pop");
   setPlayerInfo(firstMusicInfo);
   setMusicInfo();
   setCurPlayFrom("chart");

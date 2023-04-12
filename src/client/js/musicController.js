@@ -82,6 +82,9 @@ export const initVolumeController = (volumeInput, player) => {
   const updateVolume = () => {
     if (!volumeInput.changing) {
       const volume = player.getVolume();
+      if (!volume) {
+        return;
+      }
       if (!(volume < -1)) {
         volumeInput.value = volume;
         saveVolume(volume);
