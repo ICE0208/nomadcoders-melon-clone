@@ -1,4 +1,5 @@
 import { loadPlaylist } from "./music-playlist";
+import { setCurPlayFrom } from "./play-next";
 
 export const initMusicLike = () => {
   let clicked = false;
@@ -49,12 +50,12 @@ const postSongLike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
 const postSongUnlike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
   clicked = true;
   let likedSongList = [];
+  const willChangeId = sessionStorage.getItem(CURRENT_MUSIC_ID_KEY);
 
   try {
-    const response = await fetch(
-      `api/songs/${sessionStorage.getItem(CURRENT_MUSIC_ID_KEY)}/unlike`,
-      { method: "POST" }
-    );
+    const response = await fetch(`api/songs/${willChangeId}/unlike`, {
+      method: "POST",
+    });
     const info = await response.json();
     if (!response.ok) {
       throw new Error(
@@ -66,6 +67,9 @@ const postSongUnlike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
     // ? 저장하는 동안 노래가 바뀌었을 수 있으므로 한번 더 확인
     if (!likedSongList.includes(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY))) {
       changeLikeIcon(likeIcon, "unlike");
+    }
+    if (willChangeId === sessionStorage.getItem(CURRENT_MUSIC_ID_KEY)) {
+      setCurPlayFrom("chart");
     }
     loadPlaylist(likedSongList);
 
