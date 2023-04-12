@@ -36,7 +36,7 @@ const musicPlayerOverlayImg = musicPlayerContainer.querySelector(
 );
 
 const CURRENT_MUSIC_ID_KEY = "currentMusicID";
-const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
+export const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
 let firstMusicInfo = {};
 
 // ? 처음 음악을 랜덤으로 선택하여 firstMusicInfo에 넣어준다.
@@ -47,7 +47,8 @@ const setRandomFirstMusicInfo = () => {
 };
 
 // ? 음악을 선택했을 때 로드시켜주는 함수
-const loadNewMusic = (musicInfo) => {
+export const loadNewMusic = (musicInfo) => {
+  if (!musicInfo) return;
   musicPlayerOverlayImg.classList.add("invisible");
   musicPlayerOverlayImg.classList.remove("pop");
   youtubePlayer.cueVideoById(musicInfo.ytID);
@@ -241,7 +242,7 @@ const initAfterReady = () => {
   mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
 
   mL.initMusicLike();
-  initMusicPlayList();
+  initMusicPlayList(loadNewMusic);
 };
 
-musicPlayerInit();
+console.log("music-player.js");

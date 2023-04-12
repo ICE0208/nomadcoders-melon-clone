@@ -1,3 +1,18 @@
+import { WILL_CHANGE_MUSIC_ID_KEY, loadNewMusic } from "./music-player";
+
+const playlistThumbClickHandler = (event) => {
+  const music = event.target.closest(".playlist__music");
+  const selectedID = music.dataset.id;
+  const musicInfo = window.musics.find((music) => music.ytID === selectedID);
+
+  if (musicInfo.ytID === sessionStorage.getItem(WILL_CHANGE_MUSIC_ID_KEY)) {
+    return;
+  }
+  sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, musicInfo.ytID);
+
+  loadNewMusic(musicInfo);
+};
+
 const getThumb320Url = (ytID) => {
   return `https://img.youtube.com/vi/${ytID}/mqdefault.jpg`;
 };
@@ -13,6 +28,7 @@ const createSongDiv = (songInfo, index) => {
   const musicThumb = document.createElement("img");
   musicThumb.classList.add("playlist__music__thumb");
   musicThumb.setAttribute("src", getThumb320Url(songInfo.ytID));
+  musicThumb.addEventListener("click", playlistThumbClickHandler);
   music.appendChild(musicThumb);
 
   // Create the music info element
@@ -57,6 +73,13 @@ const createMsgDiv = (msg) => {
 };
 
 export const loadPlaylist = (likedSongList) => {
+  const playlistMusicThumbs = document.querySelectorAll(
+    ".playlist__music__thumb"
+  );
+  playlistMusicThumbs.forEach((thumb) => {
+    thumb.removeEventListener("click", playlistThumbClickHandler);
+  });
+
   const playlistContainer = document.querySelector(
     ".playlist-container > .playlist"
   );
@@ -192,3 +215,5 @@ const initMoving = () => {
     }
   });
 };
+
+console.log("music-playlist.js");
