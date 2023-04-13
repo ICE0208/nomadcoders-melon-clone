@@ -131,9 +131,26 @@ export const loadPlaylist = (likedSongList) => {
 export const initMusicPlayList = () => {
   initMoving();
 
+  const playlistContainer = document.querySelector(".playlist-container");
   const playlistShowBtn = document.querySelector(".playlist-fix-area > i");
+  const playlistHideBtn = playlistContainer.querySelector(".hide-btn");
+  const playlistFixArea = document.querySelector(".playlist-fix-area");
   playlistShowBtn.addEventListener("click", () => {
-    console.log("hi");
+    playlistFixArea.classList.remove("show");
+    setTimeout(() => {
+      playlistContainer.classList.remove("hide");
+      playlistContainer.classList.add("fixed");
+    }, 400);
+  });
+  playlistHideBtn.addEventListener("click", () => {
+    playlistContainer.style.right = "";
+    playlistContainer.style.bottom = "";
+    playlistContainer.classList.remove("fixed");
+    playlistContainer.classList.remove("moving");
+    playlistContainer.classList.add("hide");
+    setTimeout(() => {
+      playlistFixArea.classList.add("show");
+    }, 400);
   });
 };
 
