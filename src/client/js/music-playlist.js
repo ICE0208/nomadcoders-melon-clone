@@ -130,6 +130,11 @@ export const loadPlaylist = (likedSongList) => {
 
 export const initMusicPlayList = () => {
   initMoving();
+
+  const playlistShowBtn = document.querySelector(".playlist-fix-area > i");
+  playlistShowBtn.addEventListener("click", () => {
+    console.log("hi");
+  });
 };
 
 const initChangeSort = () => {
@@ -223,10 +228,30 @@ const initMoving = () => {
     playlistContainer.classList.remove("fixed");
     playlistContainer.style.right = startX;
     playlistContainer.style.bottom = startY;
+    playlistContainer.classList.add("moving");
   });
   document.addEventListener("mouseup", () => {
     if (isDragging) {
       isDragging = false;
+      playlistContainer.classList.remove("moving");
+      const rect = playlistContainer.getBoundingClientRect();
+      const { left, top } = rect;
+      const right = window.innerWidth - rect.right;
+      const bottom = window.innerHeight - rect.bottom;
+      if (right < 0) {
+        playlistContainer.style.right = `${rect.width / 2}px`;
+      }
+      if (left < 0) {
+        playlistContainer.style.right = `${
+          window.innerWidth - rect.width / 2
+        }px`;
+      }
+      if (bottom < 0) {
+        playlistContainer.style.bottom = "580px";
+      }
+      if (top < 0) {
+        playlistContainer.style.bottom = `${window.innerHeight - 20}px`;
+      }
     }
   });
   document.addEventListener("mousemove", (event) => {

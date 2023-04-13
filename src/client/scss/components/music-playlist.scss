@@ -1,11 +1,17 @@
 .playlist-container {
   @include flex-box(column, center, center);
   position: absolute;
-  width: 350px;
+  width: $playlist-width;
   height: 600px;
   box-shadow: -7px 8px 4px 1px $shadow;
+  transition: all 0.3s ease-in-out;
+  &.moving {
+    transition: none;
+  }
+  &.hide {
+  }
   &.fixed {
-    bottom: 0;
+    bottom: 300px;
     right: 10px;
     transform: none;
     border-radius: 12px 12px 0 0;
@@ -146,4 +152,26 @@
     border-radius: 50%;
     cursor: pointer;
   }
+}
+
+.playlist-fix-area {
+  @include flex-box(row, center, center);
+  position: absolute;
+  width: $playlist-width;
+  height: 50px;
+  transform: translate(0, 0);
+  background-color: $main-darkblue;
+  opacity: 0.8;
+  right: 10px;
+  bottom: -50px;
+  border-radius: 10px 10px 0 0;
+  transition: all 0.3s ease-in-out;
+  i {
+    font-size: 28px;
+    color: $main-white;
+  }
+}
+
+.playlist-container.hide ~ .playlist-fix-area {
+  bottom: 0;
 }
