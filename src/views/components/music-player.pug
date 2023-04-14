@@ -8,8 +8,11 @@ div.player-container.no-drag
             div.music-info__text
                 span.music-info__text__title
                 span.music-info__text__artist 
-            div.music-info__like-btn
-                i.fa-regular.fa-star
+            div.music-info__btns
+                div.music-info__repeat-btn
+                    i.fa-solid.fa-repeat.inactive.no-display
+                div.music-info__like-btn
+                    i.fa-regular.fa-star
         div.music-progress
             input(type="range" value="0" min="0" max="1" step="any").music-progress__controller
             span.music-progress__cur-time 0:00

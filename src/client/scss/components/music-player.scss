@@ -59,9 +59,11 @@
     padding: 10px 46px;
     .music-info {
       @include flex-box(row, space-between, center);
+      gap: 6px;
       margin: 10px 0;
       color: white;
       height: 42px;
+      overflow: hidden; /* 넘친 내용 숨김 */
       .music-info__text {
         @include flex-box(column, space-around, start);
         gap: 4px;
@@ -70,15 +72,42 @@
         .music-info__text__title {
           font-size: 22px;
           font-weight: 600;
+          max-width: 240px;
+          white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 설정 */
+          overflow: hidden; /* 넘친 텍스트를 숨김 */
+          text-overflow: ellipsis; /* 생략 기호 (...)를 추가 */
         }
         .music-info__text__artist {
           font-size: 16px;
+          font-weight: 600;
+          max-width: 240px;
+          white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 설정 */
+          overflow: hidden; /* 넘친 텍스트를 숨김 */
+          text-overflow: ellipsis; /* 생략 기호 (...)를 추가 */
         }
       }
-      .music-info__like-btn {
-        font-size: 24px;
-        color: $music-player-icon;
-        cursor: pointer;
+      .music-info__btns {
+        @include flex-box(row, center, center);
+        gap: 14px;
+        .music-info__repeat-btn {
+          font-size: 24px;
+          color: $music-player-icon;
+          cursor: pointer;
+          .inactive {
+            color: $music-player-inactive-icon;
+          }
+          .no-display {
+            display: none;
+          }
+        }
+        .music-info__like-btn {
+          font-size: 24px;
+          color: $music-player-icon;
+          cursor: pointer;
+          .fa-regular {
+            color: $music-player-inactive-icon;
+          }
+        }
       }
     }
     .music-progress {

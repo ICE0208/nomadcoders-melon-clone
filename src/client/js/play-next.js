@@ -1,5 +1,10 @@
 import { ServerlessApplicationRepository } from "aws-sdk";
-import { CURRENT_MUSIC_ID_KEY, loadNewMusic } from "./music-player";
+import {
+  CURRENT_MUSIC_ID_KEY,
+  WILL_CHANGE_MUSIC_ID_KEY,
+  loadNewMusic,
+} from "./music-player";
+import { isRepeat } from "./music-repeat";
 
 const CUR_PLAY_FROM_KEY = "currentPlayFrom";
 const POST_PLAY_FROM_KEY = "postPlayFrom";
@@ -78,7 +83,7 @@ const moveTo = async (target, autoPlay = "none") => {
     }
 
     const curMusicID = sessionStorage.getItem(CURRENT_MUSIC_ID_KEY);
-    const curMusicIndex = likedSongList.indexOf(curMusicID);
+    let curMusicIndex = likedSongList.indexOf(curMusicID);
 
     if (curMusicIndex === -1) {
       throw new Error(`${curMusicID} is not found in the list`);
@@ -86,12 +91,17 @@ const moveTo = async (target, autoPlay = "none") => {
 
     if (target === "next") {
       if (curMusicIndex + 1 >= likedSongList.length) {
-        return false;
+        // 반복 중이 아니라면
+        if (!isRepeat()) {
+          return false;
+        }
+        curMusicIndex = -1;
       }
       const musicInfo = window.musics.find(
         (music) => music.ytID === likedSongList[curMusicIndex + 1]
       );
       setAutoPlay(autoPlay);
+      sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, musicInfo.ytID);
       loadNewMusic(musicInfo);
     } else if (target === "previous") {
       if (curMusicIndex - 1 < 0) {

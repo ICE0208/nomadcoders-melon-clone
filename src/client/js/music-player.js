@@ -12,6 +12,12 @@ import {
   setCurPlayFrom,
   setPostPlayFrom,
 } from "./play-next.js";
+import {
+  addNoDisplayRepeat,
+  inactiveRepeat,
+  initMusicRepeat,
+  removeNoDisplayRepeat,
+} from "./music-repeat.js";
 
 let youtubePlayer;
 const musicChartMusicThumbs = document.querySelectorAll(
@@ -67,6 +73,12 @@ export const loadNewMusic = (musicInfo) => {
   youtubePlayer.playing = false;
   setPlayerInfo(musicInfo);
   youtubePlayer.setVolume(mCR.getSavedVolume());
+  if (getCurPlayFrom() === "chart") {
+    inactiveRepeat();
+    addNoDisplayRepeat();
+  } else {
+    removeNoDisplayRepeat();
+  }
 };
 
 // ? 플레리어를 만들면서 처음 음악을 로드시켜주는 함수
@@ -273,6 +285,7 @@ const initAfterReady = () => {
   mCR.initPreviousSongController();
 
   mL.initMusicLike();
+  initMusicRepeat();
   initMusicPlayList(loadNewMusic);
 };
 
