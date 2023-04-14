@@ -34,12 +34,26 @@ main {
   align-items: center;
   overflow: hidden;
 }
+.background-image {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  right: 50%;
+  bottom: 50%;
+  transform: translate(50%, 60%) scale(1.7);
+  width: 100vh;
+  height: 100vh;
+  filter: blur(200px);
+  opacity: 0.85;
+  z-index: -1;
+}
 
 .border-bar {
   width: 100%;
   min-height: 4px;
   height: 4px;
-  background-color: $main-lightblue;
+  background-color: $border-bar;
   border-radius: 50px;
 }
 

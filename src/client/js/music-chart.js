@@ -56,7 +56,8 @@ mcArrow.addEventListener("mouseleave", mcArrowMouseLeaveHandler);
 mcArrow.addEventListener("click", mcArrowMouseClickHandler);
 
 export const musicChartJsInit = () => {
-  mcArrow.classList.add(CLASSNAME_VISIBLE);
+  mcArrow.style.transition = "all 0.4s ease-in-out";
+  mcArrow.click();
 };
 
 console.log("music-chart.js");

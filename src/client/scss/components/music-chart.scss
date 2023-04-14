@@ -16,8 +16,7 @@
     left: 20px;
     top: calc(50vh - 20px);
     opacity: 0;
-    transition: all $mc-toggle-delay ease-in-out;
-    transform: scale(1.2);
+    transform: scale(1);
     will-change: transform, left;
     cursor: pointer;
     .mc-arrow__up,
@@ -25,6 +24,7 @@
       width: 30px;
       height: 8px;
       transition: all $mc-toggle-delay ease-in-out;
+      border-radius: 6px;
     }
     .mc-arrow__up {
       transform: rotate($arrow-up-rotate);
@@ -41,7 +41,7 @@
       z-index: 3;
     }
     &:hover {
-      transform: scale(1.45);
+      transform: scale(1.2);
     }
     &.opened {
       left: 320px;

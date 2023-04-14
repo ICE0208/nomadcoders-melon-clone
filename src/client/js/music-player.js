@@ -18,6 +18,7 @@ import {
   initMusicRepeat,
   removeNoDisplayRepeat,
 } from "./music-repeat.js";
+import { musicChartJsInit } from "./music-chart.js";
 
 let youtubePlayer;
 const musicChartMusicThumbs = document.querySelectorAll(
@@ -112,6 +113,13 @@ const commonInitMusic = async (ytID) => {
   loadPlaylist(likedSongList);
 };
 
+const setBackgroundImage = () => {
+  const bg = document.querySelector(".background-image");
+  const curYtID = sessionStorage.getItem(CURRENT_MUSIC_ID_KEY);
+
+  bg.style.backgroundImage = `url(${getThumb1280Url(curYtID)})`;
+};
+
 const getThumb1280Url = (ytID) => {
   return `https://img.youtube.com/vi/${ytID}/maxresdefault.jpg`;
 };
@@ -168,6 +176,7 @@ const onplayerStateChange = async (event) => {
       musicPlayerOverlayImg.classList.remove("invisible");
       musicPlayerOverlayImg.classList.add("pop");
       if (!youtubePlayer.hasFirstStarted) {
+        setBackgroundImage();
         setMusicInfo();
         musicPlayerProgressInput.max = youtubePlayer.getDuration();
         musicPlayerProgressInput.value = 0;
@@ -261,6 +270,7 @@ const initAfterReady = () => {
   setMusicInfo();
   setCurPlayFrom("chart");
   setAutoPlay("none");
+  setBackgroundImage();
 
   // Play
   musicPlayerTogglePlay.addEventListener("click", (event) =>
@@ -286,6 +296,7 @@ const initAfterReady = () => {
 
   mL.initMusicLike();
   initMusicRepeat();
+  musicChartJsInit();
   initMusicPlayList(loadNewMusic);
 };
 

@@ -135,6 +135,9 @@ export const initMusicPlayList = () => {
   const playlistShowBtn = document.querySelector(".playlist-fix-area > i");
   const playlistHideBtn = playlistContainer.querySelector(".hide-btn");
   const playlistFixArea = document.querySelector(".playlist-fix-area");
+
+  playlistContainer.classList.remove("first");
+
   playlistShowBtn.addEventListener("click", () => {
     playlistFixArea.classList.remove("show");
     setTimeout(() => {
