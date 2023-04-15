@@ -1,5 +1,5 @@
 .mc-virtual-box {
-  @include flex-box(row, center, stretch);
+  @include flex-box(column, center, center);
   position: absolute;
   left: 0;
   top: 0;
@@ -9,18 +9,32 @@
   &.inactive {
     z-index: 1;
   }
+  .white-box {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+    background-color: $popup-box;
+    height: 140px;
+    width: 46px;
+    border-radius: 0 6px 6px 0;
+    opacity: 0;
+  }
   .mc-arrow {
-    @include flex-box(column, center);
+    @include flex-box(column, center, center);
     z-index: 2;
     position: absolute;
-    left: 20px;
-    top: calc(50vh - 20px);
+    left: 0;
+    top: 50%;
     opacity: 0;
-    transform: scale(1);
     will-change: transform, left;
+    box-sizing: border-box;
+    transform: translate(0, -50%);
     cursor: pointer;
     .mc-arrow__up,
     .mc-arrow__down {
+      margin-left: 6px;
+      left: 20px;
       width: 30px;
       height: 8px;
       transition: all $mc-toggle-delay ease-in-out;
@@ -41,10 +55,17 @@
       z-index: 3;
     }
     &:hover {
-      transform: scale(1.2);
+      transform: scale(1.2) translate(0, -50%);
     }
     &.opened {
       left: 320px;
+      padding-right: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      .mc-arrow__up,
+      .mc-arrow__down {
+        margin-left: 0;
+      }
       .mc-arrow__up {
         transform: rotate($arrow-up-opened-rotate);
         background-color: $arrow-opened-up;
@@ -58,6 +79,12 @@
     }
     &.visible {
       opacity: 0.8;
+      & ~ .white-box {
+        opacity: 1;
+      }
+      &.opened ~ .white-box {
+        opacity: 0;
+      }
     }
   }
   .mc-main-box {
@@ -76,21 +103,22 @@
     position: absolute;
     width: 100%;
     height: calc(100% - 200px);
+    max-height: 900px;
     margin: 100px 0;
     border-radius: 0 12px 12px 0;
     padding: 40px 24px;
     overflow: hidden;
     box-sizing: border-box;
-    .scroll-bar-hider {
-      @include flex-box(row, center, center);
-      position: absolute;
-      top: 44px;
-      right: 0;
-      height: calc(100% - 80px - #{$music-list-border-size * 2});
-      width: 40px;
-      background-color: $popup-box;
-      z-index: 1;
-    }
+    // .scroll-bar-hider {
+    //   @include flex-box(row, center, center);
+    //   position: absolute;
+    //   top: 44px;
+    //   right: 0;
+    //   height: calc(100% - 80px - #{$music-list-border-size * 2});
+    //   width: 40px;
+    //   background-color: $popup-box;
+    //   z-index: 1;
+    // }
     .mc-music-list {
       @include flex-box(column);
       flex-grow: 1;
@@ -101,6 +129,11 @@
       max-height: 100%; /* 추가된 부분 */
       overflow-y: auto; /* 추가된 부분 */
       overflow-x: hidden;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
       .mc-music-list__music {
         display: flex;
         gap: 10px;

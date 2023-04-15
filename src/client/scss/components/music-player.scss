@@ -6,6 +6,7 @@
   overflow: hidden;
   background-color: $music-player-bg;
   position: relative;
+  overflow: hidden;
 
   .player-container__music {
     @include flex-box(row, center, center);
