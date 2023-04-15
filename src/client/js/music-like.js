@@ -1,3 +1,7 @@
+import { loadPlaylist } from "./music-playlist";
+import { addNoDisplayRepeat, inactiveRepeat } from "./music-repeat";
+import { setCurPlayFrom } from "./play-next";
+
 export const initMusicLike = () => {
   let clicked = false;
   const likeIcon = document.querySelector(".music-info__like-btn > i");
@@ -34,6 +38,7 @@ const postSongLike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
     if (likedSongList.includes(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY))) {
       changeLikeIcon(likeIcon, "like");
     }
+    loadPlaylist(likedSongList);
 
     // 별 바꾸기
   } catch (err) {
@@ -46,12 +51,12 @@ const postSongLike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
 const postSongUnlike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
   clicked = true;
   let likedSongList = [];
+  const willChangeId = sessionStorage.getItem(CURRENT_MUSIC_ID_KEY);
 
   try {
-    const response = await fetch(
-      `api/songs/${sessionStorage.getItem(CURRENT_MUSIC_ID_KEY)}/unlike`,
-      { method: "POST" }
-    );
+    const response = await fetch(`api/songs/${willChangeId}/unlike`, {
+      method: "POST",
+    });
     const info = await response.json();
     if (!response.ok) {
       throw new Error(
@@ -61,10 +66,15 @@ const postSongUnlike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
     // ? 정상적으로 처리되었을 때
     likedSongList = info.likedSongList;
     // ? 저장하는 동안 노래가 바뀌었을 수 있으므로 한번 더 확인
-    console.log(likedSongList);
     if (!likedSongList.includes(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY))) {
       changeLikeIcon(likeIcon, "unlike");
     }
+    if (willChangeId === sessionStorage.getItem(CURRENT_MUSIC_ID_KEY)) {
+      setCurPlayFrom("chart");
+    }
+    loadPlaylist(likedSongList);
+    inactiveRepeat();
+    addNoDisplayRepeat();
 
     // 별 바꾸기
   } catch (err) {
@@ -97,21 +107,21 @@ export const loadLikeIcon = async () => {
 
     if (likedSongList === undefined) {
       if (authNav.classList.contains("logout-btn")) {
-        console.log("redirect");
         window.location.href = "/";
         return;
       }
       likedSongList = [];
     }
 
-    // ? 불러오는 동안 노래가 바뀌었을 수 있으므로 한번 더 확인
+    // ? 불러오는 동안 노래가 바뀌었을 수 있으므로 한번 더 <세션 스토리지에서> 확인
     if (likedSongList.includes(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY))) {
       changeLikeIcon(likeIcon, "like");
     } else {
       changeLikeIcon(likeIcon, "unlike");
     }
-    console.log(likedSongList);
+    return likedSongList;
   } catch (err) {
     console.error("Error in likeSong function:", err);
+    return [];
   }
 };

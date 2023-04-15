@@ -1,0 +1,191 @@
+.playlist-container {
+  @include flex-box(column, center, center);
+  position: absolute;
+  width: $playlist-width;
+  height: 600px;
+  box-shadow: -7px 8px 4px 1px $shadow;
+  transition: all 0.4s ease-in-out;
+  &.moving {
+    transition: none;
+  }
+  &.fixed {
+    bottom: 0px;
+    right: 10px;
+    transform: none;
+    border-radius: 12px 12px 0 0;
+  }
+  &.hide {
+    pointer-events: none;
+    bottom: -600px;
+    right: 10px;
+    transform: none;
+    filter: blur(5px);
+    opacity: 0.3;
+  }
+  &.first {
+    bottom: -600px;
+  }
+  transform: translate(50%, 580px);
+  background-color: $popup-box;
+  border-radius: 12px 12px;
+  box-sizing: border-box;
+  z-index: 3;
+  color: $popup-box-text;
+  padding: 40px 24px;
+  overflow: hidden;
+  .playlist {
+    @include flex-box(column);
+    align-self: center;
+    padding: 10px 0;
+    width: 90%;
+    flex-grow: 1;
+    position: relative;
+    gap: 30px;
+    box-sizing: border-box;
+    max-height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &.sort-changeing {
+      pointer-events: none;
+    }
+    .playlist__music {
+      position: relative;
+      width: 100%;
+      height: 64px;
+      display: flex;
+      gap: 10px;
+      transition: transform 0.3s ease-in-out;
+      .playlist__music__thumb {
+        transform: scale(1.01);
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      .playlist__music__infos {
+        @include flex-box(column, center);
+        position: relative;
+        flex-grow: 1;
+        max-width: 100%;
+        overflow: hidden;
+        gap: 12px;
+        .title {
+          display: block;
+          font-size: 22px;
+          font-weight: 400;
+          white-space: nowrap;
+          overflow: hidden;
+          width: 100%;
+          height: 24px;
+          text-overflow: ellipsis;
+        }
+        .artist {
+          font-size: 16px;
+        }
+      }
+      .sort-controller {
+        @include flex-box(column, center, center);
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+        margin-right: 4px;
+        gap: 24px;
+        i {
+          @include flex-box(column, center, center);
+          height: 8px;
+          font-size: 20px;
+          transform: scale(1);
+          cursor: pointer;
+          &.fa-caret-up::before {
+            transform: translateY(2px);
+          }
+          &.fa-caret-down::before {
+            transform: translateY(-1px);
+          }
+        }
+      }
+      &:hover > .sort-controller {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      &:first-child > .sort-controller > .fa-caret-up,
+      &:last-child > .sort-controller > .fa-caret-down {
+        opacity: 0.5;
+        cursor: default;
+        pointer-events: none;
+      }
+      &.up {
+        transform: translateY(-92px);
+        pointer-events: none;
+      }
+      &.down {
+        transform: translateY(92px);
+        pointer-events: none;
+      }
+    }
+    .login-first-div {
+      @include flex-box(row, center, center);
+      width: 100%;
+      height: 100%;
+      .login-first-div__text {
+        font-size: 28px;
+        opacity: 0.75;
+      }
+    }
+  }
+  .moving-bar {
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    transform: translate(-50%, -50%);
+    width: 140px;
+    height: 16px;
+    background-color: $main-black;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  .hide-btn {
+    position: absolute;
+    left: 10%;
+    top: 20px;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background-color: $main-black;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}
+
+.playlist-fix-area {
+  @include flex-box(row, center, center);
+  position: absolute;
+  width: $playlist-width;
+  height: 50px;
+  transform: translate(0, 0);
+  background-color: $popup-box;
+  right: 10px;
+  bottom: -50px;
+  border-radius: 10px 10px 0 0;
+  transition: all 0.4s ease-in-out;
+  filter: blur(5px);
+  opacity: 0.3;
+  i {
+    font-size: 28px;
+    color: $main-white;
+    cursor: pointer;
+  }
+}
+
+.playlist-fix-area.show {
+  bottom: 0;
+  filter: blur(0px);
+  opacity: 1;
+  z-index: 4;
+}

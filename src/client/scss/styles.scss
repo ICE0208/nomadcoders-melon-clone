@@ -7,6 +7,7 @@
 @import "./components/music-player.scss";
 @import "./components/music-chart.scss";
 @import "./components/header.scss";
+@import "./components/music-playlist.scss";
 // Example: @import "./components/message.scss";
 // Screens
 // Example: @import "./screens/search.scss";
@@ -31,4 +32,35 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+}
+.background-image {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  right: 50%;
+  bottom: 50%;
+  transform: translate(50%, 60%) scale(1.7);
+  width: 100vh;
+  height: 100vh;
+  filter: blur(200px);
+  opacity: 0.65;
+  z-index: -1;
+}
+
+.border-bar {
+  width: 100%;
+  min-height: 4px;
+  height: 4px;
+  background-color: $border-bar;
+  border-radius: 50px;
+}
+
+/* Disable text and image dragging */
+.no-drag {
+  -webkit-user-select: none; /* Safari/Chrome */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Standard */
 }

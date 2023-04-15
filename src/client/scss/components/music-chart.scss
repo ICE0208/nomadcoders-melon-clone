@@ -16,27 +16,29 @@
     left: 20px;
     top: calc(50vh - 20px);
     opacity: 0;
-    transition: all $mc-toggle-delay ease-in-out;
+    transform: scale(1);
     will-change: transform, left;
+    cursor: pointer;
     .mc-arrow__up,
     .mc-arrow__down {
       width: 30px;
       height: 8px;
       transition: all $mc-toggle-delay ease-in-out;
+      border-radius: 6px;
     }
     .mc-arrow__up {
       transform: rotate($arrow-up-rotate);
       transform-origin: 50% 100%;
       margin-bottom: 5px;
       background-color: $arrow-up;
-      z-index: 3;
+      z-index: 2;
     }
     .mc-arrow__down {
       transform: rotate($arrow-down-rotate);
       transform-origin: 50% 0%;
       margin-top: 5px;
       background-color: $arrow-down;
-      z-index: 2;
+      z-index: 3;
     }
     &:hover {
       transform: scale(1.2);
@@ -46,24 +48,26 @@
       .mc-arrow__up {
         transform: rotate($arrow-up-opened-rotate);
         background-color: $arrow-opened-up;
-        z-index: 2;
+        z-index: 3;
       }
       .mc-arrow__down {
         transform: rotate($arrow-down-opened-rotate);
         background-color: $arrow-opened-down;
-        z-index: 3;
+        z-index: 2;
       }
     }
     &.visible {
-      opacity: 1;
+      opacity: 0.8;
     }
   }
   .mc-main-box {
-    opacity: 0.8;
     &.opened {
       left: 0;
       opacity: 1;
     }
+    background-color: $popup-box;
+    color: $popup-box-text;
+    opacity: 0.8;
     @include flex-box(column, center, stretch);
     box-shadow: -20px 9px 4px 2px $shadow;
     left: calc(-#{$mc-virtual-box-size});
@@ -72,7 +76,6 @@
     position: absolute;
     width: 100%;
     height: calc(100% - 200px);
-    background-color: $music-chart-box;
     margin: 100px 0;
     border-radius: 0 12px 12px 0;
     padding: 40px 24px;
@@ -85,13 +88,8 @@
       right: 0;
       height: calc(100% - 80px - #{$music-list-border-size * 2});
       width: 40px;
-      background-color: $music-chart-box;
+      background-color: $popup-box;
       z-index: 1;
-    }
-    .gray-bar {
-      height: 4px;
-      background-color: $mc-gray-bar;
-      border-radius: 50px;
     }
     .mc-music-list {
       @include flex-box(column);
@@ -104,12 +102,12 @@
       overflow-y: auto; /* 추가된 부분 */
       overflow-x: hidden;
       .mc-music-list__music {
-        color: black;
         display: flex;
         gap: 10px;
         .mc-music-list__music__thumb {
           width: 64px;
           height: 64px;
+          transform: scale(1.01);
           object-fit: cover;
           &:hover {
             cursor: pointer;

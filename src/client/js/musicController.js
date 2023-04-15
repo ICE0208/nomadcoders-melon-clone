@@ -1,3 +1,5 @@
+import { moveToNextSong, moveToPreviousSong } from "./play-next";
+
 // ! Play Controls
 export const togglePlayer = (player, playToggleIcon) => {
   if (player.getPlayerState() == YT.PlayerState.PLAYING) {
@@ -80,6 +82,9 @@ export const initVolumeController = (volumeInput, player) => {
   const updateVolume = () => {
     if (!volumeInput.changing) {
       const volume = player.getVolume();
+      if (!volume) {
+        return;
+      }
       if (!(volume < -1)) {
         volumeInput.value = volume;
         saveVolume(volume);
@@ -156,6 +161,7 @@ export const initProgressController = (progress, player) => {
         player.playing = false;
         player.stopVideo();
         curTime.innerText = maxTime.innerText;
+        moveToNextSong("auto");
       } else {
         progressSeekPlayer(player, progressInput.value);
       }
@@ -188,7 +194,7 @@ export const initProgressController = (progress, player) => {
 
 // ! Volume + Progress
 export const setInputColor = (progressInput) => {
-  const beforeColor = "white";
+  const beforeColor = "rgb(255, 255, 255)";
   const afterColor = "rgba(255, 255, 255, 0.5)";
 
   const value = progressInput.value;
@@ -197,3 +203,23 @@ export const setInputColor = (progressInput) => {
   const percentage = ((value - min) / (max - min)) * 100;
   progressInput.style.background = `linear-gradient(to right, ${beforeColor} 0%, ${beforeColor} ${percentage}%, ${afterColor} ${percentage}%, ${afterColor} 100%)`;
 };
+
+// ! Move to next, previous song
+export const initNextSongController = () => {
+  const nextSongIcon = document.querySelector(
+    ".music-controll__after-music > i"
+  );
+  nextSongIcon.addEventListener("click", () => {
+    moveToNextSong("auto");
+  });
+};
+export const initPreviousSongController = () => {
+  const nextSongIcon = document.querySelector(
+    ".music-controll__before-music > i"
+  );
+  nextSongIcon.addEventListener("click", () => {
+    moveToPreviousSong("auto");
+  });
+};
+
+console.log("musicController.js");

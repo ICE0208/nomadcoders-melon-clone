@@ -1,13 +1,31 @@
 import * as mCR from "./musicController.js";
 import * as mL from "./music-like.js";
 import { musicSelectAnimation } from "./musicSelectAnimation";
+import { initMusicPlayList, loadPlaylist } from "./music-playlist.js";
+import {
+  getAutoPlay,
+  getCurPlayFrom,
+  getPostPlayFrom,
+  isPlayedFromPlaylist,
+  moveToNextSong,
+  setAutoPlay,
+  setCurPlayFrom,
+  setPostPlayFrom,
+} from "./play-next.js";
+import {
+  addNoDisplayRepeat,
+  inactiveRepeat,
+  initMusicRepeat,
+  removeNoDisplayRepeat,
+} from "./music-repeat.js";
+import { musicChartJsInit } from "./music-chart.js";
 
 let youtubePlayer;
 const musicChartMusicThumbs = document.querySelectorAll(
   ".mc-music-list__music__thumb"
 );
 const musicPlayerContainer = document.querySelector(".player-container");
-const musicPlayerMusic = musicPlayerContainer.querySelector(
+export const musicPlayerMusic = musicPlayerContainer.querySelector(
   ".player-container__music"
 );
 
@@ -30,9 +48,12 @@ const musicPlayerProgress = musicControllerDiv.querySelector(".music-progress");
 const musicPlayerProgressInput = musicPlayerProgress.querySelector(
   ".music-progress__controller"
 );
+const musicPlayerOverlayImg = musicPlayerContainer.querySelector(
+  ".player-container__music__overlay > img"
+);
 
-const CURRENT_MUSIC_ID_KEY = "currentMusicID";
-const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
+export const CURRENT_MUSIC_ID_KEY = "currentMusicID";
+export const WILL_CHANGE_MUSIC_ID_KEY = "willChangeMusicID";
 let firstMusicInfo = {};
 
 // ? 처음 음악을 랜덤으로 선택하여 firstMusicInfo에 넣어준다.
@@ -43,21 +64,30 @@ const setRandomFirstMusicInfo = () => {
 };
 
 // ? 음악을 선택했을 때 로드시켜주는 함수
-const loadNewMusic = (musicInfo) => {
+export const loadNewMusic = (musicInfo) => {
+  if (!musicInfo) return;
+  musicPlayerOverlayImg.classList.add("invisible");
+  musicPlayerOverlayImg.classList.remove("pop");
   youtubePlayer.cueVideoById(musicInfo.ytID);
   commonInitMusic(musicInfo.ytID);
   youtubePlayer.hasFirstStarted = false;
   youtubePlayer.playing = false;
   setPlayerInfo(musicInfo);
   youtubePlayer.setVolume(mCR.getSavedVolume());
+  if (getCurPlayFrom() === "chart") {
+    inactiveRepeat();
+    addNoDisplayRepeat();
+  } else {
+    removeNoDisplayRepeat();
+  }
 };
 
 // ? 플레리어를 만들면서 처음 음악을 로드시켜주는 함수
 const loadFirstMusic = () => {
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, firstMusicInfo.ytID);
   youtubePlayer = new YT.Player("youtube-player", {
-    width: "280",
-    height: "280",
+    width: "260",
+    height: "260",
     videoId: firstMusicInfo.ytID,
     events: {
       onReady: initAfterReady,
@@ -75,11 +105,23 @@ const loadFirstMusic = () => {
   commonInitMusic(firstMusicInfo.ytID);
 };
 
-// ? 플레이어를 처음, 나중에 로드할 때 공통 적용되는 세팅
-const commonInitMusic = (ytID) => {
+// ? 플레이어를 처음, 나중에 로드할 때 공통 적용되는 세팅 (로드 다 안되었을 때 실행됨)
+const commonInitMusic = async (ytID) => {
   sessionStorage.setItem(CURRENT_MUSIC_ID_KEY, ytID);
   mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
-  mL.loadLikeIcon();
+  const likedSongList = await mL.loadLikeIcon();
+  loadPlaylist(likedSongList);
+};
+
+const setBackgroundImage = () => {
+  const bg = document.querySelector(".background-image");
+  const curYtID = sessionStorage.getItem(CURRENT_MUSIC_ID_KEY);
+
+  bg.style.backgroundImage = `url(${getThumb1280Url(curYtID)})`;
+};
+
+const getThumb1280Url = (ytID) => {
+  return `https://img.youtube.com/vi/${ytID}/maxresdefault.jpg`;
 };
 
 // ? 현재 선택된 음악의 정보를 플레이어의 속성에 추가
@@ -99,7 +141,7 @@ const setMusicInfo = () => {
 };
 
 // ? 뮤직 플레어어의 상태가 변함에 따라 자동으로 실행되는 함수
-const onplayerStateChange = (event) => {
+const onplayerStateChange = async (event) => {
   const playerState = event.data;
 
   switch (playerState) {
@@ -116,6 +158,9 @@ const onplayerStateChange = (event) => {
       youtubePlayer.playing = false;
       youtubePlayer.stopVideo();
       mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+      if (isPlayedFromPlaylist() === true) {
+        await moveToNextSong("auto");
+      }
       break;
 
     case YT.PlayerState.PAUSED:
@@ -124,12 +169,24 @@ const onplayerStateChange = (event) => {
 
     case YT.PlayerState.CUED:
       mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
+      musicPlayerOverlayImg.setAttribute(
+        "src",
+        getThumb1280Url(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY))
+      );
+      musicPlayerOverlayImg.classList.remove("invisible");
+      musicPlayerOverlayImg.classList.add("pop");
       if (!youtubePlayer.hasFirstStarted) {
+        setBackgroundImage();
         setMusicInfo();
         musicPlayerProgressInput.max = youtubePlayer.getDuration();
         musicPlayerProgressInput.value = 0;
         mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
       }
+      if (getAutoPlay() === "auto") {
+        youtubePlayer.playVideo();
+        setAutoPlay("none");
+      }
+
       break;
 
     default:
@@ -171,7 +228,7 @@ const onYouTubeIframeAPIReady = () => {
 };
 
 // ? 가상 썸네일 이미지를 만들어 배치한 뒤, 리턴
-const createVirtualImg = () => {
+export const createVirtualImg = () => {
   const main = document.querySelector("main");
   const virtualImg = document.createElement("img");
   virtualImg.classList.add("virtual-img");
@@ -183,9 +240,15 @@ const createVirtualImg = () => {
 const mcMusicThumbClickHandler = (event) => {
   const music = event.target.closest(".mc-music-list__music");
   const musicInfo = JSON.parse(music.dataset.music);
+
+  setPostPlayFrom("chart");
   if (musicInfo.ytID === sessionStorage.getItem(WILL_CHANGE_MUSIC_ID_KEY)) {
-    return;
+    if (getPostPlayFrom() === getCurPlayFrom()) {
+      return;
+    }
   }
+  setCurPlayFrom("chart");
+  setAutoPlay("none");
   sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, musicInfo.ytID);
 
   const virtualImg = createVirtualImg();
@@ -198,8 +261,16 @@ const mcMusicThumbClickHandler = (event) => {
 
 // ? init 다음으로 첫 번째 영상이 로드되면 '자동으로' 실행됨
 const initAfterReady = () => {
+  musicPlayerOverlayImg.setAttribute(
+    "src",
+    getThumb1280Url(firstMusicInfo.ytID)
+  );
+  musicPlayerOverlayImg.classList.add("pop");
   setPlayerInfo(firstMusicInfo);
   setMusicInfo();
+  setCurPlayFrom("chart");
+  setAutoPlay("none");
+  setBackgroundImage();
 
   // Play
   musicPlayerTogglePlay.addEventListener("click", (event) =>
@@ -219,7 +290,14 @@ const initAfterReady = () => {
   musicPlayerProgressInput.max = youtubePlayer.getDuration();
   mCR.setMaxTime(musicPlayerProgress, youtubePlayer);
 
+  // Move to next, privous song
+  mCR.initNextSongController();
+  mCR.initPreviousSongController();
+
   mL.initMusicLike();
+  initMusicRepeat();
+  musicChartJsInit();
+  initMusicPlayList(loadNewMusic);
 };
 
-musicPlayerInit();
+console.log("music-player.js");

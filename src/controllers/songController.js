@@ -12,6 +12,98 @@ const getSongs = async (req, res) => {
   }
 };
 
+export const changeSongSortDown = async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(400).json({ msg: "is Not Authenticated!" });
+  }
+
+  const { id: ytID } = req.params;
+  const songs = await getSongs();
+  const songIDList = songs.map((song) => song.ytID);
+  if (!songIDList.includes(ytID)) {
+    return res
+      .status(400)
+      .json({ msg: `No song found with this ID (${ytID})!` });
+  }
+
+  const { id: userID } = req.user;
+  const user = await User.findOne({ userID });
+  if (!user) {
+    return res
+      .status(400)
+      .json({ msg: `No user found with this ID (${userID})!` });
+  }
+
+  const likedList = user.likedSong;
+  if (!likedList.includes(ytID)) {
+    return res.status(400).json({ msg: `Not in likedSong (${ytID})!` });
+  }
+
+  const songIndex = user.likedSong.indexOf(ytID);
+  if (songIndex < user.likedSong.length - 1) {
+    user.likedSong.splice(
+      songIndex,
+      2,
+      user.likedSong[songIndex + 1],
+      user.likedSong[songIndex]
+    );
+  } else {
+    return res.status(400).json({ msg: "Cannot move down the last song" });
+  }
+
+  req.session.likedSong = user.likedSong;
+  await user.save();
+  return res
+    .status(200)
+    .json({ msg: "SUCCESS", likedSongList: user.likedSong });
+};
+
+export const changeSongSortUp = async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(400).json({ msg: "is Not Authenticated!" });
+  }
+
+  const { id: ytID } = req.params;
+  const songs = await getSongs();
+  const songIDList = songs.map((song) => song.ytID);
+  if (!songIDList.includes(ytID)) {
+    return res
+      .status(400)
+      .json({ msg: `No song found with this ID (${ytID})!` });
+  }
+
+  const { id: userID } = req.user;
+  const user = await User.findOne({ userID });
+  if (!user) {
+    return res
+      .status(400)
+      .json({ msg: `No user found with this ID (${userID})!` });
+  }
+
+  const likedList = user.likedSong;
+  if (!likedList.includes(ytID)) {
+    return res.status(400).json({ msg: `Not in likedSong (${ytID})!` });
+  }
+
+  const songIndex = user.likedSong.indexOf(ytID);
+  if (songIndex > 0) {
+    user.likedSong.splice(
+      songIndex - 1,
+      2,
+      user.likedSong[songIndex],
+      user.likedSong[songIndex - 1]
+    );
+  } else {
+    return res.status(400).json({ msg: "Cannot move up the first song" });
+  }
+
+  req.session.likedSong = user.likedSong;
+  await user.save();
+  return res
+    .status(200)
+    .json({ msg: "SUCCESS", likedSongList: user.likedSong });
+};
+
 export const likeSong = async (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(400).json({ msg: "is Not Authenticated!" });

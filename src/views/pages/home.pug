@@ -3,9 +3,8 @@ extends ../layouts/base.pug
 block content
     include ../components/music-chart
     include ../components/music-player
+    include ../components/music-playlist
 block scripts
     script.
         window.musics = !{JSON.stringify(musics)};
     script(src="https://kit.fontawesome.com/bb24697e90.js" crossorigin="anonymous")
-    script(src="/static/js/music-chart.js")
-    script(src="/static/js/music-player.js")

@@ -11,15 +11,17 @@ export const musicSelectAnimation = (musicThumb, musicPlayer, virtualImg) => {
     y: playerRect.top + playerRect.height / 2,
   };
 
-  const musicVsPlayer = playerMid.y - musicMid.y > 0 ? 1 : -1;
+  const musicVsPlayerY = playerMid.y - musicMid.y > 0 ? 1 : -1;
+  const musicVsPlayerX = playerMid.x - musicMid.x > 0 ? 1 : -1;
 
   const DISTANCE_OFFSET = {
-    x: playerRect.left - musicRect.left + 150,
-    y: playerMid.y - musicMid.y + (playerRect.height / 6) * musicVsPlayer,
+    // x: playerRect.left - musicRect.left + 150,
+    x: playerMid.x - musicMid.x + (playerRect.width / 6) * musicVsPlayerX,
+    y: playerMid.y - musicMid.y + (playerRect.height / 6) * musicVsPlayerY,
   };
   const WAYPOINT_OFFSET = {
-    x: 180,
-    y: 80 * musicVsPlayer * -1,
+    x: 180 * musicVsPlayerX,
+    y: 80 * musicVsPlayerY * -1,
   };
 
   const keyframesName = `k${Date.now()}`;
@@ -28,7 +30,8 @@ export const musicSelectAnimation = (musicThumb, musicPlayer, virtualImg) => {
       keyframesName,
       WAYPOINT_OFFSET,
       DISTANCE_OFFSET,
-      musicVsPlayer
+      musicVsPlayerX,
+      musicVsPlayerY
     )
   );
 
@@ -48,7 +51,8 @@ const getKeyFrameString = (
   keyframesName,
   WAYPOINT_OFFSET,
   DISTANCE_OFFSET,
-  musicVsPlayer
+  musicVsPlayerX,
+  musicVsPlayerY
 ) => `
   @keyframes ${keyframesName} {
     0% {
@@ -60,7 +64,7 @@ const getKeyFrameString = (
       animation-timing-function: ease-out;
       transform: translate(${WAYPOINT_OFFSET.x}px, ${
   WAYPOINT_OFFSET.y
-}px) scale(1.6) rotate(${20 * musicVsPlayer}deg);
+}px) scale(1.6) rotate(${20 * musicVsPlayerY * musicVsPlayerX}deg);
       backface-visibility: hidden;
     }
     40% {
@@ -81,7 +85,7 @@ const getKeyFrameString = (
       animation-timing-function: linear;
       transform: translate(${DISTANCE_OFFSET.x}px, ${
   DISTANCE_OFFSET.y
-}px) scale(0) rotate(${120 * musicVsPlayer}deg);
+}px) scale(0) rotate(${120 * musicVsPlayerX * musicVsPlayerY}deg);
       backface-visibility: hidden;
     }
   }

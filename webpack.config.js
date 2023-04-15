@@ -3,18 +3,18 @@ const path = require("path");
 
 const BASE_JS = "./src/client/js/";
 
-const fs = require("fs");
-const jsFiles = fs.readdirSync(BASE_JS).filter((file) => file !== "main.js");
+// const fs = require("fs");
+// const jsFiles = fs.readdirSync(BASE_JS).filter((file) => file !== "main.js");
 
-const entry = jsFiles.reduce((entries, file) => {
-  const entryName = file.replace(".js", "");
-  entries[entryName] = BASE_JS + file;
-  return entries;
-}, {});
+// const entry = jsFiles.reduce((entries, file) => {
+//   const entryName = file.replace(".js", "");
+//   entries[entryName] = BASE_JS + file;
+//   return entries;
+// }, {});
 
 module.exports = {
   entry: {
-    ...entry,
+    // ...entry,
     main: BASE_JS + "main",
   },
   plugins: [
