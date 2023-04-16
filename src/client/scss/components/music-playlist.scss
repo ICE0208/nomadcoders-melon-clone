@@ -5,6 +5,14 @@
   height: 600px;
   box-shadow: -7px 8px 4px 1px $shadow;
   transition: all 0.4s ease-in-out;
+  transform: translate(50%, 580px);
+  background-color: $popup-box;
+  border-radius: 12px 12px;
+  box-sizing: border-box;
+  z-index: 4;
+  color: $popup-box-text;
+  padding: 40px 24px;
+  overflow: hidden;
   &.moving {
     transition: none;
   }
@@ -25,14 +33,7 @@
   &.first {
     bottom: -600px;
   }
-  transform: translate(50%, 580px);
-  background-color: $popup-box;
-  border-radius: 12px 12px;
-  box-sizing: border-box;
-  z-index: 3;
-  color: $popup-box-text;
-  padding: 40px 24px;
-  overflow: hidden;
+
   .playlist {
     @include flex-box(column);
     align-self: center;

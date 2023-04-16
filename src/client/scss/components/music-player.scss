@@ -7,6 +7,7 @@
   background-color: $music-player-bg;
   position: relative;
   overflow: hidden;
+  box-shadow: -7px 8px 4px 1px $shadow;
 
   .player-container__music {
     @include flex-box(row, center, center);
