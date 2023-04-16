@@ -8,12 +8,12 @@ header {
   box-sizing: border-box;
   .logo {
     @include flex-box(row, center, flex-end);
-    font-size: 34px;
+    font-size: 36px;
     text-shadow: -4px 4px 4px $shadow;
     font-weight: bold;
     .logo-g,
     .logo-m {
-      font-size: 40px;
+      font-size: 42px;
     }
   }
   .auth-nav {
