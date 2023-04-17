@@ -111,6 +111,7 @@ const moveTo = async (target, autoPlay = "none") => {
         (music) => music.ytID === likedSongList[curMusicIndex - 1]
       );
       setAutoPlay(autoPlay);
+      sessionStorage.setItem(WILL_CHANGE_MUSIC_ID_KEY, musicInfo.ytID);
       loadNewMusic(musicInfo);
     } else {
       throw new Error(

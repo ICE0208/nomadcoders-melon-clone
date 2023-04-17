@@ -10,6 +10,7 @@ const CLASSNAME_INACTIVE = "inactive";
 
 let arrowTimeoutIdList = [];
 let isEnteredInArrow = false;
+let isEnteredInWhiteBox = false;
 
 const toggleOpenMusicChart = () => {
   const opening = mcArrow.classList.toggle(CLASSNAME_OPENED);
@@ -28,7 +29,7 @@ const showArrowForThreeSeconds = () => {
   mcArrow.classList.add(CLASSNAME_VISIBLE);
   clearTimeout(...arrowTimeoutIdList);
   arrowTimeoutIdList = [];
-  if (isEnteredInArrow) {
+  if (isEnteredInArrow || isEnteredInWhiteBox) {
     return;
   }
   const arrowTimeoutId = setTimeout(() => {
@@ -50,10 +51,21 @@ const mcArrowMouseClickHandler = () => {
   showArrowForThreeSeconds();
 };
 
+const whiteBoxMouseEnterHandler = () => {
+  isEnteredInWhiteBox = true;
+  clearTimeout(...arrowTimeoutIdList);
+  arrowTimeoutIdList = [];
+};
+const whiteBoxMouseLeaveHandler = () => {
+  isEnteredInWhiteBox = false;
+};
+
 mcArrow.addEventListener("click", toggleOpenMusicChart);
 mcVirtualBox.addEventListener("mousemove", showArrowForThreeSeconds);
 mcArrow.addEventListener("mouseenter", mcArrowMouseEnterHandler);
 mcArrow.addEventListener("mouseleave", mcArrowMouseLeaveHandler);
+whiteBox.addEventListener("mouseenter", whiteBoxMouseEnterHandler);
+whiteBox.addEventListener("mouseleave", whiteBoxMouseLeaveHandler);
 mcArrow.addEventListener("click", mcArrowMouseClickHandler);
 
 export const musicChartJsInit = () => {

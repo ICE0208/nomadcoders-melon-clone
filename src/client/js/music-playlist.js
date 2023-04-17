@@ -130,6 +130,7 @@ export const loadPlaylist = (likedSongList) => {
 
 export const initMusicPlayList = () => {
   initMoving();
+  initShowPlaylist();
 
   const playlistContainer = document.querySelector(".playlist-container");
   const playlistShowBtn = document.querySelector(".playlist-fix-area > i");
@@ -152,8 +153,46 @@ export const initMusicPlayList = () => {
     playlistContainer.classList.remove("moving");
     playlistContainer.classList.add("hide");
     setTimeout(() => {
+      showFixAreaForThreeSeconds();
       playlistFixArea.classList.add("show");
     }, 400);
+  });
+};
+
+let fixAreaTimeoutIdList = [];
+let isEnteredInFixArea = false;
+
+const showFixAreaForThreeSeconds = () => {
+  const fixArea = document.querySelector(".playlist-fix-area");
+  const CLASSNAME_INVISIBLE = "invisible";
+  fixArea.classList.remove(CLASSNAME_INVISIBLE);
+  clearTimeout(...fixAreaTimeoutIdList);
+  fixAreaTimeoutIdList = [];
+  if (isEnteredInFixArea) {
+    return;
+  }
+  const fixAreaTimeoutId = setTimeout(() => {
+    fixArea.classList.add(CLASSNAME_INVISIBLE);
+  }, 3000);
+  fixAreaTimeoutIdList.push(fixAreaTimeoutId);
+};
+
+const initShowPlaylist = () => {
+  const fixArea = document.querySelector(".playlist-fix-area");
+
+  document.addEventListener("mousemove", (event) => {
+    const movedX = window.innerWidth - event.clientX;
+    if (movedX < 370) {
+      showFixAreaForThreeSeconds();
+    }
+  });
+  fixArea.addEventListener("mouseenter", () => {
+    isEnteredInFixArea = true;
+    clearTimeout(...fixAreaTimeoutIdList);
+    fixAreaTimeoutIdList = [];
+  });
+  fixArea.addEventListener("mouseleave", () => {
+    isEnteredInFixArea = false;
   });
 };
 
