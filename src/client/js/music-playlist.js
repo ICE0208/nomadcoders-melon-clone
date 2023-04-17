@@ -188,6 +188,8 @@ const initShowPlaylist = () => {
   });
   fixArea.addEventListener("mouseenter", () => {
     isEnteredInFixArea = true;
+    clearTimeout(...fixAreaTimeoutIdList);
+    fixAreaTimeoutIdList = [];
   });
   fixArea.addEventListener("mouseleave", () => {
     isEnteredInFixArea = false;

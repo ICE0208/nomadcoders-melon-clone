@@ -53,7 +53,6 @@ const mcArrowMouseClickHandler = () => {
 
 const whiteBoxMouseEnterHandler = () => {
   isEnteredInWhiteBox = true;
-  console.log("??");
   clearTimeout(...arrowTimeoutIdList);
   arrowTimeoutIdList = [];
 };
