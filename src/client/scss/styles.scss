@@ -79,3 +79,13 @@ main {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Standard */
 }
+
+.tag {
+  position: absolute;
+  left: 28px;
+  bottom: 12px;
+  color: $tag;
+  font-weight: 600;
+  font-size: 18px;
+  // text-transform: uppercase;
+}

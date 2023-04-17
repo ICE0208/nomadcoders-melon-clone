@@ -19,6 +19,8 @@ $moving-bar: $light-gray;
 $border-bar: $light-blue;
 $hide-btn: $light-red;
 
+$tag: $main-lightgray;
+
 // ! Music Chart
 $music-list-border-size: 4px;
 
@@ -39,7 +41,8 @@ $mc-toggle-delay: 0.4s;
 // ! Music Player
 $music-player-bg: $main-lightgray;
 $music-player-icon: $main-white;
-$music-player-inactive-icon: rgb(220, 220, 220, 0.7);
+$music-player-inactive-repeat-icon: rgba(220, 220, 220, 0.7);
+$music-player-inactive-like-icon: rgba(255, 255, 255, 0.7);
 $music-player-text: $main-white;
 
 // ! playlist

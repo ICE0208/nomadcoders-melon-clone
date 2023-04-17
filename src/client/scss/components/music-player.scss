@@ -106,7 +106,7 @@
           color: $music-player-icon;
           cursor: pointer;
           .inactive {
-            color: $music-player-inactive-icon;
+            color: $music-player-inactive-repeat-icon;
           }
           .no-display {
             display: none;
@@ -117,7 +117,7 @@
           color: $music-player-icon;
           cursor: pointer;
           .fa-regular {
-            color: $music-player-inactive-icon;
+            color: $music-player-inactive-like-icon;
           }
         }
       }
