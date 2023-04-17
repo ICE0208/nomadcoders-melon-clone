@@ -2,6 +2,7 @@ const mcArrow = document.querySelector(".mc-arrow");
 const mcMainBox = document.querySelector(".mc-main-box");
 const mcVirtualBox = document.querySelector(".mc-virtual-box");
 const musicImgs = document.querySelectorAll(".mc-music-list__music > img");
+const whiteBox = document.querySelector(".white-box");
 
 const CLASSNAME_OPENED = "opened";
 const CLASSNAME_VISIBLE = "visible";
@@ -57,6 +58,7 @@ mcArrow.addEventListener("click", mcArrowMouseClickHandler);
 
 export const musicChartJsInit = () => {
   mcArrow.style.transition = "all 0.4s ease-in-out";
+  whiteBox.style.transition = "all 0.4s ease-in-out";
   mcArrow.click();
 };
 

@@ -3,11 +3,13 @@ include ../mixins/music
     div.mc-arrow
         div.mc-arrow__up
         div.mc-arrow__down
+    div.white-box
     .mc-main-box
-        div.scroll-bar-hider
+        //- div.scroll-bar-hider
         div.border-bar
         div.mc-music-list
             if musics
                 each music in musics
                     +music(music)
         div.border-bar
+        span.tag #Chart

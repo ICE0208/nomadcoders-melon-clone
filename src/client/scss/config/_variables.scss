@@ -3,26 +3,31 @@ $main-gray: #454545;
 $main-lightgray: rgb(190, 190, 190);
 $main-black: #000000;
 $main-white: rgb(255, 255, 255);
-$main-blue: #34a3d2;
-$main-darkblue: #0d3d56;
-$main-lightblue: #1a6188;
-$main-whiteblue: #567fad;
 
-$popup-box: $main-gray;
-$popup-box-text: rgb(230, 230, 230);
+$popup-box: #f3f3f3;
+$popup-box-text: $main-black;
 
-$bg: $main-black;
+$bg: #6db7d2;
 $shadow: rgba(0, 0, 0, 0.3);
 
-$border-bar: rgb(10, 10, 10);
+$light-green: #bfd8d5;
+$light-blue: #b1bed5;
+$light-red: #ffcece;
+$light-gray: #dfdddd;
+
+$moving-bar: $light-gray;
+$border-bar: $light-blue;
+$hide-btn: $light-red;
+
+$tag: $main-lightgray;
 
 // ! Music Chart
 $music-list-border-size: 4px;
 
-$arrow-up: #898989;
-$arrow-down: $main-white;
-$arrow-opened-up: $main-white;
-$arrow-opened-down: $main-black;
+$arrow-up: $light-green;
+$arrow-down: $light-green;
+$arrow-opened-up: $light-red;
+$arrow-opened-down: $light-red;
 
 $arrow-up-rotate: 45deg;
 $arrow-down-rotate: -45deg;
@@ -36,7 +41,8 @@ $mc-toggle-delay: 0.4s;
 // ! Music Player
 $music-player-bg: $main-lightgray;
 $music-player-icon: $main-white;
-$music-player-inactive-icon: rgb(220, 220, 220, 0.7);
+$music-player-inactive-repeat-icon: rgba(220, 220, 220, 0.7);
+$music-player-inactive-like-icon: rgba(255, 255, 255, 0.7);
 $music-player-text: $main-white;
 
 // ! playlist

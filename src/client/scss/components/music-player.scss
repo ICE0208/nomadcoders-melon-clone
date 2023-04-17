@@ -6,6 +6,8 @@
   overflow: hidden;
   background-color: $music-player-bg;
   position: relative;
+  overflow: hidden;
+  box-shadow: -7px 8px 4px 1px $shadow;
 
   .player-container__music {
     @include flex-box(row, center, center);
@@ -104,7 +106,7 @@
           color: $music-player-icon;
           cursor: pointer;
           .inactive {
-            color: $music-player-inactive-icon;
+            color: $music-player-inactive-repeat-icon;
           }
           .no-display {
             display: none;
@@ -115,7 +117,7 @@
           color: $music-player-icon;
           cursor: pointer;
           .fa-regular {
-            color: $music-player-inactive-icon;
+            color: $music-player-inactive-like-icon;
           }
         }
       }

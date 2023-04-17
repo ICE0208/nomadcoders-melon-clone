@@ -34,19 +34,34 @@ main {
   align-items: center;
   overflow: hidden;
 }
+.body-background {
+  position: absolute;
+  background-image: url("https://drive.google.com/uc?id=1xnIKUV-Ar3ZC3fYXUnduaeTcQ4ZfWl7M");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+}
+
 .background-image {
+  width: 300px;
+  height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
   right: 50%;
   bottom: 50%;
-  transform: translate(50%, 60%) scale(1.7);
-  width: 100vh;
-  height: 100vh;
-  filter: blur(200px);
-  opacity: 0.65;
+  transform: translate(50%, 60%) scale(2);
+  filter: blur(30px);
+  opacity: 0.95;
   z-index: -1;
+  overflow: hidden;
 }
 
 .border-bar {
@@ -63,4 +78,14 @@ main {
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Standard */
+}
+
+.tag {
+  position: absolute;
+  left: 28px;
+  bottom: 12px;
+  color: $tag;
+  font-weight: 600;
+  font-size: 18px;
+  // text-transform: uppercase;
 }
