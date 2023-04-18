@@ -1,5 +1,5 @@
 export const localsMiddleware = (req, res, next) => {
-  res.locals.siteName = "XXXX";
+  res.locals.siteName = "GoormMusic";
   res.locals.loggedIn = req.isAuthenticated();
   res.locals.loggedInUser = req.user || {};
   res.locals.getThumbUrl = (ytID) => {

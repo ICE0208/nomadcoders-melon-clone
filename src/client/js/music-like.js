@@ -1,24 +1,27 @@
 import { loadPlaylist } from "./music-playlist";
-import { addNoDisplayRepeat, inactiveRepeat } from "./music-repeat";
+import { addNoDisplayRepeat, inactiveAllRepeat } from "./music-repeat";
 import { setCurPlayFrom } from "./play-next";
 
 export const initMusicLike = () => {
-  let clicked = false;
   const likeIcon = document.querySelector(".music-info__like-btn > i");
+  const authNav = document.querySelector(".auth-nav > a");
 
   const CURRENT_MUSIC_ID_KEY = "currentMusicID";
 
   likeIcon.addEventListener("click", () => {
+    if (authNav.classList.contains("login-btn")) {
+      return console.error("You need to login first");
+    }
+
     if (likeIcon.classList.contains("fa-regular")) {
-      postSongLike(likeIcon, CURRENT_MUSIC_ID_KEY, clicked);
+      postSongLike(likeIcon, CURRENT_MUSIC_ID_KEY);
     } else {
-      postSongUnlike(likeIcon, CURRENT_MUSIC_ID_KEY, clicked);
+      postSongUnlike(likeIcon, CURRENT_MUSIC_ID_KEY);
     }
   });
 };
 
-const postSongLike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
-  clicked = true;
+const postSongLike = async (likeIcon, CURRENT_MUSIC_ID_KEY) => {
   let likedSongList = [];
 
   try {
@@ -44,8 +47,6 @@ const postSongLike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
   } catch (err) {
     console.error("Error in likeSong function:", err);
   }
-
-  clicked = false;
 };
 
 const postSongUnlike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
@@ -73,7 +74,7 @@ const postSongUnlike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
       setCurPlayFrom("chart");
     }
     loadPlaylist(likedSongList);
-    inactiveRepeat();
+    inactiveAllRepeat();
     addNoDisplayRepeat();
 
     // 별 바꾸기

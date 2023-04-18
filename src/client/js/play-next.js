@@ -1,10 +1,10 @@
-import { ServerlessApplicationRepository } from "aws-sdk";
 import {
   CURRENT_MUSIC_ID_KEY,
   WILL_CHANGE_MUSIC_ID_KEY,
   loadNewMusic,
+  replayCurMusic,
 } from "./music-player";
-import { isRepeat } from "./music-repeat";
+import { isOneRepeat, isRepeat } from "./music-repeat";
 
 const CUR_PLAY_FROM_KEY = "currentPlayFrom";
 const POST_PLAY_FROM_KEY = "postPlayFrom";
@@ -90,13 +90,17 @@ const moveTo = async (target, autoPlay = "none") => {
     }
 
     if (target === "next") {
-      if (curMusicIndex + 1 >= likedSongList.length) {
+      if (isOneRepeat()) {
+        replayCurMusic();
+        return true;
+      } else if (curMusicIndex + 1 >= likedSongList.length) {
         // 반복 중이 아니라면
         if (!isRepeat()) {
           return false;
         }
         curMusicIndex = -1;
       }
+
       const musicInfo = window.musics.find(
         (music) => music.ytID === likedSongList[curMusicIndex + 1]
       );
