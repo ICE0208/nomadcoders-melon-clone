@@ -194,6 +194,12 @@ const onplayerStateChange = async (event) => {
   }
 };
 
+export const replayCurMusic = () => {
+  youtubePlayer.pauseVideo();
+  youtubePlayer.seekTo(0);
+  youtubePlayer.playVideo();
+};
+
 // ? ytID의 조회수를 증가시키는 함수
 const postSongViews = async (ytID) => {
   try {

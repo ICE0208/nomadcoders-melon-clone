@@ -5,6 +5,8 @@ const musicRepeatIcon = document.querySelector(".music-info__repeat-btn > i");
 export const initMusicRepeat = () => {
   musicRepeatIcon.addEventListener("click", () => {
     if (isRepeat()) {
+      activeOneRepeat();
+    } else if (isOneRepeat()) {
       inactiveRepeat();
     } else {
       if (getCurPlayFrom() === "playlist") {
@@ -13,6 +15,11 @@ export const initMusicRepeat = () => {
     }
   });
 };
+
+const REPEAT_KEY = "repeat";
+const REPEAT_VALUE = "repeat";
+const ONE_REPEAT_VALUE = "one-repeat";
+const NO_REPEAT_VALUE = "none";
 
 export const addNoDisplayRepeat = () => {
   musicRepeatIcon.classList.add("no-display");
@@ -23,12 +30,22 @@ export const removeNoDisplayRepeat = () => {
 
 export const activeRepeat = () => {
   musicRepeatIcon.classList.remove("inactive");
-  sessionStorage.setItem("repeat", "repeat");
+  musicRepeatIcon.classList.remove("one");
+  sessionStorage.setItem(REPEAT_KEY, REPEAT_VALUE);
+};
+export const activeOneRepeat = () => {
+  musicRepeatIcon.classList.remove("inactive");
+  musicRepeatIcon.classList.add("one");
+  sessionStorage.setItem(REPEAT_KEY, ONE_REPEAT_VALUE);
 };
 export const inactiveRepeat = () => {
   musicRepeatIcon.classList.add("inactive");
-  sessionStorage.setItem("repeat", "none");
+  musicRepeatIcon.classList.remove("one");
+  sessionStorage.setItem(REPEAT_KEY, NO_REPEAT_VALUE);
 };
 export const isRepeat = () => {
-  return sessionStorage.getItem("repeat") === "repeat";
+  return sessionStorage.getItem(REPEAT_KEY) === REPEAT_VALUE;
+};
+export const isOneRepeat = () => {
+  return sessionStorage.getItem(REPEAT_KEY) === ONE_REPEAT_VALUE;
 };
