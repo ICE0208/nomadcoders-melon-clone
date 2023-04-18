@@ -102,7 +102,10 @@
         @include flex-box(row, center, center);
         gap: 14px;
         .music-info__repeat-btn {
+          position: relative;
           font-size: 24px;
+          width: 24px;
+          height: 24px;
           color: $music-player-icon;
           cursor: pointer;
           .inactive {
@@ -110,6 +113,20 @@
           }
           .no-display {
             display: none;
+          }
+          .one-text {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            text-align: center;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+          }
+          .one ~ .one-text {
+            opacity: 1;
           }
         }
         .music-info__like-btn {

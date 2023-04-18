@@ -14,7 +14,7 @@ import {
 } from "./play-next.js";
 import {
   addNoDisplayRepeat,
-  inactiveRepeat,
+  inactiveAllRepeat,
   initMusicRepeat,
   removeNoDisplayRepeat,
 } from "./music-repeat.js";
@@ -75,7 +75,7 @@ export const loadNewMusic = (musicInfo) => {
   setPlayerInfo(musicInfo);
   youtubePlayer.setVolume(mCR.getSavedVolume());
   if (getCurPlayFrom() === "chart") {
-    inactiveRepeat();
+    inactiveAllRepeat();
     addNoDisplayRepeat();
   } else {
     removeNoDisplayRepeat();
@@ -194,6 +194,12 @@ const onplayerStateChange = async (event) => {
   }
 };
 
+export const replayCurMusic = () => {
+  youtubePlayer.pauseVideo();
+  youtubePlayer.seekTo(0);
+  youtubePlayer.playVideo();
+};
+
 // ? ytID의 조회수를 증가시키는 함수
 const postSongViews = async (ytID) => {
   try {
@@ -271,6 +277,7 @@ const initAfterReady = () => {
   setCurPlayFrom("chart");
   setAutoPlay("none");
   setBackgroundImage();
+  inactiveAllRepeat();
 
   // Play
   musicPlayerTogglePlay.addEventListener("click", (event) =>
