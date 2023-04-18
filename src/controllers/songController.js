@@ -198,5 +198,5 @@ export const home = async (req, res) => {
     }
   }
 
-  return res.render("home", { pageTitle: "Home", musics: await getSongs() });
+  return res.render("home", { musics: await getSongs() });
 };
