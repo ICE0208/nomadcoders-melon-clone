@@ -237,6 +237,7 @@ const onYouTubeIframeAPIReady = () => {
 export const createVirtualImg = () => {
   const main = document.querySelector("main");
   const virtualImg = document.createElement("img");
+  virtualImg.style.pointerEvents = "none";
   virtualImg.classList.add("virtual-img");
   main.appendChild(virtualImg);
   return virtualImg;
