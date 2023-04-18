@@ -123,6 +123,7 @@
             text-align: center;
             font-weight: 600;
             opacity: 0;
+            pointer-events: none;
           }
           .one ~ .one-text {
             opacity: 1;

@@ -7,7 +7,7 @@ export const initMusicRepeat = () => {
     if (isRepeat()) {
       activeOneRepeat();
     } else if (isOneRepeat()) {
-      inactiveRepeat();
+      inactiveAllRepeat();
     } else {
       if (getCurPlayFrom() === "playlist") {
         activeRepeat();
@@ -38,7 +38,7 @@ export const activeOneRepeat = () => {
   musicRepeatIcon.classList.add("one");
   sessionStorage.setItem(REPEAT_KEY, ONE_REPEAT_VALUE);
 };
-export const inactiveRepeat = () => {
+export const inactiveAllRepeat = () => {
   musicRepeatIcon.classList.add("inactive");
   musicRepeatIcon.classList.remove("one");
   sessionStorage.setItem(REPEAT_KEY, NO_REPEAT_VALUE);

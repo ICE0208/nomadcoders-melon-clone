@@ -14,7 +14,7 @@ import {
 } from "./play-next.js";
 import {
   addNoDisplayRepeat,
-  inactiveRepeat,
+  inactiveAllRepeat,
   initMusicRepeat,
   removeNoDisplayRepeat,
 } from "./music-repeat.js";
@@ -75,7 +75,7 @@ export const loadNewMusic = (musicInfo) => {
   setPlayerInfo(musicInfo);
   youtubePlayer.setVolume(mCR.getSavedVolume());
   if (getCurPlayFrom() === "chart") {
-    inactiveRepeat();
+    inactiveAllRepeat();
     addNoDisplayRepeat();
   } else {
     removeNoDisplayRepeat();
@@ -277,6 +277,7 @@ const initAfterReady = () => {
   setCurPlayFrom("chart");
   setAutoPlay("none");
   setBackgroundImage();
+  inactiveAllRepeat();
 
   // Play
   musicPlayerTogglePlay.addEventListener("click", (event) =>

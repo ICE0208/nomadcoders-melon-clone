@@ -1,5 +1,5 @@
 import { loadPlaylist } from "./music-playlist";
-import { addNoDisplayRepeat, inactiveRepeat } from "./music-repeat";
+import { addNoDisplayRepeat, inactiveAllRepeat } from "./music-repeat";
 import { setCurPlayFrom } from "./play-next";
 
 export const initMusicLike = () => {
@@ -73,7 +73,7 @@ const postSongUnlike = async (likeIcon, CURRENT_MUSIC_ID_KEY, clicked) => {
       setCurPlayFrom("chart");
     }
     loadPlaylist(likedSongList);
-    inactiveRepeat();
+    inactiveAllRepeat();
     addNoDisplayRepeat();
 
     // 별 바꾸기
