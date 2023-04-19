@@ -1,4 +1,4 @@
-# <span id="top">☁️ Goorm Music 🎵</span>
+# <span>☁️ Goorm Music 🎵</span>
 
 ![overall](https://user-images.githubusercontent.com/46257328/233040663-741deb9c-dd26-41b8-a2b9-b69fcf080062.png)
 
@@ -6,7 +6,7 @@
 
 <br/>
 
-## <span id="projectintro">프로젝트 소개</span>
+## <span id="top">프로젝트 소개</span>
 
 ### [ 개요 ]
 
@@ -92,10 +92,11 @@
 
 <p align="right"><a href="#top">⬆️Top</a></p>
 
-## 📍 목차
+## <span>📍 목차 </span>
 
 [@ 구현 기능](#feature)<br>
 [@ 개발 기술](#development)<br>
+[@ 실행 및 배포](#run-deploy)<br>
 
 <br>
 
@@ -138,5 +139,36 @@
 | <center>차트에서 곡 선택</center>                                                                                       | <center>플레이리스트에서 곡 선택</center>                                                                               |
 | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | <img src="https://user-images.githubusercontent.com/46257328/233035440-3fbabfec-690d-4b97-844c-f777226fcf79.gif"></img> | <img src="https://user-images.githubusercontent.com/46257328/233035453-ec4ba8c2-43b0-4876-990d-018acb2724f4.gif"></img> |
+
+<p align="right"><a href="#top">⬆️Top</a></p>
+
+<br>
+
+## <span id="run-deploy">🛠 실행 및 배포</span>
+
+### 실행하기
+
+- 이 폴더를 `VSCode`에서 열기
+- `터미널` -> `새 터미널`을 선택
+- `npm i` 실행
+- 이 폴더에 `.env` 파일 생성
+- .env 파일에 아래의 5가지 환경 변수를 작성
+
+  ```dosini
+    DB_URL = yourMongoDbUrl
+    COOKIE_SECRET = yourCookieSecret
+    G_CLIENT_ID = yourGoogleClientId
+    G_CLIENT_SECRET = yourGoogleClientSecret
+    G_CALLBACK_URL = YourGoogleAuthCallbackUrl
+  ```
+
+- `npm run dev:assets` 실행.
+- `터미널` -> `분할 터미널` 선택하여 새로운 터미널 열기
+- 새로운 터미널에서 `npm run dev:server` 실행
+
+### 배포하기
+
+- `npm run build` 실행
+- `npm start` 실행
 
 <p align="right"><a href="#top">⬆️Top</a></p>
