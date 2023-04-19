@@ -37,7 +37,7 @@
       left: 20px;
       width: 30px;
       height: 8px;
-      transition: all $mc-toggle-delay ease-in-out;
+      transition: all $arrow-scale-delay ease-in-out;
       border-radius: 6px;
     }
     .mc-arrow__up {
@@ -100,8 +100,8 @@
     @include flex-box(column, center, stretch);
     box-shadow: -20px 9px 4px 2px $shadow;
     left: calc(-#{$mc-virtual-box-size});
-    transition: left $mc-toggle-delay ease-in-out,
-      opacity $mc-toggle-delay ease-in-out;
+    transition: left $pop-toggle-delay ease-in-out,
+      opacity $pop-toggle-delay ease-in-out;
     position: absolute;
     width: 100%;
     height: calc(100% - 230px);
