@@ -16,9 +16,18 @@
 - 플레이리스트는 한 사이클 재생, 전체 반복 재생, 한 곡 반복 재생의 기능을 제공합니다.
 - 다양하고 재밌는 애니메이션 효과가 제공됩니다.
 
+<br>
+
+### [ 제작 목적 ]
+
+- 노마드 클론코딩 컨테스트 참여
+- Pug, Scss, Express, MongoDB 등 배웠던 웹 기술 복습
+
+<br>
+
 ### [ 제작 기간 ]
 
-### April
+### April 23
 
 <div style="text-align: right">
   <table style="background-color: #FFFFFF; color: #000000;">
@@ -94,27 +103,27 @@
 
 ## <span>📍 목차 </span>
 
-[@ 구현 기능](#feature)<br>
 [@ 개발 기술](#development)<br>
+[@ 구현 기능](#feature)<br>
 [@ 실행 및 배포](#run-deploy)<br>
 
 <br>
 
 ## <span id="development">⚙️ 개발 기술</span>
 
-### [ Front-End ]
+### [ Front End ]
 
    <img src="https://img.shields.io/badge/PUG-A86454?style=for-the-badge&logo=PUG&logoColor=white">
     <img src="https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white">
     <img src="https://img.shields.io/badge/Javascript-efd81d?style=for-the-badge&logo=Javascript&logoColor=white"/>    
 </br>
 
-### [ Back-End ]
+### [ Back End ]
 
 <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white"> <img src="https://img.shields.io/badge/Mongo DB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white">
 </br>
 
-### [ Development Environment ]
+### [ Tools ]
 
 <img src="https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=GitHub&logoColor=white"> <img src="https://img.shields.io/badge/Git-e84d31?style=for-the-badge&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/VScode-007ACC?style=for-the-badge&logo=VisualStudioCode&logoColor=white">
 
