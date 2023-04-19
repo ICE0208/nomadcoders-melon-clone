@@ -113,9 +113,7 @@
 
 ### [ Front End ]
 
-   <img src="https://img.shields.io/badge/PUG-A86454?style=for-the-badge&logo=PUG&logoColor=white">
-    <img src="https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white">
-    <img src="https://img.shields.io/badge/Javascript-efd81d?style=for-the-badge&logo=Javascript&logoColor=white"/>    
+<img src="https://img.shields.io/badge/PUG-A86454?style=for-the-badge&logo=PUG&logoColor=white"> <img src="https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white"> <img src="https://img.shields.io/badge/Javascript-efd81d?style=for-the-badge&logo=Javascript&logoColor=white"/>  
 </br>
 
 ### [ Back End ]
