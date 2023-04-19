@@ -27,77 +27,26 @@
 
 ### [ 제작 기간 ]
 
-### April 23
-
-<div style="text-align: right">
-  <table style="background-color: #FFFFFF; color: #000000;">
-    <tr style="background-color: #FF6E6E; color: #000000; font-weight: 600" >
-      <td >S</td>
-      <td>M</td>
-      <td>T</td>
-      <td>W</td>
-      <td>T</td>
-      <td>F</td>
-      <td>S</td>
-    </tr>
-    <tr style="background-color: #FFFFFF; color: #000000;">
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td style="background-color: #EECAC0"><span style="opacity: 0.5">31</span></td>
-      <td style="background-color: #EECAC0">1</td>
-    </tr>
-    <tr style="background-color: #FFFFFF; color: #000000;">
-      <td style="background-color: #EECAC0">2</td>
-      <td style="background-color: #EECAC0">3</td>
-      <td style="background-color: #EECAC0">4</td>
-      <td style="background-color: #EECAC0">5</td>
-      <td style="background-color: #EECAC0">6</td>
-      <td style="background-color: #EECAC0">7</td>
-      <td style="background-color: #EECAC0">8</td>
-    </tr>
-    <tr style="background-color: #FFFFFF; color: #000000;">
-      <td style="background-color: #EECAC0">9</td>
-      <td style="background-color: #EECAC0">10</td>
-      <td style="background-color: #EECAC0">11</td>
-      <td style="background-color: #EECAC0">12</td>
-      <td style="background-color: #EECAC0">13</td>
-      <td style="background-color: #EECAC0">14</td>
-      <td style="background-color: #EECAC0">15</td>
-    </tr>
-    <tr style="background-color: #FFFFFF; color: #000000;">
-      <td style="background-color: #EECAC0">16</td>
-      <td style="background-color: #EECAC0">17</td>
-      <td style="background-color: #EECAC0">18</td>
-      <td style="background-color: #EECAC0">19</td>
-      <td style="background-color: #EECAC0">20</td>
-      <td style="background-color: #EECAC0">21</td>
-      <td style="">22</td>
-    </tr>
-    <tr style="background-color: #FFFFFF; color: #000000;">
-        <td style="">23</td>
-        <td style="">24</td>
-        <td style="">25</td>
-        <td style="">26</td>
-        <td style="">27</td>
-        <td style="">28</td>
-        <td style="">29</td>
-    </tr>
-    <tr style="background-color: #FFFFFF; color: #000000;">
-        <td style="">30</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-  </table>
-</div>
-
 (2023.03.31 - 2023.04.21)
+
+### 2023 April
+
+| S     | M     | T       | W     | T       | F       | S       |
+| ----- | ----- | ------- | ----- | ------- | ------- | ------- |
+|       |       |         |       |         | 31 🔨   | 1 🎧    |
+| 2 🎧  | 3 🎧  | 4 🎧    | 5 📊  | 6 📊    | 7 📊    | 8 📊    |
+| 9 📊  | 10 📊 | 11 📦   | 12 📦 | 13 📦🎨 | 14 📦🎨 | 15 📦🎨 |
+| 16 🎨 | 17 🎨 | 18 🎨🛠️ | 19 🛠️ | 20 🛠️   | 21 🛠️✅ | 22      |
+| 23    | 24    | 25      | 26    | 27      | 28      | 29      |
+| 30    |       |         |       |         |         |         |
+
+- 🔨 : 개발 환경 세팅
+- 🎧 : 뮤직 플레이어 구현
+- 📊 : 인기 차트 구현
+- 📦 : 플레이리스트 구현
+- 🎨 : 스타일 작업
+- 🛠️ : README 작성 및 배포
+- ✅ : 제출
 
 <p align="right"><a href="#top">⬆️Top</a></p>
 
