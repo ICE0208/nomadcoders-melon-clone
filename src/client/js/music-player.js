@@ -68,12 +68,12 @@ export const loadNewMusic = (musicInfo) => {
   if (!musicInfo) return;
   musicPlayerOverlayImg.classList.add("invisible");
   musicPlayerOverlayImg.classList.remove("pop");
-  youtubePlayer.cueVideoById(musicInfo.ytID);
-  commonInitMusic(musicInfo.ytID);
   youtubePlayer.hasFirstStarted = false;
   youtubePlayer.playing = false;
-  setPlayerInfo(musicInfo);
+  youtubePlayer.cueVideoById(musicInfo.ytID);
   youtubePlayer.setVolume(mCR.getSavedVolume());
+  commonInitMusic(musicInfo.ytID);
+  setPlayerInfo(musicInfo);
   if (getCurPlayFrom() === "chart") {
     inactiveAllRepeat();
     addNoDisplayRepeat();
@@ -169,14 +169,14 @@ const onplayerStateChange = async (event) => {
 
     case YT.PlayerState.CUED:
       mCR.changePlayIcon(musicPlayerTogglePlay, "paused");
-      musicPlayerOverlayImg.setAttribute(
-        "src",
-        getThumb1280Url(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY))
-      );
       musicPlayerOverlayImg.classList.remove("invisible");
       musicPlayerOverlayImg.classList.add("pop");
       if (!youtubePlayer.hasFirstStarted) {
         setBackgroundImage();
+        musicPlayerOverlayImg.setAttribute(
+          "src",
+          getThumb1280Url(sessionStorage.getItem(CURRENT_MUSIC_ID_KEY))
+        );
         setMusicInfo();
         musicPlayerProgressInput.max = youtubePlayer.getDuration();
         musicPlayerProgressInput.value = 0;
