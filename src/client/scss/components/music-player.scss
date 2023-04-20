@@ -107,7 +107,9 @@
           width: 24px;
           height: 24px;
           color: $music-player-icon;
-          cursor: pointer;
+          i {
+            cursor: pointer;
+          }
           .inactive {
             color: $music-player-inactive-repeat-icon;
           }
