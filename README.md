@@ -20,6 +20,7 @@
 [🖥️ 주요 기능](#main-feature)<br>
 [🏞️ 구현 기능 사진](#feature-img)<br>
 [📂 프로젝트 구조](#structure)<br>
+[🧾 참고 자료](#reference)<br>
 [🛠 실행 및 배포](#run-deploy)<br>
 
 ---
@@ -203,6 +204,18 @@
  ┣ 📜middlewares.js
  ┗ 📜server.js
 ```
+
+<p align="right"><a href="#top">⬆️Top</a></p>
+
+---
+
+<br>
+
+## <span id="reference">🧾 참고 자료</span>
+
+- [Course : Youtube Clone Coding](https://nomadcoders.co/wetube)
+- [YouTube Player API Reference](https://developers.google.com/youtube/iframe_api_reference)
+- [Passport Documentation](https://www.passportjs.org/docs/)
 
 <p align="right"><a href="#top">⬆️Top</a></p>
 
