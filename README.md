@@ -2,12 +2,12 @@
 
 <br>
 
-<p align="center">
-  <a href="https://goormmusic.kro.kr/"><img src="https://user-images.githubusercontent.com/46257328/233306370-7d051c4c-2379-48e0-8f4f-41a338b55de9.png" width="300"></a>
+<div align="center">
+ <div> <a href="https://goormmusic.kro.kr/"><img src="https://user-images.githubusercontent.com/46257328/233306370-7d051c4c-2379-48e0-8f4f-41a338b55de9.png" width="300"></a></div>
+ <br>
+ <div><a href="https://goormmusic.kro.kr/" target="_blank">🔗 프로젝트 배포 URL</a></div>
   
-</p>
-
-<center><a href="https://goormmusic.kro.kr/" target="_blank">🔗 프로젝트 배포 URL</a></center>
+</div>
 
 <br/>
 
