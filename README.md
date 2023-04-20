@@ -226,6 +226,7 @@
 - `npm run dev:assets` 실행.
 - `터미널` -> `분할 터미널` 선택하여 새로운 터미널 열기
 - 새로운 터미널에서 `npm run dev:server` 실행
+- `localhost:4000`에 접속하여 확인
 
 ### 배포하기
 
