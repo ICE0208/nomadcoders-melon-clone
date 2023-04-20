@@ -1,8 +1,11 @@
 # <span>☁️ Goorm Music 🎵</span>
 
-![overall](https://user-images.githubusercontent.com/46257328/233040663-741deb9c-dd26-41b8-a2b9-b69fcf080062.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/46257328/233306370-7d051c4c-2379-48e0-8f4f-41a338b55de9.png" width="300">
+  
+</p>
 
-<a href="https://goormmusic.kro.kr/" target="_blank">🔗 프로젝트 배포 URL</a>
+<center><a href="https://goormmusic.kro.kr/" target="_blank">🔗 프로젝트 배포 URL</a></center>
 
 <br/>
 
@@ -50,6 +53,8 @@
 
 <p align="right"><a href="#top">⬆️Top</a></p>
 
+---
+
 ## <span>📍 목차 </span>
 
 [@ 개발 기술](#development)<br>
@@ -76,6 +81,8 @@
 
 <p align="right"><a href="#top">⬆️Top</a></p>
 
+---
+
 <br>
 
 ## <span id="feature">🛠 구현 기능</span>
@@ -96,7 +103,13 @@
 | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | <img src="https://user-images.githubusercontent.com/46257328/233035440-3fbabfec-690d-4b97-844c-f777226fcf79.gif"></img> | <img src="https://user-images.githubusercontent.com/46257328/233035453-ec4ba8c2-43b0-4876-990d-018acb2724f4.gif"></img> |
 
+| <center>전체 사진</center>                                                                                              |
+| ----------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://user-images.githubusercontent.com/46257328/233040663-741deb9c-dd26-41b8-a2b9-b69fcf080062.png"></img> |
+
 <p align="right"><a href="#top">⬆️Top</a></p>
+
+---
 
 <br>
 
@@ -128,3 +141,5 @@
 - `npm start` 실행
 
 <p align="right"><a href="#top">⬆️Top</a></p>
+
+---
