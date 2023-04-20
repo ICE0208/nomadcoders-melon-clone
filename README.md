@@ -9,9 +9,24 @@
   
 </div>
 
-<br/>
+<br>
 
-## <span>프로젝트 소개</span>
+<br>
+
+## <span>📍 목차 </span>
+
+[@ 프로젝트 소개](#intro)<br>
+[@ 개발 기술](#development)<br>
+[@ 주요 기능](#main-feature)<br>
+[@ 구현 기능 사진](#feature-img)<br>
+[@ 프로젝트 구조](#structure)<br>
+[@ 실행 및 배포](#run-deploy)<br>
+
+---
+
+<br>
+
+## <span id="intro">프로젝트 소개</span>
 
 ### [ 개요 ]
 
@@ -56,16 +71,6 @@
 <p align="right"><a href="#top">⬆️Top</a></p>
 
 ---
-
-<br>
-
-## <span>📍 목차 </span>
-
-[@ 개발 기술](#development)<br>
-[@ 주요 기능](#main-feature)<br>
-[@ 구현 기능 사진](#feature-img)<br>
-[@ 프로젝트 구조](#structure)<br>
-[@ 실행 및 배포](#run-deploy)<br>
 
 <br>
 
