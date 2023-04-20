@@ -1,4 +1,4 @@
-# <span>☁️ Goorm Music 🎵</span>
+# <span id="top">☁️ Goorm Music 🎵</span>
 
 <br>
 
@@ -11,7 +11,7 @@
 
 <br/>
 
-## <span id="top">프로젝트 소개</span>
+## <span>프로젝트 소개</span>
 
 ### [ 개요 ]
 
@@ -64,6 +64,7 @@
 [@ 개발 기술](#development)<br>
 [@ 주요 기능](#main-feature)<br>
 [@ 구현 기능 사진](#feature-img)<br>
+[@ 프로젝트 구조](#structure)<br>
 [@ 실행 및 배포](#run-deploy)<br>
 
 <br>
@@ -136,6 +137,69 @@
 | <center>전체 사진</center>                                                                                              |
 | ----------------------------------------------------------------------------------------------------------------------- |
 | <img src="https://user-images.githubusercontent.com/46257328/233040663-741deb9c-dd26-41b8-a2b9-b69fcf080062.png"></img> |
+
+<p align="right"><a href="#top">⬆️Top</a></p>
+
+---
+
+<br>
+
+## <span id="structure">프로젝트 구조</span>
+
+```
+📦src
+ ┣ 📂client
+ ┃ ┣ 📂img
+ ┃ ┃ ┗ 📜favicon.ico
+ ┃ ┣ 📂js
+ ┃ ┃ ┣ 📜main.js
+ ┃ ┃ ┣ 📜music-chart.js
+ ┃ ┃ ┣ 📜music-like.js
+ ┃ ┃ ┣ 📜music-player.js
+ ┃ ┃ ┣ 📜music-playlist.js
+ ┃ ┃ ┣ 📜music-repeat.js
+ ┃ ┃ ┣ 📜musicController.js
+ ┃ ┃ ┣ 📜musicSelectAnimation.js
+ ┃ ┃ ┗ 📜play-next.js
+ ┃ ┗ 📂scss
+ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┃ ┣ 📜header.scss
+ ┃ ┃ ┃ ┣ 📜music-chart.scss
+ ┃ ┃ ┃ ┣ 📜music-player.scss
+ ┃ ┃ ┃ ┗ 📜music-playlist.scss
+ ┃ ┃ ┣ 📂config
+ ┃ ┃ ┃ ┣ 📜_mixins.scss
+ ┃ ┃ ┃ ┣ 📜_reset.scss
+ ┃ ┃ ┃ ┗ 📜_variables.scss
+ ┃ ┃ ┗ 📜styles.scss
+ ┣ 📂controllers
+ ┃ ┣ 📜songController.js
+ ┃ ┗ 📜userController.js
+ ┣ 📂models
+ ┃ ┣ 📜Song.js
+ ┃ ┗ 📜User.js
+ ┣ 📂routers
+ ┃ ┣ 📜apiRouter.js
+ ┃ ┣ 📜authRouter.js
+ ┃ ┗ 📜rootRouter.js
+ ┣ 📂views
+ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📜music-chart.pug
+ ┃ ┃ ┣ 📜music-player.pug
+ ┃ ┃ ┗ 📜music-playlist.pug
+ ┃ ┣ 📂layouts
+ ┃ ┃ ┗ 📜base.pug
+ ┃ ┣ 📂mixins
+ ┃ ┃ ┗ 📜music.pug
+ ┃ ┣ 📂pages
+ ┃ ┃ ┗ 📜home.pug
+ ┃ ┗ 📂partials
+ ┃ ┃ ┗ 📜header.pug
+ ┣ 📜db.js
+ ┣ 📜init.js
+ ┣ 📜middlewares.js
+ ┗ 📜server.js
+```
 
 <p align="right"><a href="#top">⬆️Top</a></p>
 
