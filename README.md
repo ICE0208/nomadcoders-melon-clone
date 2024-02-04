@@ -3,9 +3,9 @@
 <br>
 
 <div align="center">
- <div> <a href="https://goormmusic.kro.kr/"><img src="https://user-images.githubusercontent.com/46257328/233347866-597dafd5-5056-436a-bb74-53dad84d79f7.png" width="300"></a></div>
+ <div> <a href=""><img src="https://user-images.githubusercontent.com/46257328/233347866-597dafd5-5056-436a-bb74-53dad84d79f7.png" width="300"></a></div>
  <br>
- <div><a href="https://goormmusic.kro.kr/" target="_blank">🔗 프로젝트 배포 URL</a></div>
+ <h3>배포했던 사이트의 무료 플랜이 종료되어서 현재는 사이트에 직접 접속하여 볼 수 없습니다.</h3>
   
 </div>
 
